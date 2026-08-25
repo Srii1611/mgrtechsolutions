@@ -1,9 +1,15 @@
 export default function Home() {
   return (
-    <main className="container-page py-24">
-      <p className="eyebrow text-accent-strong">TOKEN PROBE</p>
-      <h1 className="h1-hero mt-4 font-medium">Tokens resolve.</h1>
-      <div className="mt-8 h-24 w-full rounded-2xl bg-forest-950" />
-    </main>
+    <section className="dot-grid flex min-h-[100dvh] items-center bg-forest-950">
+      <div className="container-page py-32">
+        <p className="eyebrow text-accent">MGRTECH SOLUTIONS · ASHLAND, MA</p>
+        <h1 className="h1-hero mt-8 max-w-4xl font-medium text-white">
+          Homepage lands in Phase 4.
+        </h1>
+        <p className="lede mt-8 max-w-xl text-mist">
+          The frame is live: tokens, fonts, header, and footer. Sections come next.
+        </p>
+      </div>
+    </section>
   );
 }
