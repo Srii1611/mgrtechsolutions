@@ -18,6 +18,20 @@ technical. They skim on a phone. Build for that reader.
 
 This rebuild replaces the current live site at `www.mgrtechsolutionsinc.com`.
 
+### Company facts
+
+| Field | Value |
+|---|---|
+| Legal name | MGRTECH SOLUTIONS, Inc. |
+| Domain | `mgrtechsolutionsinc.com` |
+| Email | `sri@mgrtechsolutionsinc.com` |
+| Phone | `774-460-1116` (`tel:+17744601116`) |
+| Location shown | Ashland, MA · Serving MetroWest |
+| Street address | Never published — see §3 |
+
+The prior number `508-306-1802` is retired. It appears 34 times across the old
+codebase and must not survive the port.
+
 ### Why a rebuild
 
 Two prior codebases exist. Neither ships as-is:
@@ -52,10 +66,11 @@ problem as much as a technical one.
 | Hosting | Vercel | Already in use. |
 | Domain | `mgrtechsolutionsinc.com` | Confirmed by owner. Resolves the conflict flagged in the prior spec. |
 | Components | Rebuilt fresh against spec | Prior components carry Tailwind v3 syntax and shadcn/ui coupling. |
-| Content | Ported as-is | The 132 articles and existing marketing copy are finished work. Rewriting them is waste. **"Rebuild" applies to markup and styling only.** |
+| Blog content | Ported as-is | The 132 articles are finished work. Rewriting them is waste. |
+| Marketing copy | Ported, with a positioning pass | Existing copy is strong but hard-codes a solo-studio claim that expires on the first hire. See §4. |
 | Palette | Forest / cream / bright green | Owner's existing brand identity. Overrides the teal system in the prior spec. |
-| Type | Geist + Geist Mono | Replaces a three-family stack (Fraunces / Inter / IBM Plex Mono). See §4. |
-| Motion | Framer Motion + Lenis only | Drops GSAP and three.js/R3F. See §6. |
+| Type | Geist + Geist Mono | Replaces a three-family stack (Fraunces / Inter / IBM Plex Mono). See §5. |
+| Motion | Framer Motion + Lenis only | Drops GSAP and three.js/R3F. See §7. |
 | Lead capture | Route handler → Resend → `sri@mgrtechsolutionsinc.com` | Lands where the owner already looks. No dashboard to check. |
 
 ---
@@ -150,7 +165,58 @@ declares a service area rather than a physical address.
 
 ---
 
-## 4. Design system
+## 4. Positioning and voice
+
+### The rule
+
+The site must never claim the company consists of one person. MGRTECH SOLUTIONS
+is a studio that intends to hire. Copy written around a headcount of one expires
+the day the second person starts, and rewriting a site to accommodate a hire is
+a bad reason to rewrite a site.
+
+What is being sold is **not** smallness. It is **one accountable point of
+contact and no handoffs** — the same promise a well-run twenty-person firm can
+make, and one a big agency structurally cannot.
+
+| Do not say | Say instead |
+|---|---|
+| "One person runs this studio" | "One point of contact, start to finish" |
+| "One person on the phone — me" | "You work with the same person from first call to launch" |
+| "One person designed it, built it, and answers the phone about it" | "The person who builds your site is the person who answers when you call" |
+| "One person, no office, no account managers" | "No account managers, no handoffs — you're never re-explaining your business" |
+| "A person answers" | Keep — this is about responsiveness, not headcount |
+
+First person singular is still allowed where it reflects Srii personally
+speaking to the reader ("I'll look at your site and send back three things").
+What is banned is any statement about **company size**.
+
+The honest, plain-English voice is unchanged: no hype, no fake scarcity, no
+invented metrics. The `LIVE` / `DEMO` portfolio labeling stays — it is a
+positioning asset.
+
+### Sites to change
+
+Thirteen locations in the prior build assert a headcount of one. Three are
+structural rather than phrasing:
+
+1. **Homepage stat bar** — the fourth stat reads `1 · PERSON ON THE PHONE — ME`.
+   Replaced with `1 · POINT OF CONTACT, START TO FINISH`.
+2. **Pricing value anchor** — `ONE CALL, ONE PERSON, ONE PRICE` becomes
+   `ONE CALL, ONE CONTACT, ONE PRICE`.
+3. **Process effort ledger** — the row comparing MGRTECH against an agency's
+   "Sales rep → PM → designer → dev" chain keeps its point. The MGRTECH column
+   becomes "One contact, once" rather than "One person, once".
+
+The remaining ten are phrase-level rewrites in the hero strapline, about page,
+values, contact panels, homepage close, services hero, and pricing FAQ.
+
+**The 132 blog articles are not affected.** Twelve contain the phrase "one
+person," but every instance is advice to the reader about running their own
+business. They are not claims about MGRTECH and must not be edited.
+
+---
+
+## 5. Design system
 
 ### Color
 
@@ -192,7 +258,7 @@ Fluid sizing via `clamp()` for the hero, page, and section scales.
 
 ---
 
-## 5. Accessibility
+## 6. Accessibility
 
 Not a phase — a standing requirement checked in every phase.
 
@@ -207,7 +273,7 @@ over — it removes a system affordance for no benefit to this audience.
 
 ---
 
-## 6. Motion
+## 7. Motion
 
 Framer Motion for reveals and transitions; Lenis for smooth scroll. GSAP and
 three.js/React Three Fiber are dropped — GSAP duplicates Framer Motion's role,
@@ -223,7 +289,7 @@ closely to the original.
 
 ---
 
-## 7. Portfolio data
+## 8. Portfolio data
 
 Source of truth. **3 live, 4 demo.** Any stat displayed on the site must
 reconcile with this table exactly.
@@ -246,7 +312,7 @@ above a grid of six. Copy must agree with what is on screen.
 
 ---
 
-## 8. Phases
+## 9. Phases
 
 Each phase is built, verified, and committed before the next begins.
 
@@ -255,7 +321,7 @@ Each phase is built, verified, and committed before the next begins.
 | 1 | Repo, scaffold, `@theme` tokens, fonts | `next build` passes; tokens and Geist render |
 | 2 | Shared layout — nav, footer, primitives | Layout renders on every route; mobile nav works |
 | 3 | **Contact page + working lead form** | A real submission arrives in the inbox |
-| 4 | Homepage sections | All sections render; copy agrees with §7 |
+| 4 | Homepage sections | All sections render; copy agrees with §8 |
 | 5 | Blog — 132 posts, index, 6 categories | 132 static routes build with distinct titles |
 | 6 | Services, work, process, pricing, about, FAQ | All routes complete |
 | 7 | SEO layer — metadata, sitemap, robots, JSON-LD | Schema validates; sitemap lists every route |
@@ -265,12 +331,17 @@ Each phase is built, verified, and committed before the next begins.
 Phase 3 precedes the homepage deliberately: a site that cannot capture a lead
 should not go live, and the form is small and self-contained.
 
-Phase 7 follows the pages because a sitemap cannot be verified against routes
-that do not exist yet.
+Phase 7 follows the pages because a sitemap cannot be verified against routes that do not exist yet.
+
+Two rules apply across every phase that ships copy, not to any single phase:
+
+- **The §4 positioning rule.** No page may assert a headcount of one.
+- **The phone number is `774-460-1116`.** `508-306-1802` must appear nowhere in
+  the new codebase. Verified by grep before each commit.
 
 ---
 
-## 9. Testing
+## 10. Testing
 
 Runner: **Vitest**. Added in Phase 3, when the first logic worth testing exists.
 
@@ -288,7 +359,7 @@ Runner: **Vitest**. Added in Phase 3, when the first logic worth testing exists.
 
 ---
 
-## 10. Open items — block launch, not the build
+## 11. Open items — block launch, not the build
 
 Tracked here so they are not discovered at cutover. Work proceeds against
 clearly-marked placeholders.
@@ -303,7 +374,7 @@ clearly-marked placeholders.
 
 ---
 
-## 11. Out of scope
+## 12. Out of scope
 
 - CMS. Content lives in markdown and typed data files for v1.
 - Rewriting the 132 articles.
