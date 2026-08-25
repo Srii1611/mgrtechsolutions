@@ -371,6 +371,7 @@ clearly-marked placeholders.
 | Testimonial permission | Two run as disclosed placeholders | Phase 4 |
 | `RESEND_API_KEY` | Not yet provisioned | Phase 3 |
 | Domain DNS cutover | Currently serves the old site | Phase 9 |
+| Logo / favicon | Owner supplying at end of build. `app/favicon.ico` is still the Next.js default and `og-cover` art does not exist. | Phase 9 |
 
 ---
 
