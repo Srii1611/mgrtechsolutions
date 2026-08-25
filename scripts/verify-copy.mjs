@@ -17,7 +17,7 @@ const EXTS = new Set(['.ts', '.tsx', '.js', '.jsx', '.css', '.mdx']);
 const RULES = [
   {
     name: 'retired phone number',
-    re: /508[-.\s]?306[-.\s]?1802|\+?15083061802/i,
+    re: /\+?1?[-.\s]?508[-.\s]?306[-.\s]?1802/i,
     fix: 'Use SITE.phone / SITE.phoneHref from @/data/site (774-460-1116).',
   },
   {
