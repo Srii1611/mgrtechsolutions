@@ -1,26 +1,114 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ─── Design tokens (spec §5) ──────────────────────────────────── */
+@theme {
+  --color-forest-950: #0A1B13;
+  --color-forest-900: #0E241A;
+  --color-forest-800: #14301F;
+  --color-forest-700: #1C4230;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-cream-50:  #FAF6EC;
+  --color-cream-100: #F4EDDD;
+  --color-cream-300: #E4D9BE;
+
+  --color-accent:        #3CE08C;
+  --color-accent-strong: #22C870;
+
+  --color-sand:     #E8C584;
+  --color-ink-soft: #3E4F45;
+  --color-mist:     #9DB5A7;
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base ─────────────────────────────────────────────────────── */
+body {
+  background-color: var(--color-cream-50);
+  color: var(--color-forest-950);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+::selection {
+  background: var(--color-accent);
+  color: var(--color-forest-950);
+}
+
+/* Visible focus ring on both backgrounds (Global Constraints) */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Lenis owns scrolling */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ─── Type scale ───────────────────────────────────────────────── */
+@utility eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+@utility h1-hero {
+  font-size: clamp(2.75rem, 6.2vw, 5.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+@utility h1-page {
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+@utility h2-section {
+  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+
+@utility h3-card {
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  line-height: 1.2;
+}
+
+@utility lede {
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  line-height: 1.65;
+}
+
+/* ─── Layout helpers ───────────────────────────────────────────── */
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+  max-width: 76rem;
+}
+
+@media (min-width: 768px) {
+  .container-page { padding-inline: 2.5rem; }
+}
+
+@utility dot-grid {
+  background-image: radial-gradient(circle, rgba(60, 224, 140, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ─── Reduced motion (hard requirement) ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
