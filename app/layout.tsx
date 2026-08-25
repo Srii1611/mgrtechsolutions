@@ -38,10 +38,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
+        <a href="#main" className="skip-link">
+          Skip to main content
+        </a>
         <MotionConfig reducedMotion="user">
           <SmoothScroll />
           <Header />
-          <main>{children}</main>
+          <main id="main">{children}</main>
           <Footer />
         </MotionConfig>
       </body>

@@ -3,7 +3,7 @@ import { SITE, NAV, FOOTER_CATEGORIES } from '@/data/site';
 
 export default function Footer() {
   return (
-    <footer className="bg-forest-950 py-16 text-mist">
+    <footer className="on-dark bg-forest-950 py-16 text-mist">
       <div className="container-page">
         <div className="grid gap-12 md:grid-cols-3">
           <div>

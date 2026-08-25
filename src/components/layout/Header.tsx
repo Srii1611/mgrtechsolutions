@@ -8,7 +8,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50">
+    <header className="on-dark sticky top-0 z-50 bg-forest-950">
       <div className="container-page flex h-20 items-center justify-between">
         <Link
           href="/"
