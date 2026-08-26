@@ -3,8 +3,17 @@ import { leadSchema } from '@/lib/lead';
 import { rateLimit } from '@/lib/rate-limit';
 import { SITE } from '@/data/site';
 
-/** The inbox leads land in. */
-const TO = SITE.email;
+/**
+ * The inbox leads land in. Falls back to the site email if LEAD_TO_EMAIL
+ * is not set, allowing leads to be routed elsewhere for testing.
+ */
+function getLeadRecipient(): string {
+  const envTo = process.env.LEAD_TO_EMAIL;
+  if (envTo && envTo.trim() !== '') {
+    return envTo.trim();
+  }
+  return SITE.email;
+}
 
 function json(body: unknown, status: number, headers?: HeadersInit) {
   return new Response(JSON.stringify(body), {
@@ -95,7 +104,7 @@ export async function POST(request: Request) {
     const resend = new Resend(apiKey);
     const { data, error } = await resend.emails.send({
       from,
-      to: [TO],
+      to: [getLeadRecipient()],
       replyTo: lead.email,
       subject: `Site review request — ${lead.name} (${lead.url})`,
       text,

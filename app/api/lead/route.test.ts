@@ -175,4 +175,22 @@ describe('POST /api/lead', () => {
     expect(res.status).toBe(400);
     expect(sendMock).not.toHaveBeenCalled();
   });
+
+  it('uses LEAD_TO_EMAIL when set', async () => {
+    sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
+    vi.stubEnv('LEAD_TO_EMAIL', 'test@example.com');
+    const res = await POST(req(valid));
+    expect(res.status).toBe(200);
+    const payload = sendMock.mock.calls[0][0];
+    expect(payload.to).toContain('test@example.com');
+  });
+
+  it('falls back to SITE.email when LEAD_TO_EMAIL is unset', async () => {
+    sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
+    vi.stubEnv('LEAD_TO_EMAIL', '');
+    const res = await POST(req(valid));
+    expect(res.status).toBe(200);
+    const payload = sendMock.mock.calls[0][0];
+    expect(payload.to).toContain(SITE.email);
+  });
 });
