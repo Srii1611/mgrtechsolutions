@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { SITE, NAV } from '@/data/site';
 
 export default function Header() {
@@ -10,12 +11,27 @@ export default function Header() {
   return (
     <header className="on-dark sticky top-0 z-50 bg-forest-950">
       <div className="container-page flex h-20 items-center justify-between">
+        {/*
+          The mark's G and R are near-black and disappear on forest, so it sits
+          in a cream chip — the light ground it was drawn for.
+        */}
         <Link
           href="/"
-          className="eyebrow text-white"
+          className="flex items-center gap-3"
           aria-label={`${SITE.name} — home`}
         >
-          MGRTECH
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-cream-50">
+            <Image
+              src="/brand/logo-mark.png"
+              alt=""
+              aria-hidden="true"
+              width={32}
+              height={32}
+              priority
+              className="h-8 w-auto"
+            />
+          </span>
+          <span className="eyebrow text-white">MGRTECH</span>
         </Link>
 
         {/* Desktop nav */}
