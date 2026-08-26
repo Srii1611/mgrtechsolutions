@@ -1,0 +1,168 @@
+import 'server-only';
+
+import fs from 'node:fs';
+import path from 'node:path';
+import matter from 'gray-matter';
+
+export type BlogHeading = { depth: 2 | 3; text: string; id: string };
+
+export type Post = {
+  slug: string;
+  title: string;
+  category: string;
+  categorySlug: string;
+  excerpt: string;
+  readTime: number;
+  headings: BlogHeading[];
+  body: string;
+};
+
+const CONTENT_DIR = path.join(process.cwd(), 'content', 'blog');
+const WORDS_PER_MINUTE = 225;
+const EXCERPT_MAX_LENGTH = 280;
+
+export function slugifyHeading(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/[\s-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/** Strips fenced code blocks (```...```) so their contents are never
+ * mistaken for headings. */
+function stripCodeFences(body: string): string {
+  return body.replace(/```[\s\S]*?```/g, (match) =>
+    match.replace(/[^\n]/g, ' '),
+  );
+}
+
+function extractHeadings(body: string): BlogHeading[] {
+  const withoutFences = stripCodeFences(body);
+  const lines = withoutFences.split(/\r?\n/);
+  const headings: BlogHeading[] = [];
+  const idCounts = new Map<string, number>();
+
+  for (const line of lines) {
+    const match = /^(##|###)\s+(.+?)\s*$/.exec(line);
+    if (!match) continue;
+    const depth = (match[1].length === 2 ? 2 : 3) as 2 | 3;
+    const text = match[2].trim();
+    if (!text) continue;
+
+    let id = slugifyHeading(text);
+    const count = idCounts.get(id) ?? 0;
+    idCounts.set(id, count + 1);
+    if (count > 0) {
+      id = `${id}-${count + 1}`;
+    }
+
+    headings.push({ depth, text, id });
+  }
+
+  return headings;
+}
+
+function stripEmphasis(text: string): string {
+  return text
+    .replace(/`([^`]*)`/g, '$1')
+    .replace(/\*\*([^*]*)\*\*/g, '$1')
+    .replace(/\*([^*]*)\*/g, '$1')
+    .replace(/__([^_]*)__/g, '$1')
+    .replace(/_([^_]*)_/g, '$1')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .trim();
+}
+
+function extractExcerpt(body: string): string {
+  const withoutFences = stripCodeFences(body);
+  const paragraphs = withoutFences.split(/\r?\n\s*\r?\n/);
+
+  let firstParagraph = '';
+  for (const para of paragraphs) {
+    const trimmed = para.trim();
+    if (!trimmed) continue;
+    if (/^#{1,6}\s/.test(trimmed)) continue; // skip headings
+    firstParagraph = trimmed;
+    break;
+  }
+
+  const cleaned = stripEmphasis(firstParagraph.replace(/\s+/g, ' '));
+
+  if (cleaned.length <= EXCERPT_MAX_LENGTH) return cleaned;
+
+  const truncated = cleaned.slice(0, EXCERPT_MAX_LENGTH);
+  const lastSpace = truncated.lastIndexOf(' ');
+  const boundary = lastSpace > 0 ? truncated.slice(0, lastSpace) : truncated;
+  return `${boundary}...`;
+}
+
+function countWords(text: string): number {
+  const stripped = stripCodeFences(text);
+  const words = stripped.trim().split(/\s+/).filter(Boolean);
+  return words.length;
+}
+
+function loadPosts(): Post[] {
+  const files = fs.readdirSync(CONTENT_DIR).filter((f) => f.endsWith('.md'));
+
+  const posts: Post[] = files.map((file) => {
+    const slug = path.basename(file, '.md');
+    const filePath = path.join(CONTENT_DIR, file);
+    const raw = fs.readFileSync(filePath, 'utf8');
+    const { data, content } = matter(raw);
+
+    if (!data.title || typeof data.title !== 'string') {
+      throw new Error(`Blog post "${file}" is missing required frontmatter field "title"`);
+    }
+    if (!data.categorySlug || typeof data.categorySlug !== 'string') {
+      throw new Error(
+        `Blog post "${file}" is missing required frontmatter field "categorySlug"`,
+      );
+    }
+
+    const body = content.trim() + '\n';
+
+    return {
+      slug,
+      title: data.title,
+      category: typeof data.category === 'string' ? data.category : '',
+      categorySlug: data.categorySlug,
+      excerpt: extractExcerpt(body),
+      readTime: Math.max(1, Math.round(countWords(body) / WORDS_PER_MINUTE)),
+      headings: extractHeadings(body),
+      body,
+    };
+  });
+
+  posts.sort((a, b) => a.title.localeCompare(b.title));
+  return posts;
+}
+
+let cachedPosts: Post[] | null = null;
+
+function getCachedPosts(): Post[] {
+  if (!cachedPosts) {
+    cachedPosts = loadPosts();
+  }
+  return cachedPosts;
+}
+
+export function getAllPosts(): Post[] {
+  return getCachedPosts();
+}
+
+export function getPost(slug: string): Post | undefined {
+  return getCachedPosts().find((p) => p.slug === slug);
+}
+
+export function getPostsByCategory(categorySlug: string): Post[] {
+  return getCachedPosts().filter((p) => p.categorySlug === categorySlug);
+}
+
+export function getRelatedPosts(post: Post, n = 3): Post[] {
+  return getCachedPosts()
+    .filter((p) => p.categorySlug === post.categorySlug && p.slug !== post.slug)
+    .slice(0, n);
+}
