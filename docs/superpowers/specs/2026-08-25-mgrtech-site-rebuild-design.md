@@ -369,9 +369,10 @@ clearly-marked placeholders.
 | Real pricing | Placeholder `$X,XXX` | Phase 6 |
 | Calendly URL | Does not exist. Phone is the sole primary CTA until it does. **Do not link a placeholder.** | Phase 4 |
 | Testimonial permission | Two run as disclosed placeholders | Phase 4 |
-| `RESEND_API_KEY` | Not yet provisioned | Phase 3 |
+| `RESEND_API_KEY` | DONE — supplied, in `.env.local` | Phase 3 |
 | Domain DNS cutover | Currently serves the old site | Phase 9 |
-| Logo / favicon | Owner supplying at end of build. `app/favicon.ico` is still the Next.js default and `og-cover` art does not exist. | Phase 9 |
+| Resend domain verification | Sending from `onboarding@resend.dev`, which only delivers to the account address. Verify `mgrtechsolutionsinc.com` in Resend so leads send from a branded address to `sri@`. | Phase 9 |
+| Logo / favicon | DONE — mark supplied; transparent PNG + cream app icons generated. An SVG would still be sharper. | — |
 
 ---
 
