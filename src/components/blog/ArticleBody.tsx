@@ -101,7 +101,10 @@ export default function ArticleBody({ markdown }: { markdown: string }) {
             </div>
           ),
           th: ({ children }) => (
-            <th className="border-b border-cream-300 bg-cream-100 px-4 py-2 text-left font-medium text-forest-950">
+            <th
+              scope="col"
+              className="border-b border-cream-300 bg-cream-100 px-4 py-2 text-left font-medium text-forest-950"
+            >
               {children}
             </th>
           ),

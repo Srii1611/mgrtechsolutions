@@ -30,12 +30,12 @@ export function slugifyHeading(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-/** Strips fenced code blocks (```...```) so their contents are never
- * mistaken for headings. */
+/** Strips fenced code blocks (``` or ~~~ fences) so their contents are
+ * never mistaken for headings. */
 function stripCodeFences(body: string): string {
-  return body.replace(/```[\s\S]*?```/g, (match) =>
-    match.replace(/[^\n]/g, ' '),
-  );
+  return body
+    .replace(/```[\s\S]*?```/g, (match) => match.replace(/[^\n]/g, ' '))
+    .replace(/~~~[\s\S]*?~~~/g, (match) => match.replace(/[^\n]/g, ' '));
 }
 
 function extractHeadings(body: string): BlogHeading[] {
@@ -64,7 +64,7 @@ function extractHeadings(body: string): BlogHeading[] {
   return headings;
 }
 
-function stripEmphasis(text: string): string {
+export function stripEmphasis(text: string): string {
   return text
     .replace(/`([^`]*)`/g, '$1')
     .replace(/\*\*([^*]*)\*\*/g, '$1')
@@ -162,7 +162,13 @@ export function getPostsByCategory(categorySlug: string): Post[] {
 }
 
 export function getRelatedPosts(post: Post, n = 3): Post[] {
-  return getCachedPosts()
-    .filter((p) => p.categorySlug === post.categorySlug && p.slug !== post.slug)
-    .slice(0, n);
+  const categoryPosts = getCachedPosts().filter((p) => p.categorySlug === post.categorySlug);
+  const currentIndex = categoryPosts.findIndex((p) => p.slug === post.slug);
+  if (currentIndex === -1) return [];
+
+  const related: Post[] = [];
+  for (let offset = 1; offset <= categoryPosts.length - 1 && related.length < n; offset++) {
+    related.push(categoryPosts[(currentIndex + offset) % categoryPosts.length]);
+  }
+  return related;
 }

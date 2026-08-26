@@ -77,11 +77,20 @@ export default async function BlogPostPage({
 
       <section className="bg-cream-50 pb-20 md:pb-28">
         <div className="container-page grid gap-12 lg:grid-cols-[minmax(0,1fr)_16rem]">
+          {post.headings.length > 0 ? (
+            <details className="rounded-xl border border-cream-300 bg-cream-100 p-4 lg:hidden">
+              <summary className="eyebrow cursor-pointer text-ink-soft">On this page</summary>
+              <div className="mt-4">
+                <Toc headings={post.headings} showLabel={false} />
+              </div>
+            </details>
+          ) : null}
+
           <article className="min-w-0 lg:order-1">
             <ArticleBody markdown={post.body} />
           </article>
 
-          <aside className="lg:order-2">
+          <aside className="hidden lg:order-2 lg:block">
             <Toc headings={post.headings} />
           </aside>
         </div>

@@ -63,6 +63,7 @@ export default async function BlogCategoryPage({
 
       <section className="bg-cream-100 py-16 md:py-20">
         <div className="container-page">
+          <h2 className="sr-only">Articles in {category.name}</h2>
           {posts.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {posts.map((post) => (

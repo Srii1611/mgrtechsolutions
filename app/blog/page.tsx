@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 export default function BlogIndexPage() {
   const posts = getAllPosts();
+  const cardPosts = posts.map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    category: post.category,
+    categorySlug: post.categorySlug,
+    excerpt: post.excerpt,
+    readTime: post.readTime,
+  }));
 
   return (
     <>
@@ -70,7 +78,8 @@ export default function BlogIndexPage() {
 
       <section className="bg-cream-50 py-16 md:py-20">
         <div className="container-page">
-          <BlogFilter posts={posts} />
+          <h2 className="sr-only">All articles</h2>
+          <BlogFilter posts={cardPosts} />
         </div>
       </section>
     </>
