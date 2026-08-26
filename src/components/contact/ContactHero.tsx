@@ -16,7 +16,7 @@ export default function ContactHero() {
 
         <p className="eyebrow mt-8 text-accent">— CONTACT</p>
 
-        <h1 className="h1-page mt-4 max-w-4xl font-medium text-white">
+        <h1 className="h1-page mt-4 max-w-4xl font-medium text-cream-50">
           Two ways to start.
           <span className="mt-1 block text-accent">
             Neither is a form you&rsquo;ll regret.

@@ -4,13 +4,15 @@ import { SYSTEM } from '@/data/home';
 /** SECTION 06 — One system (light). Horizontal chain on desktop, stacked on mobile. */
 export default function SystemSection() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-20 md:py-28" aria-labelledby="system-heading">
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent-ink">{SYSTEM.eyebrow}</p>
         </Reveal>
         <Reveal delay={0.05}>
-          <p className="lede mt-6 max-w-2xl text-ink-soft">{SYSTEM.lede}</p>
+          <h2 id="system-heading" className="lede mt-6 max-w-2xl text-ink-soft">
+            {SYSTEM.lede}
+          </h2>
         </Reveal>
 
         <div className="mt-14 flex flex-col gap-4 md:flex-row md:items-stretch md:gap-0">

@@ -2,18 +2,21 @@
 
 import { useState } from 'react';
 import Reveal from '@/components/motion/Reveal';
-import { FAQ_TEASER } from '@/data/home';
+import { FAQ_TEASER, BANDS } from '@/data/home';
 
 /** SECTION 12 — FAQ teaser (light, client for accordion state). */
 export default function FaqTeaser() {
   const [open, setOpen] = useState(-1);
 
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-20 md:py-28" aria-labelledby="faq-heading">
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent-ink">{FAQ_TEASER.eyebrow}</p>
         </Reveal>
+        <h2 id="faq-heading" className="sr-only">
+          {BANDS[10]}
+        </h2>
 
         <div className="mt-14 divide-y divide-cream-300 border-y border-cream-300">
           {FAQ_TEASER.items.map((item, i) => {
@@ -47,10 +50,11 @@ export default function FaqTeaser() {
                     id={panelId}
                     role="region"
                     aria-labelledby={triggerId}
-                    className="grid transition-[grid-template-rows,opacity] duration-[250ms] ease-out"
+                    className="grid transition-[grid-template-rows,opacity,visibility] duration-[250ms] ease-out"
                     style={{
                       gridTemplateRows: isOpen ? '1fr' : '0fr',
                       opacity: isOpen ? 1 : 0,
+                      visibility: isOpen ? 'visible' : 'hidden',
                     }}
                   >
                     <div className="overflow-hidden">

@@ -10,13 +10,15 @@ export default function ProcessSection() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section className="on-dark bg-forest-950 py-20 md:py-28">
+    <section className="on-dark bg-forest-950 py-20 md:py-28" aria-labelledby="process-heading">
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent">{PROCESS.eyebrow}</p>
         </Reveal>
         <Reveal delay={0.05}>
-          <p className="lede mt-6 max-w-2xl text-mist">{PROCESS.lede}</p>
+          <h2 id="process-heading" className="lede mt-6 max-w-2xl text-mist">
+            {PROCESS.lede}
+          </h2>
         </Reveal>
 
         <Reveal delay={0.1}>
@@ -79,10 +81,11 @@ export default function ProcessSection() {
                     id={panelId}
                     role="region"
                     aria-labelledby={triggerId}
-                    className="grid transition-[grid-template-rows,opacity] duration-[250ms] ease-out"
+                    className="grid transition-[grid-template-rows,opacity,visibility] duration-[250ms] ease-out"
                     style={{
                       gridTemplateRows: isOpen ? '1fr' : '0fr',
                       opacity: isOpen ? 1 : 0,
+                      visibility: isOpen ? 'visible' : 'hidden',
                     }}
                   >
                     <div className="overflow-hidden">

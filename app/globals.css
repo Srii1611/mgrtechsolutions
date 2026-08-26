@@ -62,6 +62,17 @@ body {
   outline-color: var(--color-accent);
 }
 
+/* Light-surface cards nested inside a .on-dark band (e.g. the DualClose
+   review-form card) must reset the ring back to dark. Accent-on-cream is
+   1.59:1, well under WCAG 1.4.11's 3:1 minimum. The compound selector below
+   guarantees this wins over `.on-dark :focus-visible` (specificity 0,3,0 vs
+   0,2,0) regardless of source order, since `.on-light` is always nested
+   inside `.on-dark` where it's used. */
+.on-light :focus-visible,
+.on-dark .on-light :focus-visible {
+  outline-color: var(--color-forest-950);
+}
+
 /* Skip link: first focusable element in <body>, hidden until focused. */
 .skip-link {
   position: absolute;
@@ -147,5 +158,6 @@ html.lenis, html.lenis body { height: auto; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    transform: none !important;
   }
 }

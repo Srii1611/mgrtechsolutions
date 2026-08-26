@@ -7,14 +7,16 @@ const ICONS = { MapPin, MousePointerClick, PhoneCall } as const;
 /** SECTION 02 — The framework (light). Reference layout for later sections. */
 export default function Framework() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-20 md:py-28" aria-labelledby="framework-heading">
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent-ink">{FRAMEWORK.eyebrow}</p>
         </Reveal>
 
         <Reveal delay={0.05}>
-          <p className="lede mt-6 max-w-2xl text-ink-soft">{FRAMEWORK.lede}</p>
+          <h2 id="framework-heading" className="lede mt-6 max-w-2xl font-medium text-ink-soft">
+            {FRAMEWORK.lede}
+          </h2>
         </Reveal>
 
         <div className="mt-14 grid gap-6 md:grid-cols-3">

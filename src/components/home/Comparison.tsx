@@ -4,13 +4,15 @@ import { COMPARISON } from '@/data/home';
 /** SECTION 10 — Honest comparison (light). */
 export default function Comparison() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-20 md:py-28" aria-labelledby="comparison-heading">
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent-ink">{COMPARISON.eyebrow}</p>
         </Reveal>
         <Reveal delay={0.05}>
-          <p className="lede mt-6 max-w-2xl text-ink-soft">{COMPARISON.lede}</p>
+          <h2 id="comparison-heading" className="lede mt-6 max-w-2xl text-ink-soft">
+            {COMPARISON.lede}
+          </h2>
         </Reveal>
 
         <Reveal delay={0.08}>

@@ -11,7 +11,7 @@ type Status = 'idle' | 'sending' | 'sent';
 const inputBase =
   'w-full rounded-xl border bg-cream-50 px-4 py-3 text-[1rem] text-forest-950 transition placeholder:text-ink-soft';
 
-export default function ReviewForm() {
+export default function ReviewForm({ showHeader = true }: { showHeader?: boolean }) {
   const [values, setValues] = useState({ url: '', email: '', name: '', notes: '', hp_ref: '' });
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>('idle');
@@ -79,7 +79,7 @@ export default function ReviewForm() {
   if (status === 'sent') {
     return (
       <div role="status">
-        <p className="eyebrow text-accent-ink">DOOR 02 · SENT</p>
+        {showHeader && <p className="eyebrow text-accent-ink">DOOR 02 · SENT</p>}
         <h2
           ref={successHeadingRef}
           tabIndex={-1}
@@ -97,16 +97,20 @@ export default function ReviewForm() {
 
   return (
     <div>
-      <p className="eyebrow text-accent-ink">DOOR 02 · THE FREE SITE REVIEW</p>
-      <p className="eyebrow mt-6 text-ink-soft">THE LOW-COMMITMENT WAY</p>
-      <h2 className="h3-card mt-3 font-medium text-forest-950">
-        Send your URL. Get the 3 things costing you calls.
-      </h2>
-      <p className="mt-5 max-w-md text-[1.0625rem] leading-[1.7] text-ink-soft">
-        I&rsquo;ll personally look at your website and send back a short, honest review — the three
-        things most likely costing you phone calls, in plain English. Free. One email. No follow-up
-        sequence.
-      </p>
+      {showHeader && (
+        <>
+          <p className="eyebrow text-accent-ink">DOOR 02 · THE FREE SITE REVIEW</p>
+          <p className="eyebrow mt-6 text-ink-soft">THE LOW-COMMITMENT WAY</p>
+          <h2 className="h3-card mt-3 font-medium text-forest-950">
+            Send your URL. Get the 3 things costing you calls.
+          </h2>
+          <p className="mt-5 max-w-md text-[1.0625rem] leading-[1.7] text-ink-soft">
+            I&rsquo;ll personally look at your website and send back a short, honest review — the
+            three things most likely costing you phone calls, in plain English. Free. One email.
+            No follow-up sequence.
+          </p>
+        </>
+      )}
 
       <noscript>
         <p className="mt-6 max-w-md text-[0.9375rem] text-ink-soft">
@@ -197,7 +201,7 @@ export default function ReviewForm() {
         <button
           type="submit"
           disabled={status === 'sending' || !mounted}
-          className="rounded-full bg-forest-950 px-8 py-4 text-[0.9375rem] font-semibold text-white transition hover:bg-forest-800 disabled:opacity-60"
+          className="rounded-full bg-forest-950 px-8 py-4 text-[0.9375rem] font-semibold text-cream-50 transition hover:bg-forest-800 disabled:opacity-60"
         >
           {status === 'sending' ? 'Sending…' : 'Send my free review'}
         </button>

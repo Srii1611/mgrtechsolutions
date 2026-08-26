@@ -5,13 +5,15 @@ import { PRICING } from '@/data/home';
 /** SECTION 11 — Pricing preview (dark). Prices remain $X,XXX placeholders. */
 export default function PricingPreview() {
   return (
-    <section className="on-dark bg-forest-950 py-20 md:py-28">
+    <section className="on-dark bg-forest-950 py-20 md:py-28" aria-labelledby="pricing-heading">
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent">{PRICING.eyebrow}</p>
         </Reveal>
         <Reveal delay={0.05}>
-          <p className="lede mt-6 max-w-2xl text-mist">{PRICING.lede}</p>
+          <h2 id="pricing-heading" className="lede mt-6 max-w-2xl text-mist">
+            {PRICING.lede}
+          </h2>
         </Reveal>
 
         <Reveal delay={0.08}>

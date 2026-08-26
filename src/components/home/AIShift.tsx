@@ -7,14 +7,16 @@ const ICONS = { Search, MessageSquareText } as const;
 /** SECTION 05 — The shift (dark). Staggered reveals, no scroll-pinning. */
 export default function AIShift() {
   return (
-    <section className="on-dark bg-forest-950 py-20 md:py-28">
+    <section className="on-dark bg-forest-950 py-20 md:py-28" aria-labelledby="aishift-heading">
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent">{AI_SHIFT.eyebrow}</p>
         </Reveal>
 
         <Reveal delay={0.05}>
-          <p className="lede mt-6 max-w-2xl text-mist">{AI_SHIFT.lede}</p>
+          <h2 id="aishift-heading" className="lede mt-6 max-w-2xl text-mist">
+            {AI_SHIFT.lede}
+          </h2>
         </Reveal>
 
         <div className="mt-14 grid gap-6 md:grid-cols-3">

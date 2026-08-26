@@ -1,14 +1,20 @@
 import Reveal from '@/components/motion/Reveal';
-import { MECHANISM } from '@/data/home';
+import { MECHANISM, BANDS } from '@/data/home';
 
 /** SECTION 07 — Why it rings (dark). Static numbered rail, staggered reveals. */
 export default function MechanismChain() {
   return (
-    <section className="on-dark bg-forest-950 py-20 md:py-28">
+    <section
+      className="on-dark bg-forest-950 py-20 md:py-28"
+      aria-labelledby="mechanism-heading"
+    >
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent">{MECHANISM.eyebrow}</p>
         </Reveal>
+        <h2 id="mechanism-heading" className="sr-only">
+          {BANDS[5]}
+        </h2>
 
         <div className="relative mt-14">
           <div

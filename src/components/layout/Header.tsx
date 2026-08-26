@@ -31,7 +31,7 @@ export default function Header() {
               className="h-8 w-auto"
             />
           </span>
-          <span className="eyebrow text-white">MGRTECH</span>
+          <span className="eyebrow text-cream-50">MGRTECH</span>
         </Link>
 
         {/* Desktop nav */}
@@ -60,7 +60,7 @@ export default function Header() {
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? 'Close menu' : 'Open menu'}
-          className="text-white lg:hidden"
+          className="text-cream-50 lg:hidden"
         >
           <span aria-hidden="true" className="text-2xl leading-none">
             {open ? '×' : '≡'}

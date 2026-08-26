@@ -1,14 +1,17 @@
 import Reveal from '@/components/motion/Reveal';
-import { PAINS } from '@/data/home';
+import { PAINS, BANDS } from '@/data/home';
 
 /** SECTION 04 — Sound familiar? (light). */
 export default function PainSection() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-20 md:py-28" aria-labelledby="pain-heading">
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent-ink">{PAINS.eyebrow}</p>
         </Reveal>
+        <h2 id="pain-heading" className="sr-only">
+          {BANDS[2]}
+        </h2>
 
         <div className="mt-14 grid gap-8 md:grid-cols-2">
           {PAINS.items.map((item, i) => (

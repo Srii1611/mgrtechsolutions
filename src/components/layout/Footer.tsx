@@ -14,7 +14,7 @@ export default function Footer() {
             <p className="mt-6 text-[0.9375rem]">{SITE.location}</p>
             <a
               href={SITE.phoneHref}
-              className="mt-4 block text-lg font-semibold text-white transition-colors hover:text-accent"
+              className="mt-4 block text-lg font-semibold text-cream-50 transition-colors hover:text-accent"
             >
               {SITE.phone}
             </a>
@@ -27,7 +27,7 @@ export default function Footer() {
           </div>
 
           <nav aria-label="Footer">
-            <p className="eyebrow text-white">Pages</p>
+            <p className="eyebrow text-cream-50">Pages</p>
             <ul className="mt-4 space-y-2">
               {NAV.map((item) => (
                 <li key={item.href}>
@@ -43,7 +43,7 @@ export default function Footer() {
           </nav>
 
           <nav aria-label="Blog categories">
-            <p className="eyebrow text-white">Topics</p>
+            <p className="eyebrow text-cream-50">Topics</p>
             <ul className="mt-4 space-y-2">
               {FOOTER_CATEGORIES.map((cat) => (
                 <li key={cat.href}>
