@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { leadSchema, LEAD_FIELDS } from '@/lib/lead';
+import { parseLeadResponse } from '@/lib/lead-response';
 import { SITE } from '@/data/site';
 
 type Errors = Partial<Record<'url' | 'email' | 'name' | 'form', string>>;
@@ -42,12 +43,9 @@ export default function ReviewForm() {
       });
 
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        setErrors({
-          form:
-            body?.message ??
-            `We couldn't send that. Please call ${SITE.phone} and I'll pick it up directly.`,
-        });
+        const body = await res.json().catch(() => null);
+        const { fieldErrors, formError } = parseLeadResponse(res.status, body);
+        setErrors({ ...fieldErrors, form: formError });
         setStatus('idle');
         return;
       }
