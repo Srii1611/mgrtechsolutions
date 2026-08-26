@@ -19,6 +19,10 @@
   --color-ink-soft: #3E4F45;
   --color-mist:     #9DB5A7;
 
+  /* Form error color. 6.06:1 against cream-50 (#FAF6EC) — clears WCAG AA
+     4.5:1 for normal text. */
+  --color-destructive: #B3261E;
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
