@@ -13,10 +13,19 @@ function json(body: unknown, status: number, headers?: HeadersInit) {
   });
 }
 
-function clientIp(request: Request): string {
+/**
+ * Returns null when the caller cannot be identified. On Vercel the platform
+ * always sets x-forwarded-for, so this path should never trigger in
+ * production. When it does (e.g. local/dev tooling), we deliberately do NOT
+ * rate limit rather than share a single 'unknown' bucket across every
+ * unidentifiable visitor — sharing that bucket would 429 real leads, which is
+ * the exact lead-loss this phase exists to prevent. Skipping the limiter only
+ * risks spam, which the honeypot already absorbs.
+ */
+function clientIp(request: Request): string | null {
   const forwarded = request.headers.get('x-forwarded-for');
   if (forwarded) return forwarded.split(',')[0].trim();
-  return request.headers.get('x-real-ip') ?? 'unknown';
+  return request.headers.get('x-real-ip');
 }
 
 export async function POST(request: Request) {
@@ -40,29 +49,35 @@ export async function POST(request: Request) {
   const lead = parsed.data;
 
   // Honeypot: a person never sees this field. Return 200 so the bot learns
-  // nothing, but send nothing.
+  // nothing, but send nothing. Checked before the config guard and the rate
+  // limiter so bot traffic never burns either.
   if (lead.company && lead.company.trim() !== '') {
     return json({ ok: true }, 200);
-  }
-
-  const limit = rateLimit(clientIp(request));
-  if (!limit.ok) {
-    return json(
-      { ok: false, message: 'Too many submissions. Please call instead.' },
-      429,
-      { 'retry-after': String(limit.retryAfterSeconds) },
-    );
   }
 
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.LEAD_FROM_EMAIL;
   if (!apiKey || !from) {
-    // Never report success we cannot back up.
+    // Never report success we cannot back up. Checked before the rate
+    // limiter so a misconfigured deploy always tells the visitor to call,
+    // rather than burning their budget toward a 429 instead.
     console.error('[lead] RESEND_API_KEY or LEAD_FROM_EMAIL is not configured');
     return json(
       { ok: false, message: 'We could not send that just now.' },
       503,
     );
+  }
+
+  const ip = clientIp(request);
+  if (ip !== null) {
+    const limit = rateLimit(ip);
+    if (!limit.ok) {
+      return json(
+        { ok: false, message: 'Too many submissions. Please call instead.' },
+        429,
+        { 'retry-after': String(limit.retryAfterSeconds) },
+      );
+    }
   }
 
   const text = [
@@ -78,7 +93,7 @@ export async function POST(request: Request) {
 
   try {
     const resend = new Resend(apiKey);
-    const { error } = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from,
       to: [TO],
       replyTo: lead.email,
@@ -86,8 +101,8 @@ export async function POST(request: Request) {
       text,
     });
 
-    if (error) {
-      console.error('[lead] resend returned an error', error);
+    if (error || !data?.id) {
+      console.error('[lead] resend did not confirm delivery', error);
       return json({ ok: false, message: 'We could not send that just now.' }, 503);
     }
   } catch (cause) {

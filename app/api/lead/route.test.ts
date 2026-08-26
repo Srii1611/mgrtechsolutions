@@ -53,7 +53,14 @@ describe('POST /api/lead', () => {
     sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
     await POST(req(valid));
     const payload = sendMock.mock.calls[0][0];
-    expect(JSON.stringify(payload)).toContain('owner@example.com');
+    expect(payload.replyTo).toBe('owner@example.com');
+  });
+
+  it('strips unknown keys before sending', async () => {
+    sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
+    await POST(req({ ...valid, isAdmin: true }));
+    const payload = sendMock.mock.calls[0][0];
+    expect(JSON.stringify(payload)).not.toContain('isAdmin');
   });
 
   it('rejects an invalid payload with field errors', async () => {
@@ -75,6 +82,35 @@ describe('POST /api/lead', () => {
     for (let i = 0; i < 5; i++) await POST(req(valid, '9.9.9.9'));
     const res = await POST(req(valid, '9.9.9.9'));
     expect(res.status).toBe(429);
+    expect(sendMock).toHaveBeenCalledTimes(5);
+  });
+
+  it('does not rate limit when no forwarding header identifies the caller', async () => {
+    sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
+    const unidentified = () =>
+      POST(
+        new Request('http://localhost/api/lead', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(valid),
+        }),
+      );
+    for (let i = 0; i < 6; i++) {
+      const res = await unidentified();
+      expect(res.status).toBe(200);
+    }
+    expect(sendMock).toHaveBeenCalledTimes(6);
+  });
+
+  it('checks the honeypot before the rate limiter, so a real lead from the same IP still sends', async () => {
+    sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
+    for (let i = 0; i < 6; i++) {
+      await POST(req({ ...valid, company: 'bot fill' }, '8.8.8.8'));
+    }
+    expect(sendMock).not.toHaveBeenCalled();
+    const res = await POST(req(valid, '8.8.8.8'));
+    expect(res.status).toBe(200);
+    expect(sendMock).toHaveBeenCalledTimes(1);
   });
 
   it('returns 503 and does NOT claim success when the send fails', async () => {
@@ -98,6 +134,13 @@ describe('POST /api/lead', () => {
     expect(sendMock).not.toHaveBeenCalled();
   });
 
+  it('returns 503 when the from address is missing', async () => {
+    vi.stubEnv('LEAD_FROM_EMAIL', '');
+    const res = await POST(req(valid));
+    expect(res.status).toBe(503);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
   it('rejects a malformed json body', async () => {
     const res = await POST(
       new Request('http://localhost/api/lead', {
@@ -107,5 +150,6 @@ describe('POST /api/lead', () => {
       }),
     );
     expect(res.status).toBe(400);
+    expect(sendMock).not.toHaveBeenCalled();
   });
 });

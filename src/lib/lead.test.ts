@@ -47,4 +47,16 @@ describe('leadSchema', () => {
   it('allows the honeypot field to be absent or empty', () => {
     expect(leadSchema.safeParse({ ...valid, company: '' }).success).toBe(true);
   });
+
+  it('trims surrounding whitespace off email before validating format', () => {
+    const r = leadSchema.safeParse({ ...valid, email: '  owner@example.com  ' });
+    expect(r.success).toBe(true);
+    expect(r.success && r.data.email).toBe('owner@example.com');
+  });
+
+  it('trims surrounding whitespace off a pasted url', () => {
+    const r = leadSchema.safeParse({ ...valid, url: '  https://example.com  ' });
+    expect(r.success).toBe(true);
+    expect(r.success && r.data.url).toBe('https://example.com');
+  });
 });

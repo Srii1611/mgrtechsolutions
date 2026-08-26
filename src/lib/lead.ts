@@ -15,10 +15,11 @@ export const leadSchema = z.object({
     .max(2048)
     .regex(WEBSITE_RE, "That doesn't look like a website address"),
   email: z
-    .email("That doesn't look like an email address")
+    .string()
     .trim()
     .min(1, 'Your email is required')
-    .max(320),
+    .max(320)
+    .pipe(z.email("That doesn't look like an email address")),
   name: z
     .string()
     .trim()
