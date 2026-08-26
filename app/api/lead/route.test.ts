@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { SITE } from '@/data/site';
 
 const sendMock = vi.fn();
 vi.mock('resend', () => ({
@@ -72,7 +73,7 @@ describe('POST /api/lead', () => {
   });
 
   it('silently discards a honeypot submission without sending', async () => {
-    const res = await POST(req({ ...valid, company: 'bot fill' }));
+    const res = await POST(req({ ...valid, hp_ref: 'bot fill' }));
     expect(res.status).toBe(200);
     expect(sendMock).not.toHaveBeenCalled();
   });
@@ -105,7 +106,7 @@ describe('POST /api/lead', () => {
   it('checks the honeypot before the rate limiter, so a real lead from the same IP still sends', async () => {
     sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
     for (let i = 0; i < 6; i++) {
-      await POST(req({ ...valid, company: 'bot fill' }, '8.8.8.8'));
+      await POST(req({ ...valid, hp_ref: 'bot fill' }, '8.8.8.8'));
     }
     expect(sendMock).not.toHaveBeenCalled();
     const res = await POST(req(valid, '8.8.8.8'));
@@ -139,6 +140,28 @@ describe('POST /api/lead', () => {
     const res = await POST(req(valid));
     expect(res.status).toBe(503);
     expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it('a payload containing a stray "company" key is ignored as an unknown key, not treated as the honeypot', async () => {
+    sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
+    const res = await POST(req({ ...valid, company: 'Rivera Landscaping' }));
+    expect(res.status).toBe(200);
+    expect(sendMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('includes the phone number in the 429 message', async () => {
+    sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
+    for (let i = 0; i < 5; i++) await POST(req(valid, '5.5.5.5'));
+    const res = await POST(req(valid, '5.5.5.5'));
+    const body = await res.json();
+    expect(body.message).toContain(SITE.phone);
+  });
+
+  it('includes the phone number in the 503 message when the send fails', async () => {
+    sendMock.mockResolvedValue({ data: null, error: { message: 'boom' } });
+    const res = await POST(req(valid));
+    const body = await res.json();
+    expect(body.message).toContain(SITE.phone);
   });
 
   it('rejects a malformed json body', async () => {

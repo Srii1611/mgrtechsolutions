@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { leadSchema } from './lead';
+import { leadSchema, mapLeadIssues } from './lead';
 
 const valid = {
   url: 'https://example.com',
@@ -45,7 +45,13 @@ describe('leadSchema', () => {
   });
 
   it('allows the honeypot field to be absent or empty', () => {
-    expect(leadSchema.safeParse({ ...valid, company: '' }).success).toBe(true);
+    expect(leadSchema.safeParse({ ...valid, hp_ref: '' }).success).toBe(true);
+  });
+
+  it('ignores a stray "company" key as unknown rather than treating it as the honeypot', () => {
+    const r = leadSchema.safeParse({ ...valid, company: 'Rivera Landscaping' });
+    expect(r.success).toBe(true);
+    expect(r.success && (r.data as Record<string, unknown>).company).toBeUndefined();
   });
 
   it('trims surrounding whitespace off email before validating format', () => {
@@ -58,5 +64,28 @@ describe('leadSchema', () => {
     const r = leadSchema.safeParse({ ...valid, url: '  https://example.com  ' });
     expect(r.success).toBe(true);
     expect(r.success && r.data.url).toBe('https://example.com');
+  });
+});
+
+describe('mapLeadIssues', () => {
+  it('surfaces an over-length notes value as a visible field error', () => {
+    const r = leadSchema.safeParse({ ...valid, notes: 'x'.repeat(5001) });
+    expect(r.success).toBe(false);
+    const mapped = !r.success && mapLeadIssues(r.error.issues);
+    expect(mapped && mapped.fieldErrors.notes).toBeTruthy();
+    expect(mapped && mapped.formError).toBeUndefined();
+  });
+
+  it('folds an issue on a key with no renderable field into the form-level error', () => {
+    const mapped = mapLeadIssues([{ path: ['hp_ref'], message: 'unexpected' }]);
+    expect(mapped.fieldErrors).toEqual({});
+    expect(mapped.formError).toBe('unexpected');
+  });
+
+  it('maps a url/email/name issue to its field as before', () => {
+    const r = leadSchema.safeParse({ ...valid, email: 'nope' });
+    expect(r.success).toBe(false);
+    const mapped = !r.success && mapLeadIssues(r.error.issues);
+    expect(mapped && mapped.fieldErrors.email).toBeTruthy();
   });
 });

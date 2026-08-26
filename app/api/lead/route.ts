@@ -51,7 +51,7 @@ export async function POST(request: Request) {
   // Honeypot: a person never sees this field. Return 200 so the bot learns
   // nothing, but send nothing. Checked before the config guard and the rate
   // limiter so bot traffic never burns either.
-  if (lead.company && lead.company.trim() !== '') {
+  if (lead.hp_ref && lead.hp_ref.trim() !== '') {
     return json({ ok: true }, 200);
   }
 
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     // rather than burning their budget toward a 429 instead.
     console.error('[lead] RESEND_API_KEY or LEAD_FROM_EMAIL is not configured');
     return json(
-      { ok: false, message: 'We could not send that just now.' },
+      { ok: false, message: `We could not send that just now. Please call ${SITE.phone} instead.` },
       503,
     );
   }
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
     const limit = rateLimit(ip);
     if (!limit.ok) {
       return json(
-        { ok: false, message: 'Too many submissions. Please call instead.' },
+        { ok: false, message: `Too many submissions. Please call ${SITE.phone} instead.` },
         429,
         { 'retry-after': String(limit.retryAfterSeconds) },
       );
@@ -103,11 +103,17 @@ export async function POST(request: Request) {
 
     if (error || !data?.id) {
       console.error('[lead] resend did not confirm delivery', error);
-      return json({ ok: false, message: 'We could not send that just now.' }, 503);
+      return json(
+        { ok: false, message: `We could not send that just now. Please call ${SITE.phone} instead.` },
+        503,
+      );
     }
   } catch (cause) {
     console.error('[lead] resend threw', cause);
-    return json({ ok: false, message: 'We could not send that just now.' }, 503);
+    return json(
+      { ok: false, message: `We could not send that just now. Please call ${SITE.phone} instead.` },
+      503,
+    );
   }
 
   return json({ ok: true }, 200);

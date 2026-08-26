@@ -23,6 +23,11 @@
      4.5:1 for normal text. */
   --color-destructive: #B3261E;
 
+  /* Form control border. 5.22:1 against cream-50 (#FAF6EC) — clears WCAG
+     1.4.11's 3:1 minimum for non-text UI. border-cream-300 (1.30:1) left
+     inputs effectively invisible until they errored. */
+  --color-form-border: #5C6B61;
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

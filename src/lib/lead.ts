@@ -26,11 +26,52 @@ export const leadSchema = z.object({
     .min(1, 'Your name is required')
     .max(120),
   notes: z.string().trim().max(5000).optional(),
-  /** Honeypot. Hidden from people; bots fill it. Never rendered visibly. */
-  company: z.string().max(200).optional(),
+  /**
+   * Honeypot. Hidden from people; bots fill it. Never rendered visibly.
+   * Named `hp_ref` deliberately — anything resembling a real form field
+   * (e.g. "company") gets autofilled by browser/password-manager profile
+   * fills even while offscreen, which produces false-positive honeypot
+   * trips on real leads.
+   */
+  hp_ref: z.string().max(200).optional(),
 });
 
 export type Lead = z.infer<typeof leadSchema>;
+
+/** Field keys the form has a visible input for and can attach an error to. */
+const RENDERABLE_KEYS = ['url', 'email', 'name', 'notes'] as const;
+export type RenderableKey = (typeof RENDERABLE_KEYS)[number];
+
+function isRenderableKey(key: string): key is RenderableKey {
+  return (RENDERABLE_KEYS as readonly string[]).includes(key);
+}
+
+export type MappedLeadIssues = {
+  fieldErrors: Partial<Record<RenderableKey, string>>;
+  formError?: string;
+};
+
+/**
+ * Maps zod validation issues onto the fields the form can actually render
+ * an error under. An issue on a key with no visible field (unknown future
+ * schema key, or a path we forgot to wire a field for) folds into the
+ * form-level error instead of being silently dropped — the failure mode
+ * that made an over-length `notes` value submit-button-dead with zero
+ * feedback.
+ */
+export function mapLeadIssues(issues: readonly { path: PropertyKey[]; message: string }[]): MappedLeadIssues {
+  const fieldErrors: Partial<Record<RenderableKey, string>> = {};
+  let formError: string | undefined;
+  for (const issue of issues) {
+    const key = String(issue.path[0]);
+    if (isRenderableKey(key)) {
+      if (!fieldErrors[key]) fieldErrors[key] = issue.message;
+    } else if (!formError) {
+      formError = issue.message;
+    }
+  }
+  return { fieldErrors, formError };
+}
 
 /** Field metadata the form renders from, so labels live beside the schema. */
 export const LEAD_FIELDS = [
