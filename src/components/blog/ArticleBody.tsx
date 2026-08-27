@@ -113,7 +113,9 @@ export default function ArticleBody({ markdown }: { markdown: string }) {
           ),
           strong: ({ children }) => <strong className="font-semibold text-forest-950">{children}</strong>,
           em: ({ children }) => <em className="italic">{children}</em>,
-          input: (props) => {
+          // react-markdown passes the hast `node` through; drop it or React 19
+          // forwards it to the DOM as node="[object Object]".
+          input: ({ node, ...props }) => {
             if (props.type !== 'checkbox') {
               return <input {...props} />;
             }
