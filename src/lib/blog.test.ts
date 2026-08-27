@@ -192,6 +192,43 @@ describe('seoTitle', () => {
       expect(p.seoTitle.trim().endsWith('-')).toBe(false);
     }
   });
+
+  const SEO_TITLE_STOP_WORDS = new Set([
+    'to', 'and', 'the', 'a', 'an', 'or', 'of', 'for', 'in', 'on', 'with',
+    'that', 'how', 'is', 'are', 'can', 'but', 'as', 'at', 'by', 'from',
+    'your', 'its', 'it', '—', '–', '&',
+  ]);
+
+  it('never produces a keyword-free stub shorter than 20 characters', () => {
+    for (const p of posts) {
+      expect(p.seoTitle.length).toBeGreaterThanOrEqual(20);
+    }
+  });
+
+  it('never ends a truncated title on a stop word', () => {
+    for (const p of posts) {
+      if (!p.seoTitle.endsWith('…')) continue;
+      const lastWord = p.seoTitle
+        .slice(0, -1)
+        .trim()
+        .split(/\s+/)
+        .pop()!
+        .toLowerCase()
+        .replace(/[^a-z—–&]/g, '');
+      expect(SEO_TITLE_STOP_WORDS.has(lastWord)).toBe(false);
+    }
+  });
+
+  it('keeps a strong keyword-bearing prefix for general-contractor-marketing', () => {
+    const p = getPost('general-contractor-marketing')!;
+    expect(p.seoTitle.startsWith('Building Bigger: ')).toBe(true);
+    expect(p.seoTitle.length).toBeLessThanOrEqual(60);
+  });
+
+  it('keeps content from both sides of the colon for a short first segment', () => {
+    const p = getPost('general-contractor-marketing')!;
+    expect(p.seoTitle).toContain(': ');
+  });
 });
 
 describe('metaDescription', () => {

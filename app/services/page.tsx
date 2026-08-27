@@ -12,7 +12,7 @@ import { SERVICES } from '@/data/services';
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'One system, three parts: a hand-coded website, content that builds trust, and AI follow-up that catches every inquiry — built together by the person who answers the phone.',
+    'A hand-coded website, content that builds trust, and AI follow-up that catches every inquiry — built by the person who answers the phone.',
   alternates: { canonical: '/services' },
 };
 

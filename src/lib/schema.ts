@@ -1,4 +1,5 @@
 import { SITE } from '@/data/site';
+import { truncateAtWordBoundary } from '@/lib/blog';
 
 const METROWEST_TOWNS = [
   'Ashland',
@@ -53,8 +54,7 @@ export function buildArticle(post: {
   category: string;
   datePublished?: string;
 }): object {
-  const headline =
-    post.title.length > HEADLINE_MAX ? post.title.slice(0, HEADLINE_MAX) : post.title;
+  const headline = truncateAtWordBoundary(post.title, HEADLINE_MAX - 1);
 
   const article: Record<string, unknown> = {
     '@context': 'https://schema.org',

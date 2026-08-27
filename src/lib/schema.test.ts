@@ -81,6 +81,18 @@ describe('buildArticle', () => {
     const a = buildArticle({ ...base, title: long }) as Record<string, string>;
     expect(a.headline.length).toBeLessThanOrEqual(110);
   });
+
+  it('truncates a long real-sentence headline at a word boundary, not mid-word', () => {
+    const long =
+      'How General Contractors Can Attract Higher-Value Projects Without Chasing Every Lead That Comes Through the Door This Year';
+    expect(long.length).toBeGreaterThan(110);
+    const a = buildArticle({ ...base, title: long }) as Record<string, string>;
+    expect(a.headline.length).toBeLessThanOrEqual(110);
+    expect(a.headline.endsWith('…')).toBe(true);
+    const withoutEllipsis = a.headline.slice(0, -1);
+    expect(long.startsWith(withoutEllipsis)).toBe(true);
+    expect(withoutEllipsis.endsWith(' ')).toBe(false);
+  });
 });
 
 describe('buildBreadcrumbs', () => {

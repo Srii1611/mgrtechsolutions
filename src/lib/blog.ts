@@ -26,7 +26,7 @@ const EXCERPT_MAX_LENGTH = 280;
 const SEO_TITLE_MAX = 60;
 const META_DESCRIPTION_MAX = 155;
 
-function truncateAtWordBoundary(text: string, max: number): string {
+export function truncateAtWordBoundary(text: string, max: number): string {
   if (text.length <= max) return text;
   const truncated = text.slice(0, max);
   const lastSpace = truncated.lastIndexOf(' ');
@@ -34,18 +34,75 @@ function truncateAtWordBoundary(text: string, max: number): string {
   return `${boundary.replace(/[.,;:!?-]+$/, '')}…`;
 }
 
+const SEO_TITLE_STOP_WORDS = new Set([
+  'to',
+  'and',
+  'the',
+  'a',
+  'an',
+  'or',
+  'of',
+  'for',
+  'in',
+  'on',
+  'with',
+  'that',
+  'how',
+  'is',
+  'are',
+  'can',
+  'but',
+  'as',
+  'at',
+  'by',
+  'from',
+  'your',
+  'its',
+  'it',
+  '—',
+  '–',
+  '&',
+]);
+
+function trimStopWords(s: string): string {
+  const words = s.split(/\s+/).filter(Boolean);
+  while (
+    words.length > 1 &&
+    SEO_TITLE_STOP_WORDS.has(words[words.length - 1].toLowerCase().replace(/[^a-z—–&]/g, ''))
+  ) {
+    words.pop();
+  }
+  return words.join(' ').replace(/[\s:;,—–-]+$/, '');
+}
+
+function truncateSeoSegment(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 1);
+  const sp = cut.lastIndexOf(' ');
+  const base = sp > 15 ? cut.slice(0, sp) : cut;
+  return `${trimStopWords(base)}…`;
+}
+
 function deriveSeoTitle(title: string): string {
   if (title.length <= SEO_TITLE_MAX) return title;
 
   const colonIndex = title.indexOf(': ');
-  if (colonIndex !== -1) {
+  if (colonIndex > 0) {
     const segment = title.slice(0, colonIndex);
-    if (segment.length >= 15 && segment.length <= SEO_TITLE_MAX) {
+    const rest = title.slice(colonIndex + 2);
+    if (segment.length >= 25 && segment.length <= SEO_TITLE_MAX) {
       return segment;
+    }
+    if (segment.length >= 10) {
+      const room = SEO_TITLE_MAX - segment.length - 2;
+      if (room >= 12) {
+        return `${segment}: ${truncateSeoSegment(rest, room)}`;
+      }
+      return truncateSeoSegment(title, SEO_TITLE_MAX);
     }
   }
 
-  return truncateAtWordBoundary(title, 57);
+  return truncateSeoSegment(title, SEO_TITLE_MAX);
 }
 
 function deriveMetaDescription(excerpt: string): string {
