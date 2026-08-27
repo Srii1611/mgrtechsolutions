@@ -29,7 +29,7 @@ export default function AboutHero() {
 
           <div className="relative mx-auto w-full max-w-sm">
             <Image
-              src="/about-portrait.png"
+              src="/about-portrait.webp"
               alt={ABOUT_HERO.portraitAlt}
               width={480}
               height={600}

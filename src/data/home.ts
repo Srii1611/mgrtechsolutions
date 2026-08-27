@@ -53,7 +53,7 @@ export const WORK = {
   cta: 'See all 7 projects',
   projects: [
     {
-      image: '/work/emanuel-blueboard.png',
+      image: '/work/emanuel-blueboard.webp',
       live: true,
       name: 'Emanuel Blueboard Corporation',
       category: 'PLASTERING & BLUEBOARD · FRAMINGHAM, MA',
@@ -61,7 +61,7 @@ export const WORK = {
         'Rebuilt from a one-page brochure into a site that answers every question a homeowner asks before calling.',
     },
     {
-      image: '/work/master-tile.png',
+      image: '/work/master-tile.webp',
       live: true,
       name: 'Master Tile Installation',
       category: 'TILE & STONE · FRAMINGHAM, MA',
@@ -69,35 +69,35 @@ export const WORK = {
         'Gallery-first design — the work does the selling, the phone number does the closing.',
     },
     {
-      image: '/work/lj-landscaping.png',
+      image: '/work/lj-landscaping.webp',
       live: true,
       name: 'L&J Landscaping',
       category: 'LANDSCAPING · METROWEST MA',
       outcome: 'Seasonal services structured so Google understands every one of them.',
     },
     {
-      image: '/work/chaubandi-boutique.png',
+      image: '/work/chaubandi-boutique.webp',
       live: false,
       name: 'Chaubandi Boutique',
       category: 'FASHION RETAIL · ARLINGTON, MA',
       outcome: "Demo: how a boutique's fabric photography should carry the whole page.",
     },
     {
-      image: '/work/eurotech-motorsports.png',
+      image: '/work/eurotech-motorsports.webp',
       live: false,
       name: 'Eurotech Motorsports',
       category: 'EUROPEAN AUTO · NATICK, MA',
       outcome: 'Demo: dark, fast, service-menu layout for a performance shop.',
     },
     {
-      image: '/work/route126-puppies.png',
+      image: '/work/route126-puppies.webp',
       live: false,
       name: 'Route 126 Exotic Puppies',
       category: 'PUPPY YOGA & PET EVENTS · METROWEST, MA',
       outcome: 'Demo: trust-first structure for a business where buyers are skeptical.',
     },
     {
-      image: '/work/fortes-parts.png',
+      image: '/work/fortes-parts.webp',
       live: false,
       name: "Forte's Parts Connection",
       category: 'AUTO PARTS E-COMMERCE · FRAMINGHAM, MA',
