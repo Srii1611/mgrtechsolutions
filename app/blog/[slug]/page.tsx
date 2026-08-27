@@ -22,9 +22,15 @@ export async function generateMetadata({
   if (!post) return {};
 
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: { absolute: post.seoTitle },
+    description: post.metaDescription,
     alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: {
+      title: post.title,
+      description: post.metaDescription,
+      type: 'article',
+      url: `/blog/${post.slug}`,
+    },
   };
 }
 

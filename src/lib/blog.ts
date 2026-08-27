@@ -15,11 +15,42 @@ export type Post = {
   readTime: number;
   headings: BlogHeading[];
   body: string;
+  seoTitle: string;
+  metaDescription: string;
+  datePublished?: string;
 };
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'blog');
 const WORDS_PER_MINUTE = 225;
 const EXCERPT_MAX_LENGTH = 280;
+const SEO_TITLE_MAX = 60;
+const META_DESCRIPTION_MAX = 155;
+
+function truncateAtWordBoundary(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const truncated = text.slice(0, max);
+  const lastSpace = truncated.lastIndexOf(' ');
+  const boundary = lastSpace > 0 ? truncated.slice(0, lastSpace) : truncated;
+  return `${boundary.replace(/[.,;:!?-]+$/, '')}…`;
+}
+
+function deriveSeoTitle(title: string): string {
+  if (title.length <= SEO_TITLE_MAX) return title;
+
+  const colonIndex = title.indexOf(': ');
+  if (colonIndex !== -1) {
+    const segment = title.slice(0, colonIndex);
+    if (segment.length >= 15 && segment.length <= SEO_TITLE_MAX) {
+      return segment;
+    }
+  }
+
+  return truncateAtWordBoundary(title, 57);
+}
+
+function deriveMetaDescription(excerpt: string): string {
+  return truncateAtWordBoundary(excerpt, META_DESCRIPTION_MAX - 1);
+}
 
 export function slugifyHeading(text: string): string {
   return text
@@ -123,16 +154,20 @@ function loadPosts(): Post[] {
     }
 
     const body = content.trim() + '\n';
+    const excerpt = extractExcerpt(body);
 
     return {
       slug,
       title: data.title,
       category: typeof data.category === 'string' ? data.category : '',
       categorySlug: data.categorySlug,
-      excerpt: extractExcerpt(body),
+      excerpt,
       readTime: Math.max(1, Math.round(countWords(body) / WORDS_PER_MINUTE)),
       headings: extractHeadings(body),
       body,
+      seoTitle: deriveSeoTitle(data.title),
+      metaDescription: deriveMetaDescription(excerpt),
+      datePublished: typeof data.datePublished === 'string' ? data.datePublished : undefined,
     };
   });
 

@@ -165,3 +165,55 @@ describe('heading id parity between lib and ArticleBody', () => {
     }
   });
 });
+
+describe('seoTitle', () => {
+  it('gives every post a seoTitle of 60 characters or fewer', () => {
+    for (const p of posts) {
+      expect(p.seoTitle.length).toBeLessThanOrEqual(60);
+      expect(p.seoTitle.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('keeps short titles unchanged', () => {
+    const short = posts.find((p) => p.title.length <= 60);
+    if (short) expect(short.seoTitle).toBe(short.title);
+  });
+
+  it('prefers the segment before a colon for long titles', () => {
+    // Verified against the real corpus before writing this assertion.
+    const p = getPost('5-reasons-losing-leads-online')!;
+    expect(p.title.length).toBeGreaterThan(60);
+    expect(p.seoTitle).toBe('Why Your Phone Stopped Ringing');
+  });
+
+  it('never leaves a dangling separator', () => {
+    for (const p of posts) {
+      expect(p.seoTitle.trim().endsWith(':')).toBe(false);
+      expect(p.seoTitle.trim().endsWith('-')).toBe(false);
+    }
+  });
+});
+
+describe('metaDescription', () => {
+  it('caps every description at 155 characters', () => {
+    for (const p of posts) {
+      expect(p.metaDescription.length).toBeLessThanOrEqual(155);
+      expect(p.metaDescription.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('does not cut mid-word', () => {
+    for (const p of posts) {
+      if (p.metaDescription.endsWith('…')) {
+        const body = p.metaDescription.slice(0, -1).trimEnd();
+        expect(body.endsWith(' ')).toBe(false);
+      }
+    }
+  });
+});
+
+describe('datePublished', () => {
+  it('is absent when no frontmatter date exists', () => {
+    for (const p of posts) expect(p.datePublished).toBeUndefined();
+  });
+});
