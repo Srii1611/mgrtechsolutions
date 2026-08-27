@@ -21,9 +21,9 @@ export default function AboutPage() {
       <Values />
       <ServiceArea />
       <CtaBand
-        eyebrow={ABOUT.serviceArea.eyebrow}
-        heading={ABOUT.serviceArea.footnote}
-        body={ABOUT.story.pullQuote}
+        eyebrow={ABOUT.close.eyebrow}
+        heading={ABOUT.close.heading}
+        body={ABOUT.close.body}
       />
     </>
   );

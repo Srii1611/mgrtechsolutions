@@ -54,7 +54,6 @@ export default function CaseBlocks() {
                         href={liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        title={CASE_BLOCK.liveLinkTitle}
                         className="mt-5 inline-flex items-center gap-2 font-medium text-accent-ink transition-colors hover:underline"
                       >
                         {CASE_BLOCK.liveLinkLabel}

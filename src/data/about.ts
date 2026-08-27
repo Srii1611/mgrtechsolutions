@@ -96,9 +96,21 @@ export const SERVICE_AREA = {
   ],
 } as const;
 
+/**
+ * Closing CTA.
+ * CONTROLLER-AUTHORED copy, pending owner approval — written to replace
+ * recycled text, not supplied by the client. Srii should review and replace.
+ */
+export const ABOUT_CLOSE = {
+  eyebrow: '— START HERE',
+  heading: "Still reading? Let's talk.",
+  body: "One 30-minute call tells us both whether this is a fit. No script, no pressure — and if it isn't, I'll say so and point you somewhere better.",
+} as const;
+
 export const ABOUT = {
   hero: ABOUT_HERO,
   story: STORY,
   values: VALUES,
   serviceArea: SERVICE_AREA,
+  close: ABOUT_CLOSE,
 } as const;

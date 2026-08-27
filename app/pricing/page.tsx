@@ -4,6 +4,8 @@ import Packages from '@/components/pricing/Packages';
 import ValueAnchor from '@/components/pricing/ValueAnchor';
 import AlwaysIncluded from '@/components/pricing/AlwaysIncluded';
 import PricingFaq from '@/components/pricing/PricingFaq';
+import CtaBand from '@/components/blog/CtaBand';
+import { PRICING_CLOSE } from '@/data/pricing-page';
 
 export const metadata: Metadata = {
   title: 'Pricing',
@@ -20,6 +22,11 @@ export default function PricingPage() {
       <ValueAnchor />
       <AlwaysIncluded />
       <PricingFaq />
+      <CtaBand
+        eyebrow={PRICING_CLOSE.eyebrow}
+        heading={PRICING_CLOSE.heading}
+        body={PRICING_CLOSE.body}
+      />
     </>
   );
 }

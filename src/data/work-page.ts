@@ -28,13 +28,12 @@ export const LEGEND_STRIP = {
     label: 'DEMO',
     note: 'BUILT BY ME TO SHOW THE APPROACH — LABELED, ALWAYS',
   },
-  jumpAriaLabel: 'Jump to a project',
+  ariaLabel: 'What live and demo mean',
 } as const;
 
 /** S3 — Per-case-block copy that isn't part of the project data itself. */
 export const CASE_BLOCK = {
   liveLinkLabel: 'Visit live site',
-  liveLinkTitle: 'Live site link available on request',
   demoNote: 'DEMO BUILD — NOT A LIVE CLIENT SITE',
 } as const;
 

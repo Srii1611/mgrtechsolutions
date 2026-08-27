@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FAQ_HERO } from '@/data/faq';
+import { SITE } from '@/data/site';
 
 /** S1 — FAQ hero (dark). */
 export default function FaqHero() {
@@ -23,7 +24,12 @@ export default function FaqHero() {
           <span className="mt-1 block text-accent">{FAQ_HERO.headlineAccent}</span>
         </h1>
 
-        <p className="lede mt-8 max-w-xl text-mist">{FAQ_HERO.lede}</p>
+        <p className="lede mt-8 max-w-xl text-mist">
+          {FAQ_HERO.lede}{' '}
+          <a href={SITE.phoneHref} className="font-medium text-accent hover:underline">
+            {SITE.phone}
+          </a>
+        </p>
       </div>
     </section>
   );

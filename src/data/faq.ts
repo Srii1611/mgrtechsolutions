@@ -112,7 +112,18 @@ export const FAQ_GROUPS: FaqGroup[] = [
   },
 ];
 
+/**
+ * Closing CTA.
+ * CONTROLLER-AUTHORED copy, pending owner approval. Srii should review.
+ */
+export const FAQ_CLOSE = {
+  eyebrow: '— STILL WONDERING?',
+  heading: "Ask the question that isn't here.",
+  body: "Call and ask anything — pricing, timing, whether you even need a new site. You'll get a straight answer from the person who'd build it.",
+} as const;
+
 export const FAQ = {
   hero: FAQ_HERO,
   groups: FAQ_GROUPS,
+  close: FAQ_CLOSE,
 } as const;

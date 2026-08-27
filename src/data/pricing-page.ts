@@ -26,7 +26,7 @@ export const PACKAGES = {
       price: 'FROM $X,XXX',
       includes: [
         'Custom design — no templates, ever',
-        'Up to N pages, structured for local search',
+        'Up to X pages, structured for local search',
         'Mobile-first, loads in under 2 seconds',
         'Google Business Profile setup',
         'Domain, hosting & SSL setup (in your name)',
@@ -140,10 +140,21 @@ export const PRICING_FAQ = {
   ],
 } as const;
 
+/**
+ * Closing CTA.
+ * CONTROLLER-AUTHORED copy, pending owner approval. Srii should review.
+ */
+export const PRICING_CLOSE = {
+  eyebrow: '— YOUR NUMBER',
+  heading: 'Get your actual price.',
+  body: 'The figures above are starting points. One 30-minute call and you get a firm quote in writing — no hourly meters, no surprise invoices.',
+} as const;
+
 export const PRICING_PAGE = {
   hero: PRICING_HERO,
   packages: PACKAGES,
   valueAnchor: VALUE_ANCHOR,
   alwaysIncluded: ALWAYS_INCLUDED,
   faq: PRICING_FAQ,
+  close: PRICING_CLOSE,
 } as const;

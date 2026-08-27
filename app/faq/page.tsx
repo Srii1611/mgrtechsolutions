@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import FaqHero from '@/components/faq/FaqHero';
 import FaqAccordion from '@/components/faq/FaqAccordion';
+import CtaBand from '@/components/blog/CtaBand';
+import { FAQ_CLOSE } from '@/data/faq';
 
 export const metadata: Metadata = {
   title: 'FAQ',
@@ -14,6 +16,11 @@ export default function FaqPage() {
     <>
       <FaqHero />
       <FaqAccordion />
+      <CtaBand
+        eyebrow={FAQ_CLOSE.eyebrow}
+        heading={FAQ_CLOSE.heading}
+        body={FAQ_CLOSE.body}
+      />
     </>
   );
 }
