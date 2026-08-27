@@ -33,7 +33,7 @@ export default function WorkSection() {
           {WORK.projects.map((project, i) => (
             <Reveal key={project.name} delay={i * 0.06}>
               <article className="h-full overflow-hidden rounded-2xl border border-forest-700 bg-forest-900">
-                <div className="relative aspect-[16/10] w-full">
+                <div className="relative aspect-[3/2] w-full">
                   <Image
                     src={project.image}
                     alt={`${project.name} website`}

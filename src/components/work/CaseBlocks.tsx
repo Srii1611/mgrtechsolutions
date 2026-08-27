@@ -25,7 +25,7 @@ export default function CaseBlocks() {
             return (
               <Reveal key={project.name} delay={i * 0.06}>
                 <article className="h-full overflow-hidden rounded-2xl border border-cream-300 bg-cream-50">
-                  <div className="relative aspect-[16/10] w-full">
+                  <div className="relative aspect-[3/2] w-full">
                     <Image
                       src={project.image}
                       alt={`${project.name} website`}
