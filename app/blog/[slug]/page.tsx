@@ -7,6 +7,8 @@ import Toc from '@/components/blog/Toc';
 import CtaBand from '@/components/blog/CtaBand';
 import { getAllPosts, getPost, getRelatedPosts } from '@/lib/blog';
 import { CATEGORY_BY_SLUG } from '@/data/blog-categories';
+import JsonLd from '@/components/JsonLd';
+import { buildArticle, buildBreadcrumbs } from '@/lib/schema';
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
@@ -46,8 +48,27 @@ export default async function BlogPostPage({
   const category = CATEGORY_BY_SLUG.get(post.categorySlug);
   const related = getRelatedPosts(post, 3);
 
+  const breadcrumbItems = [
+    { name: 'Home', url: '/' },
+    { name: 'Blog', url: '/blog' },
+    ...(category
+      ? [{ name: category.name, url: `/blog/category/${category.slug}` }]
+      : []),
+    { name: post.title, url: `/blog/${post.slug}` },
+  ];
+
   return (
     <>
+      <JsonLd
+        data={buildArticle({
+          slug: post.slug,
+          title: post.title,
+          excerpt: post.metaDescription,
+          category: post.category,
+          datePublished: post.datePublished,
+        })}
+      />
+      <JsonLd data={buildBreadcrumbs(breadcrumbItems)} />
       <section className="bg-cream-50 pb-10 pt-24 md:pt-28">
         <div className="container-page">
           <nav aria-label="Breadcrumb" className="eyebrow text-ink-soft">

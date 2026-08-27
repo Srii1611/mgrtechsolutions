@@ -4,6 +4,8 @@ import { MotionConfig } from 'framer-motion';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SmoothScroll from '@/components/motion/SmoothScroll';
+import JsonLd from '@/components/JsonLd';
+import { buildLocalBusiness, buildWebSite } from '@/lib/schema';
 import { SITE } from '@/data/site';
 import './globals.css';
 
@@ -38,6 +40,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
+        <JsonLd data={buildLocalBusiness()} />
+        <JsonLd data={buildWebSite()} />
         <a href="#main" className="skip-link">
           Skip to main content
         </a>

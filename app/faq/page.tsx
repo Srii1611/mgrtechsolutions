@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import FaqHero from '@/components/faq/FaqHero';
 import FaqAccordion from '@/components/faq/FaqAccordion';
 import CtaBand from '@/components/blog/CtaBand';
-import { FAQ_CLOSE } from '@/data/faq';
+import JsonLd from '@/components/JsonLd';
+import { buildFaqPage } from '@/lib/schema';
+import { FAQ_CLOSE, FAQ_GROUPS } from '@/data/faq';
 
 export const metadata: Metadata = {
   title: 'FAQ',
@@ -12,8 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default function FaqPage() {
+  const items = FAQ_GROUPS.flatMap((group) => group.items);
+
   return (
     <>
+      <JsonLd data={buildFaqPage(items)} />
       <FaqHero />
       <FaqAccordion />
       <CtaBand
