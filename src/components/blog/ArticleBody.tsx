@@ -113,6 +113,12 @@ export default function ArticleBody({ markdown }: { markdown: string }) {
           ),
           strong: ({ children }) => <strong className="font-semibold text-forest-950">{children}</strong>,
           em: ({ children }) => <em className="italic">{children}</em>,
+          input: (props) => {
+            if (props.type !== 'checkbox') {
+              return <input {...props} />;
+            }
+            return <input {...props} aria-hidden="true" />;
+          },
         }}
       >
         {markdown}

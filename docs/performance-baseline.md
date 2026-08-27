@@ -77,7 +77,7 @@ this baseline, not the port-3000 instance the site owner was browsing).
 |---|---:|---:|---:|---:|---:|---:|---:|
 | `/` | 98 | 100 | 100 | 100 | 1.1 s | 0 | 0 ms |
 | `/work` | 100 | 100 | 100 | 100 | 0.6 s | 0 | 0 ms |
-| `/blog/local-seo-101` | 100 | 94 | 100 | 100 | 0.6 s | 0 | 0 ms |
+| `/blog/local-seo-101` | 100 | 100 | 100 | 100 | 0.6 s | 0 | 0 ms |
 
 (`/about` was also run to determine the LCP element for the `priority`
 question above: perf 100, LCP 0.7 s.)
@@ -98,8 +98,8 @@ question above: perf 100, LCP 0.7 s.)
 - `network-dependency-tree-insight` (score 0) — "Network dependency tree"
 - `render-blocking-insight` (score 0.5) — "Render-blocking requests"
 
-**`/blog/local-seo-101` — a11y 94:**
-- `label` (score 0) — "Form elements do not have associated labels" — a real accessibility finding worth fixing (a form control on this page, likely the newsletter/contact form in a shared layout component, has no associated `<label>`)
+**`/blog/local-seo-101` — a11y 100 (fixed, was 94):**
+- `label` was previously flagged (score 0) — the root cause was not a form on the page, but the "Quick Checklist" GFM task lists (`- [ ] item`) at the end of every article, which `react-markdown` + `remark-gfm` render as `<input type="checkbox" disabled>` with no accessible name. Fixed in `src/components/blog/ArticleBody.tsx` by adding an `input` renderer that spreads through the original props and adds `aria-hidden="true"` to checkbox inputs, removing them from the accessibility tree (they remain `disabled`, non-focusable, and visually unchanged — the list item text already carries the content). Re-measured accessibility score: 100.
 - `unused-javascript` (score 0) — "Reduce unused JavaScript" — est. savings 128 KiB
 - `legacy-javascript-insight` (score 0) — "Legacy JavaScript" — est. savings 13 KiB
 - `network-dependency-tree-insight` (score 0) — "Network dependency tree"
@@ -111,8 +111,8 @@ The `unused-javascript`, `legacy-javascript-insight`,
 diagnostic audits that always report a low score when there is any
 measurable estimate, independent of the numeric category score. They are
 noted here as-is per the reporting requirement; none blocked a 90+
-category score. The one actionable accessibility finding is the missing
-form label on the blog post page — recommended as a Phase 9 fix.
+category score. The `label` accessibility finding on the blog post page
+has been fixed (see above).
 
 ## Notes for Phase 9
 
