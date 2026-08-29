@@ -304,9 +304,9 @@ export const OBJECTIONS = {
 } as const;
 
 export const PROCESS = {
-  eyebrow: '— YOUR PART: 30 MINUTES',
+  eyebrow: '— YOUR PART: 90 MINUTES',
   lede:
-    'You run your business; I build the site. Your total time investment is one 30-minute call and one look at the design before launch. Everything else — writing, coding, setup, launch — is on me.',
+    'You run your business; I build the site. Your total time investment is about 90 minutes: one conversation at the start, then two short reviews. Everything else — writing, coding, setup, launch — is on me.',
   primaryCta: 'Start with a call',
   secondaryCta: 'Full process details',
   phases: [
@@ -452,7 +452,7 @@ export const BANDS = [
   'SECTION 02 · HOW THE WORK ACTUALLY WORKS',
   'SECTION 03 · THE WORK',
   'SECTION 04 · THE QUESTIONS PEOPLE ACTUALLY ASK',
-  'SECTION 05 · YOUR PART: 30 MINUTES',
+  'SECTION 05 · YOUR PART: 90 MINUTES',
   'SECTION 06 · THE HONEST COMPARISON',
   'SECTION 07 · PRICING, ON THE TABLE',
   'SECTION 08 · TWO WAYS TO START',

@@ -8,7 +8,7 @@ import ProcessClose from '@/components/process/ProcessClose';
 export const metadata: Metadata = {
   title: 'Process',
   description:
-    'A 15-day process where your total time investment is one phone call and one design review — everything else is ours to run.',
+    'A 15-day process where your total time investment is about 90 minutes — everything else is ours to run.',
   alternates: { canonical: '/process' },
 };
 

@@ -10,9 +10,9 @@ export const PROCESS_HERO = {
   breadcrumb: 'PROCESS',
   eyebrow: '— THE PROCESS',
   headline: 'Your part:',
-  headlineAccent: '30 minutes.',
+  headlineAccent: '90 minutes.',
   lede:
-    "You're running a business. The last thing you need is a second job managing a website project. So I built a process where your total time investment is one phone call and one design review — and everything else is mine.",
+    "You're running a business. The last thing you need is a second job managing a website project. So I built a process where your total time investment is about 90 minutes across one conversation and two reviews — and everything else is mine.",
   countdown: {
     line1: 'CALL',
     arrow: '→',
