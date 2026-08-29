@@ -118,9 +118,9 @@ export const WORK = {
   headline: 'Real sites. Real labels.',
   headlineAccent: 'No stock portfolio theater.',
   lede:
-    "Three of these are live client sites. Four are demos I built to show the approach. You'll never have to guess which is which.",
+    "Three of these are live client sites, two are demos built to show the approach. You'll never have to guess which is which.",
   legend: 'LIVE = A REAL CLIENT’S REAL SITE · DEMO = BUILT TO SHOW THE APPROACH',
-  cta: 'See all 7 projects',
+  cta: 'See all 5 projects',
   projects: [
     {
       image: '/work/emanuel-blueboard.webp',

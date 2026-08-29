@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import Reveal from '@/components/motion/Reveal';
+import WorkShowcaseGrid from '@/components/work/WorkShowcaseGrid';
 import { WORK } from '@/data/home';
 
 /** SECTION 03 — The work (dark). Renders all seven projects. */
@@ -29,38 +29,8 @@ export default function WorkSection() {
           <p className="eyebrow mt-6 text-mist">{WORK.legend}</p>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2">
-          {WORK.projects.map((project, i) => (
-            <Reveal key={project.name} delay={i * 0.06}>
-              <article className="h-full overflow-hidden rounded-2xl border border-forest-700 bg-forest-900">
-                <div className="relative aspect-[3/2] w-full">
-                  <Image
-                    src={project.image}
-                    alt={`${project.name} website`}
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover"
-                  />
-                  <span
-                    className={
-                      project.live
-                        ? 'absolute left-4 top-4 rounded-full bg-accent px-3 py-1 text-xs font-medium text-forest-950'
-                        : 'absolute left-4 top-4 rounded-full border border-mist px-3 py-1 text-xs font-medium text-mist'
-                    }
-                  >
-                    {project.live ? 'LIVE' : 'DEMO'}
-                  </span>
-                </div>
-                <div className="p-6">
-                  <h3 className="h3-card font-medium text-cream-50">{project.name}</h3>
-                  <p className="eyebrow mt-2 text-mist">{project.category}</p>
-                  <p className="mt-3 text-[1.0625rem] leading-[1.7] text-mist">
-                    {project.outcome}
-                  </p>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+        <div className="mt-14">
+          <WorkShowcaseGrid />
         </div>
 
         <Reveal delay={0.15}>
