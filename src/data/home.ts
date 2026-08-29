@@ -176,29 +176,77 @@ export const WORK = {
   ],
 } as const;
 
-/** S4 — Pain */
-export const PAINS = {
-  eyebrow: '— SOUND FAMILIAR?',
-  closing: 'IF YOU NODDED AT ANY OF THESE — THE REST OF THIS PAGE IS FOR YOU.',
+/**
+ * S4 — The questions people actually ask.
+ *
+ * INCOMPLETE: items 01–05 have not been supplied yet. The owner's list was
+ * numbered 6–11 and the first five were truncated out of the paste. They are
+ * NOT invented here — every answer carries specific statistics with named
+ * sources, and fabricating five more in that register would mean inventing
+ * numbers (hard rule 3). Add them to the front of `items` when they arrive;
+ * the component numbers entries from their array position, so nothing else
+ * needs to change.
+ *
+ * Statistics are quoted from the owner's research as supplied. `sources` are
+ * shown to the reader, because answers this stat-heavy are worth attributing.
+ * The figures have not been independently verified.
+ */
+export const OBJECTIONS = {
+  eyebrow: '— THE QUESTIONS PEOPLE ACTUALLY ASK',
+  headline: 'Fair questions, straight answers.',
+  lede:
+    "The things owners ask me on a first call, answered the way I'd answer them on the phone — with the numbers behind them, so you can check my work.",
+  closing:
+    "If yours isn't here, ask it on the phone. You'll get the same kind of answer.",
+
   items: [
     {
-      quote: "I paid for a website three years ago. It's never once made the phone ring.",
-      body: 'The site was built to look finished, not to get found. Those are different jobs.',
+      q: 'Do reviews really matter that much?',
+      a: [
+        "The bar moved hard in one year. BrightLocal's 2026 survey of 1,002 US adults found 97% of consumers read reviews before choosing a local business. The share who will only use a business rated 4.5 or above nearly doubled, from 17% to 31%. And 47% won't consider a business with fewer than 20 reviews.",
+        '41% now say they "always" read reviews, up from 29% the year before. Housecall Pro\'s homeowner survey found 72% of homeowners would pay up to 10% more for a contractor with a stronger service reputation.',
+      ],
+      sources: ['BrightLocal Local Consumer Review Survey 2026', 'Housecall Pro homeowner survey'],
     },
     {
-      quote:
-        "My competitor down the road shows up everywhere and his work isn't better than mine.",
-      body: "He's not better. His Google profile is. That's fixable, and it's not magic.",
+      q: 'Does ChatGPT matter for my business?',
+      a: [
+        "BrightLocal's 2026 survey shows AI tools jumping from 6% to 45% of local-business discovery in a single year — making AI the third discovery channel behind Google and Facebook. Google's own share of local discovery fell from 83% to 71% over the same period.",
+        "In Google there's a page two. In an AI answer there isn't.",
+      ],
+      sources: ['BrightLocal LCRS 2026', 'Hook Agency — how homeowners research contractors'],
     },
     {
-      quote:
-        'I get inquiries through the website, but half of them never hear back from me in time.',
-      body: "That's not a discipline problem. That's a missing follow-up system.",
+      q: 'How long before I see results?',
+      a: [
+        'An honest answer beats a promise. Some tactics deliver leads in weeks; SEO and brand growth take several months.',
+        'Businesses running ads and a fixed-up online presence typically see movement within 30 to 60 days, with durable results taking a few months of consistency.',
+      ],
+      sources: ['LeadsNearby', 'DewBwah contractor FAQ'],
     },
     {
-      quote: "I know I need to do something about all this. I just don't have the time.",
-      body:
-        "That's the whole point of how I work: one 30-minute call, then I take it from there.",
+      q: 'What should this cost me?',
+      a: [
+        'Most home service companies spend 5–10% of revenue on marketing. But the better measure is cost per lead and cost per booked job — spend means nothing without those two numbers beside it.',
+        "Pricing is the question prospects most want answered and agencies most often avoid. Ours is on the page, in the open, before you call.",
+      ],
+      sources: ['LeadsNearby', 'Smith.ai — agency FAQ guide'],
+    },
+    {
+      q: 'I paid someone before and got nothing. Why are you different?',
+      a: [
+        'Usually they failed because they over-promised and under-delivered. That is worth saying plainly rather than dancing around.',
+        'Two questions separate a real partner from a cold call, and you should ask them of us too. Who will actually be doing the work, and how do I contact them? And do I own the accounts I am paying for — domain, Google Business Profile, ad accounts, analytics?',
+      ],
+      sources: ['Esker Designs — 5 questions to ask any agency', 'LeadsNearby'],
+    },
+    {
+      q: 'My site is fine, it just looks a bit old.',
+      a: [
+        "Speed is the measurable half, and it's brutal. Google's Deloitte study found a 0.1-second mobile speed improvement correlated with an 8.3% better bounce rate on lead-generation pages, and 21.6% more users reaching the form submission page.",
+        'Portent found sites loading in 1 second converted at 3.05%, against 0.67% at 4 seconds. Google and SOASTA found mobile bounce probability rose 32% as load time went from 1 to 3 seconds.',
+      ],
+      sources: ['Deloitte — Milliseconds Make Millions', 'Portent', 'Google / SOASTA'],
     },
   ],
 } as const;
@@ -450,34 +498,6 @@ export const PRICING = {
   ],
 } as const;
 
-/** S12 — FAQ teaser */
-export const FAQ_TEASER = {
-  eyebrow: '— FAIR QUESTIONS',
-  cta: 'Read all the questions',
-  items: [
-    {
-      q: 'How much does a website cost?',
-      a: 'Depends on scope; packages start at the numbers on this page and the final quote is locked after one call. No hourly meters, no surprise invoices.',
-    },
-    {
-      q: 'How long does it take?',
-      a: 'Five weeks from our first call to launch, for a standard build. Rebuilds and larger sites get a timeline in writing before we start.',
-    },
-    {
-      q: 'Do I own my website?',
-      a: 'Yes. The domain, the content, the site — yours. If you ever leave, everything goes with you.',
-    },
-    {
-      q: 'What do you need from me to start?',
-      a: 'One 30-minute phone call and access to any existing accounts. I handle the writing, photos guidance, and everything technical.',
-    },
-    {
-      q: 'What is "AI automation," really?',
-      a: 'Mostly unglamorous, useful things: instant replies to inquiries, follow-up messages that go out on their own, and systems that make sure no lead gets forgotten.',
-    },
-  ],
-} as const;
-
 /** S13 — Dual close */
 export const DUAL_CLOSE = {
   eyebrow: '— TWO WAYS TO START',
@@ -493,7 +513,7 @@ export const DUAL_CLOSE = {
 export const BANDS = [
   'SECTION 02 · HOW THE WORK ACTUALLY WORKS',
   'SECTION 03 · THE WORK',
-  'SECTION 04 · SOUND FAMILIAR?',
+  'SECTION 04 · THE QUESTIONS PEOPLE ACTUALLY ASK',
   'SECTION 05 · THE SHIFT',
   'SECTION 06 · ONE SYSTEM',
   'SECTION 07 · WHY IT RINGS',
@@ -501,6 +521,5 @@ export const BANDS = [
   'SECTION 09 · YOUR PART: 30 MINUTES',
   'SECTION 10 · THE HONEST COMPARISON',
   'SECTION 11 · PRICING, ON THE TABLE',
-  'SECTION 12 · FAIR QUESTIONS',
-  'SECTION 13 · TWO WAYS TO START',
+  'SECTION 12 · TWO WAYS TO START',
 ] as const;
