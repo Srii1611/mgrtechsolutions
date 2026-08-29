@@ -52,7 +52,7 @@ export const PILLAR_WEBSITES = {
     'Local SEO structure baked in: towns, services, schema markup',
     'Google Business Profile setup and connection',
     'Domain, hosting, SSL — set up, explained, and in your name',
-    'Launch in 5 weeks, with a private preview along the way',
+    'Launch in 15 days, with a private preview along the way',
   ],
   specSheetLabel: 'SPEC SHEET',
   specRows: [

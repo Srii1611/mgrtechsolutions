@@ -83,7 +83,7 @@ export const EFFORT_LEDGER = {
     ['Meetings before anything starts', '3–4 intro calls', 'One 30-minute call'],
     ['People you explain your business to', 'Sales rep → PM → designer → dev', 'One contact, once'],
     ['Your hours on the project', '10–20 hours', 'Under 1 hour'],
-    ['Timeline', '3–6 months', '5 weeks'],
+    ['Timeline', '3–6 months', '15 days'],
     ['After launch', 'Ticket queue', 'Call the person who built it'],
   ],
   totals: {

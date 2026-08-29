@@ -14,7 +14,7 @@ export const HERO = {
   lede:
     "You've paid for a website before. It looked fine. It never rang. I build hand-coded websites for MetroWest businesses that are engineered to do one thing: turn nearby searches into phone calls.",
   secondaryCta: 'See the results',
-  strapline: 'ONE POINT OF CONTACT · HAND-CODED, NO TEMPLATES · 5-WEEK BUILDS',
+  strapline: 'ONE POINT OF CONTACT · HAND-CODED, NO TEMPLATES · 15-DAY BUILDS',
 } as const;
 
 /**

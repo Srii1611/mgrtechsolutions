@@ -30,7 +30,7 @@ export const PACKAGES = {
         'Mobile-first, loads in under 2 seconds',
         'Google Business Profile setup',
         'Domain, hosting & SSL setup (in your name)',
-        'Launch in 5 weeks',
+        'Launch in 15 days',
       ],
       goodFor: 'GOOD FOR: BUSINESSES STARTING FROM ZERO OR REPLACING A PLACEHOLDER',
       featured: false,

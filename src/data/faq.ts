@@ -60,7 +60,7 @@ export const FAQ_GROUPS: FaqGroup[] = [
     items: [
       {
         q: 'How long does it take to build a website?',
-        a: 'Five weeks from our first call to launch for a standard build. Rebuilds and larger sites get their own timeline — in writing, before we start — and I hit the dates I commit to.',
+        a: '15 days from our first call to launch for a standard build. Rebuilds and larger sites get their own timeline — in writing, before we start — and I hit the dates I commit to.',
       },
       {
         q: 'Will my website show up on Google?',
