@@ -43,7 +43,7 @@ export const EIGHTH_SLOT = {
   headline: 'This spot is',
   headlineAccent: 'reserved for your business.',
   body:
-    "Every project above started with the same 30-minute phone call. If you want a site that's honestly labeled, hand-coded, and built to ring — the next case study on this page could be yours.",
+    "Every project above started with the same 60-minute phone call. If you want a site that's honestly labeled, hand-coded, and built to ring — the next case study on this page could be yours.",
   callLabel: 'Call',
   secondaryCta: 'See pricing',
   secondaryHref: '/pricing',

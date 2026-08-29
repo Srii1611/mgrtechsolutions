@@ -147,7 +147,7 @@ export const PRICING_FAQ = {
 export const PRICING_CLOSE = {
   eyebrow: '— YOUR NUMBER',
   heading: 'Get your actual price.',
-  body: 'The figures above are starting points. One 30-minute call and you get a firm quote in writing — no hourly meters, no surprise invoices.',
+  body: 'The figures above are starting points. One 60-minute call and you get a firm quote in writing — no hourly meters, no surprise invoices.',
 } as const;
 
 export const PRICING_PAGE = {

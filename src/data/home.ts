@@ -312,8 +312,8 @@ export const PROCESS = {
   phases: [
     {
       week: 'WEEK 1 · DISCOVERY',
-      body: 'One 30-minute call. I learn your business, your customers, and what a good lead looks like.',
-      chip: 'YOU: 30 MIN',
+      body: 'One 60-minute call. I learn your business, your customers, and what a good lead looks like.',
+      chip: 'YOU: 60 MIN',
     },
     {
       week: 'WEEK 2 · DESIGN',
@@ -356,7 +356,7 @@ export const COMPARISON = {
         'Weeks of your own time',
         'Managing a stranger',
         'Meetings with account reps',
-        'One 30-minute call',
+        'One 60-minute call',
       ],
     },
     {
