@@ -177,19 +177,25 @@ export const WORK = {
 } as const;
 
 /**
- * S4 — The questions people actually ask.
+ * S4 — The questions people actually ask. Eleven items.
  *
- * INCOMPLETE: items 01–05 have not been supplied yet. The owner's list was
- * numbered 6–11 and the first five were truncated out of the paste. They are
- * NOT invented here — every answer carries specific statistics with named
- * sources, and fabricating five more in that register would mean inventing
- * numbers (hard rule 3). Add them to the front of `items` when they arrive;
- * the component numbers entries from their array position, so nothing else
- * needs to change.
+ * Statistics are quoted from the owner's research as supplied and have NOT
+ * been independently verified. `sources` render on the page, because answers
+ * leaning this hard on specific figures should show their work.
  *
- * Statistics are quoted from the owner's research as supplied. `sources` are
- * shown to the reader, because answers this stat-heavy are worth attributing.
- * The figures have not been independently verified.
+ * KNOWN CONFLICT with STAGES (section 02), flagged rather than silently
+ * reconciled:
+ *   - Item 05 here cites Invoca: home service companies miss 27% of calls.
+ *     STAGES stage 03 says small businesses answer "about 38%" of calls,
+ *     i.e. miss ~62%. Both appear on the same page. Pick one.
+ *   - Item 04 here repeats the 100x / 21x five-minute figures verbatim from
+ *     STAGES stage 03.
+ *
+ * Research notes addressed to the developer rather than the reader were
+ * removed from the answers ("Strongest data in the whole set", "Use the
+ * conservative number here", "This is your existing Section 04 line",
+ * "which is exactly why your pricing table (image 2) is a differentiator",
+ * "new question, and the one no competitor's FAQ page answers well").
  */
 export const OBJECTIONS = {
   eyebrow: '— THE QUESTIONS PEOPLE ACTUALLY ASK',
@@ -200,6 +206,52 @@ export const OBJECTIONS = {
     "If yours isn't here, ask it on the phone. You'll get the same kind of answer.",
 
   items: [
+    {
+      q: 'Do I even need a website? Most of my work is referrals.',
+      a: [
+        'The referral still checks you out. 98% of consumers search online before hiring a home services business, and 97% of homeowners say response speed influences who they hire.',
+        'A homeowner may search your company name, scan your reviews, and decide whether to contact you at all — before your team gets any chance to respond.',
+      ],
+      sources: [
+        'CallRail — home services marketing statistics',
+        'MarketSharp — 2026 Homeowner Trust Gap',
+      ],
+    },
+    {
+      q: "I have a Google Business Profile. Isn't that enough?",
+      a: [
+        "It's the biggest single lever, not the whole system. Whitespark's 2026 survey of 47 local SEO experts puts Google Business Profile signals at 32% of local pack weight, reviews at around 20%, and on-page SEO at 19% — so roughly a fifth of ranking weight sits on the website itself.",
+        'Being listed as open at the time of the search is now the fifth most important local pack factor.',
+      ],
+      sources: ['Whitespark Local Search Ranking Factors 2026'],
+    },
+    {
+      q: 'Why does my competitor outrank me when my work is better?',
+      a: [
+        'Ranking is category, proximity, profile completeness and review signals — not craftsmanship. Google has no way to see how good your work is.',
+        'Primary category, proximity to the searcher, and keywords in the business title remain the top three local pack factors, and behavioural signals have climbed sharply in importance.',
+      ],
+      sources: ['Whitespark Local Search Ranking Factors 2026'],
+    },
+    {
+      q: 'How fast do I really need to call people back?',
+      a: [
+        'The MIT and InsideSales Lead Response Management study found that contacting a web lead within 5 minutes rather than 30 makes you 100 times more likely to connect and 21 times more likely to qualify them — measured across six companies and more than 15,000 leads.',
+        'A separate Harvard Business Review audit of 2,241 US companies found an average first response time of 42 hours. Firms responding within an hour were 7 times more likely to reach a decision-maker than those waiting one hour longer, and 60 times more likely than those waiting a day.',
+      ],
+      sources: [
+        'MIT / InsideSales — Lead Response Management study',
+        'Harvard Business Review (2011)',
+      ],
+    },
+    {
+      q: 'How many calls am I actually missing?',
+      a: [
+        "Invoca's research found home service companies miss 27% of inbound calls.",
+        "41% of jobs booked online come in after hours, and 86% of people won't answer a number they don't recognise.",
+      ],
+      sources: ['Invoca (2023)', 'CallRail'],
+    },
     {
       q: 'Do reviews really matter that much?',
       a: [
