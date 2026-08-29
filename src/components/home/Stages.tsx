@@ -1,6 +1,7 @@
 import { MapPin, MousePointerClick, PhoneCall, Check } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import StageBeam from '@/components/motion/StageBeam';
+import PhoneMock from '@/components/home/PhoneMock';
 import { STAGES } from '@/data/home';
 import { SITE } from '@/data/site';
 
@@ -64,16 +65,24 @@ function StageBeamGroup() {
         forced a horizontal scrollbar on every page view.
       */}
       <StageBeam>
-        <div className="container-page">
-          <Stage stage={one} />
+        {/*
+          TWO PINNED SEGMENTS, not one. The hinge band sits between stages 02
+          and 03 and that placement is deliberate, so the phone has to release
+          there. Segment A covers stages 01–02, segment B covers stage 03.
+
+          In Phase 2 these become the ScrollTrigger pins; the `lg:sticky` here
+          is the JS-free structure they will replace.
+        */}
+        <Segment screen="found">
+          <Stage stage={one} screen="found" />
           <Stage stage={two} />
-        </div>
+        </Segment>
 
         <Hinge />
 
-        <div className="container-page">
-          <Stage stage={three} emphasis />
-        </div>
+        <Segment screen="followup">
+          <Stage stage={three} emphasis screen="followup" />
+        </Segment>
       </StageBeam>
 
       <div className="container-page">
@@ -83,12 +92,43 @@ function StageBeamGroup() {
   );
 }
 
+/**
+ * One pinned segment: copy on the left, phone sticky on the right.
+ *
+ * Below `lg` the grid collapses to a single column and the phone column is
+ * removed entirely — each Stage renders its own inline phone instead. Pinned
+ * scrollytelling on a 380px viewport is where this pattern usually dies, so
+ * it simply does not run there.
+ */
+function Segment({
+  screen,
+  children,
+}: {
+  screen: 'found' | 'followup';
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="container-page lg:grid lg:grid-cols-[1fr_340px] lg:gap-14 xl:gap-20">
+      <div className="min-w-0">{children}</div>
+
+      <div className="hidden lg:block">
+        <div className="sticky top-32">
+          <PhoneMock screen={screen} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Stage({
   stage,
   emphasis = false,
+  screen,
 }: {
   stage: (typeof STAGES.stages)[number];
   emphasis?: boolean;
+  /** Mobile-only inline phone. Omitted for stages whose screen isn't built. */
+  screen?: 'found' | 'followup';
 }) {
   const Icon = ICONS[stage.icon];
 
@@ -129,6 +169,14 @@ function Stage({
             {stage.label}
           </p>
         </Reveal>
+
+        {/* Mobile only. On desktop the phone lives in the sticky Segment
+            column instead, so it is never rendered twice at one breakpoint. */}
+        {screen && (
+          <Reveal className="mt-8 lg:hidden">
+            <PhoneMock screen={screen} />
+          </Reveal>
+        )}
 
         <Reveal delay={0.05}>
           <h3 className="h3-card mt-4 max-w-2xl font-medium text-forest-950">
