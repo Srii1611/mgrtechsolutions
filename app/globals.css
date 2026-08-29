@@ -197,6 +197,54 @@ html.lenis, html.lenis body { height: auto; }
   to   { clip-path: inset(0 0 0 0); }
 }
 
+/* ─── Hinge band rise (Section 02) ─────────────────────────────── */
+/* Native CSS scroll-driven animation: costs zero JavaScript. Firefox still
+   ships `animation-timeline` behind a flag, so this is strictly progressive
+   enhancement — without support the band simply sits in its final state,
+   which is the correct, complete appearance. */
+
+.hinge-rise {
+  clip-path: inset(0 0 0 0);
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hinge-rise {
+      animation: hinge-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 90%;
+    }
+  }
+}
+
+@keyframes hinge-rise {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* Stage dots fill as each stage is reached. Same progressive-enhancement
+   deal: the default state is FILLED, so anything without support (or with
+   reduced motion) shows the complete, correct rail. */
+
+.stage-dot {
+  background-color: var(--color-accent-ink);
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .stage-dot {
+      animation: stage-dot-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 22%;
+    }
+  }
+}
+
+@keyframes stage-dot-fill {
+  from { background-color: var(--color-cream-300); }
+  to   { background-color: var(--color-accent-ink); }
+}
+
 /* ─── Reduced motion (hard requirement) ────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

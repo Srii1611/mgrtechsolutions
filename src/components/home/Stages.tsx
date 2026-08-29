@@ -2,6 +2,7 @@ import { MapPin, MousePointerClick, PhoneCall, Check } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import StageBeam from '@/components/motion/StageBeam';
 import PhoneMock from '@/components/home/PhoneMock';
+import StageSegment from '@/components/home/StageSegment';
 import { STAGES } from '@/data/home';
 import { SITE } from '@/data/site';
 
@@ -73,48 +74,20 @@ function StageBeamGroup() {
           In Phase 2 these become the ScrollTrigger pins; the `lg:sticky` here
           is the JS-free structure they will replace.
         */}
-        <Segment screen="found">
+        <StageSegment segment="a">
           <Stage stage={one} screen="found" />
           <Stage stage={two} />
-        </Segment>
+        </StageSegment>
 
         <Hinge />
 
-        <Segment screen="followup">
+        <StageSegment segment="b">
           <Stage stage={three} emphasis screen="followup" />
-        </Segment>
+        </StageSegment>
       </StageBeam>
 
       <div className="container-page">
         <Closer />
-      </div>
-    </div>
-  );
-}
-
-/**
- * One pinned segment: copy on the left, phone sticky on the right.
- *
- * Below `lg` the grid collapses to a single column and the phone column is
- * removed entirely — each Stage renders its own inline phone instead. Pinned
- * scrollytelling on a 380px viewport is where this pattern usually dies, so
- * it simply does not run there.
- */
-function Segment({
-  screen,
-  children,
-}: {
-  screen: 'found' | 'followup';
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="container-page lg:grid lg:grid-cols-[1fr_340px] lg:gap-14 xl:gap-20">
-      <div className="min-w-0">{children}</div>
-
-      <div className="hidden lg:block">
-        <div className="sticky top-32">
-          <PhoneMock screen={screen} />
-        </div>
       </div>
     </div>
   );
@@ -148,7 +121,7 @@ function Stage({
       <div className="lg:sticky lg:top-40 lg:self-start">
         <span
           aria-hidden="true"
-          className="relative z-10 flex h-4 w-4 items-center justify-center rounded-full bg-accent-ink ring-4 ring-cream-50 lg:h-[22px] lg:w-[22px]"
+          className="stage-dot relative z-10 flex h-4 w-4 items-center justify-center rounded-full ring-4 ring-cream-50 lg:h-[22px] lg:w-[22px]"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-cream-50" />
         </span>
@@ -243,13 +216,13 @@ function Stage({
  */
 function Hinge() {
   return (
-    <Reveal className="relative z-10 mb-24 bg-accent py-20 md:py-24">
+    <div className="hinge-rise relative z-10 mb-24 bg-accent py-20 md:py-24">
       <p className="container-page text-center text-[clamp(1.75rem,4.2vw,3rem)] font-medium leading-[1.15] text-forest-950">
         {STAGES.hinge.line1}
         <br />
         {STAGES.hinge.line2}
       </p>
-    </Reveal>
+    </div>
   );
 }
 
