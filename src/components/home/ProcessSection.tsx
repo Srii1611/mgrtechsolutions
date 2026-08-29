@@ -1,20 +1,31 @@
-'use client';
-
-import { useState } from 'react';
 import Reveal from '@/components/motion/Reveal';
 import { PROCESS } from '@/data/home';
 import { SITE } from '@/data/site';
 
-/** SECTION 09 — Process (dark, client for accordion state). */
+/**
+ * SECTION 09 — Your part (dark).
+ *
+ * PHASE 1: static markup only. Six steps stacked vertically, no rail, no
+ * tabs, no interactivity. This IS the no-JavaScript fallback and the crawler
+ * view, and it has to read correctly on its own before anything is layered
+ * on top of it.
+ *
+ * A Server Component. The previous version was `'use client'` for accordion
+ * state; with nothing interactive yet, none of this needs to reach the
+ * browser. Phase 2 adds a client leaf for the tablist rather than making the
+ * whole section a client component again.
+ */
 export default function ProcessSection() {
-  const [open, setOpen] = useState(0);
-
   return (
-    <section className="on-dark bg-forest-950 py-20 md:py-28" aria-labelledby="process-heading">
+    <section
+      className="on-dark bg-forest-950 py-20 md:py-28"
+      aria-labelledby="process-heading"
+    >
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent">{PROCESS.eyebrow}</p>
         </Reveal>
+
         <Reveal delay={0.05}>
           <h2 id="process-heading" className="lede mt-6 max-w-2xl text-mist">
             {PROCESS.lede}
@@ -39,65 +50,65 @@ export default function ProcessSection() {
         </Reveal>
 
         <div className="mt-14 divide-y divide-forest-700 border-y border-forest-700">
-          {PROCESS.phases.map((phase, i) => {
-            const isOpen = open === i;
-            const panelId = `process-panel-${i}`;
-            const triggerId = `process-trigger-${i}`;
-            return (
-              <Reveal key={phase.week} delay={i * 0.05}>
-                <div>
-                  <h3>
-                    <button
-                      id={triggerId}
-                      type="button"
-                      aria-expanded={isOpen}
-                      aria-controls={panelId}
-                      onClick={() => setOpen(isOpen ? -1 : i)}
-                      className="flex w-full items-center justify-between gap-4 py-6 text-left"
-                    >
-                      <span className="flex flex-wrap items-center gap-4">
-                        <span className="eyebrow text-cream-50">{phase.week}</span>
-                        <span
-                          className={
-                            i === 0
-                              ? 'rounded-full bg-accent px-3 py-1 text-xs font-medium text-forest-950'
-                              : 'rounded-full border border-mist px-3 py-1 text-xs font-medium text-mist'
-                          }
-                        >
-                          {phase.chip}
-                        </span>
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        className={`text-2xl leading-none text-mist transition-transform duration-[250ms] ${
-                          isOpen ? 'rotate-45' : ''
-                        }`}
-                      >
-                        +
-                      </span>
-                    </button>
-                  </h3>
-                  <div
-                    id={panelId}
-                    role="region"
-                    aria-labelledby={triggerId}
-                    className="grid transition-[grid-template-rows,opacity,visibility] duration-[250ms] ease-out"
-                    style={{
-                      gridTemplateRows: isOpen ? '1fr' : '0fr',
-                      opacity: isOpen ? 1 : 0,
-                      visibility: isOpen ? 'visible' : 'hidden',
-                    }}
-                  >
-                    <div className="overflow-hidden">
-                      <p className="pb-6 text-[1.0625rem] leading-[1.7] text-mist">{phase.body}</p>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
+          {PROCESS.steps.map((step, i) => (
+            <Step key={step.title} step={step} delay={i * 0.04} />
+          ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function Step({
+  step,
+  delay,
+}: {
+  step: (typeof PROCESS.steps)[number];
+  delay: number;
+}) {
+  return (
+    <Reveal delay={delay}>
+      <article className="py-8">
+        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+          {/* Step 6 carries no number — it is ongoing, not one of the 15 days. */}
+          {step.n !== null && (
+            <span
+              aria-hidden="true"
+              className="text-[0.8125rem] font-semibold tabular-nums text-accent"
+            >
+              {String(step.n).padStart(2, '0')}
+            </span>
+          )}
+
+          <h3 className="h3-card font-medium text-cream-50">{step.title}</h3>
+
+          <span className="eyebrow text-mist">{step.days}</span>
+
+          <span className="eyebrow rounded-full border border-forest-700 px-3 py-1 text-mist">
+            YOU: {step.yourTime}
+          </span>
+        </div>
+
+        <p className="mt-4 max-w-2xl text-[1.0625rem] leading-[1.7] text-mist">
+          {step.body}
+        </p>
+
+        <ul className="mt-5 max-w-2xl space-y-2">
+          {step.bullets.map((bullet) => (
+            <li
+              key={bullet}
+              className="border-l-2 border-forest-700 pl-4 text-[1rem] leading-[1.6] text-mist"
+            >
+              {bullet}
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-5 max-w-2xl text-[1rem] leading-[1.7] text-cream-50">
+          <span className="eyebrow text-accent">You end up with: </span>
+          {step.outcome}
+        </p>
+      </article>
+    </Reveal>
   );
 }

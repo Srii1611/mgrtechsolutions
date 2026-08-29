@@ -309,31 +309,110 @@ export const PROCESS = {
     'You run your business; I build the site. Your total time investment is about 90 minutes: one conversation at the start, then two short reviews. Everything else — writing, coding, setup, launch — is on me.',
   primaryCta: 'Start with a call',
   secondaryCta: 'Full process details',
-  phases: [
+  steps: [
     {
-      week: 'WEEK 1 · DISCOVERY',
-      body: 'One 60-minute call. I learn your business, your customers, and what a good lead looks like.',
-      chip: 'YOU: 60 MIN',
+      n: 1,
+      title: "We learn the business",
+      days: "Days 0–1",
+      span: 2,
+      yourTime: "60 min",
+      track: "client",
+      body:
+        "The first conversation is short. Then we sit down — coffee or Zoom — and go through 20 questions. Not a homework form. A conversation. Before that, we've already looked at your current site, your competitors, and how customers in your trade actually search. We don't walk in cold.",
+      bullets: [
+        "What you sell, and what you want more of",
+        "The towns or customers you cover",
+        "How a new customer finds you today",
+        "What happens after they call",
+        "What you're tired of explaining",
+      ],
+      outcome:
+        "A clear list of pages, a date you'll see a real preview, and a short list of photos to send.",
     },
     {
-      week: 'WEEK 2 · DESIGN',
-      body: 'You get a design to react to. One round of feedback, then I refine.',
-      chip: 'YOU: ~15 MIN',
+      n: 2,
+      title: "You see a working preview",
+      days: "Days 2–3",
+      span: 2,
+      yourTime: "15 min",
+      track: "client",
+      body:
+        "Most agencies send a drawing in week four. You get a real website on day three — your name, your services, your area, a way to call, and it looks right on a phone. Not a template with your logo stuck on.",
+      bullets: [
+        "\"The phone number should be bigger\"",
+        "\"We don't do that service any more\"",
+        "\"That photo is from 2014\"",
+        "\"This sounds like us\" / \"this doesn't\"",
+      ],
+      outcome:
+        "A working preview you can open on your phone, and a short list of changes.",
     },
     {
-      week: 'WEEK 3–4 · BUILD',
-      body: 'Hand-coded, written, and assembled. You get a private preview link.',
-      chip: 'YOU: 0 MIN',
+      n: 3,
+      title: "We build the full site",
+      days: "Days 4–10",
+      span: 7,
+      yourTime: "0 min",
+      track: "studio",
+      body:
+        "Once the direction is right, everything else gets built. Service pages, trust and reviews, contact with tap-to-call, words written from our notes in the language your customers use, and the structure that lets Google read it.",
+      bullets: [
+        "A page for each service you actually sell",
+        "Forms that email you the moment someone submits",
+        "Titles and structure Google can read",
+        "Phone first, then desktop",
+      ],
+      outcome:
+        "The full site on a private preview link, ready for review.",
     },
     {
-      week: 'WEEK 5 · LAUNCH',
-      body: 'Domain, hosting, Google profile — everything connected and live.',
-      chip: 'YOU: 0 MIN',
+      n: 4,
+      title: "You review, we refine",
+      days: "Days 11–13",
+      span: 3,
+      yourTime: "15 min",
+      track: "client",
+      body:
+        "You go through the site the way a customer would. Phone first. This is not a second redesign — the direction was agreed on day 3. This round is for accuracy and polish.",
+      bullets: [
+        "Good: \"Change 'boiler repair' to 'repair and replacement'\"",
+        "Bad: \"Can you make it pop more?\"",
+      ],
+      outcome:
+        "A site you'd be happy to send to a customer.",
     },
     {
-      week: 'AFTER · SUPPORT',
-      body: "I'm one phone call away. Changes, questions, additions — the same contact throughout.",
-      chip: 'YOU: JUST CALL',
+      n: 5,
+      title: "Go live",
+      days: "Days 14–15",
+      span: 2,
+      yourTime: "0 min",
+      track: "studio",
+      body:
+        "Every button tested on a phone. The form actually arrives in your inbox. The click-to-call number is the right number. Then we connect your domain, turn on the padlock, and submit to Google.",
+      bullets: [
+        "A walkthrough of where leads land",
+        "How to change hours or a photo",
+        "Who to message if something looks off",
+      ],
+      outcome:
+        "A live website. Your name on it. Your phone on it.",
+    },
+    {
+      n: null,
+      title: "After launch",
+      days: "Ongoing",
+      span: 2,
+      yourTime: "just call",
+      track: "after",
+      body:
+        "The site is yours. The first two weeks we stay close — if a form fails or a number is off, we fix it. After that you can run it yourself, or keep us on for hosting and the small changes that come up.",
+      bullets: [
+        "New service, new town, new photos",
+        "Optional, not a trap",
+      ],
+      outcome:
+        "The number of the person who built it. The 15-day build doesn't lock you into a retainer.",
     },
   ],
 } as const;
