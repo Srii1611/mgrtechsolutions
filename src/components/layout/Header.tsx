@@ -42,17 +42,17 @@ export default function Header() {
   const p = reduce ? still : smooth;
 
   /*
-    Each property runs over a DIFFERENT slice of the progress, so they
-    sequence instead of moving in lockstep: the bar rounds and shortens
-    first, then narrows and lifts, and the border/shadow arrive last.
-    Everything sharing one range is what made the first attempt feel cheap.
+    The bar stays FULL WIDTH at every scroll position. An earlier version
+    contracted it into a floating pill (94% wide, rounded, lifted 8px),
+    which left a visible gap down both edges of the viewport. Only the
+    height, the logo, the translucency and the bottom hairline change now.
+
+    Each property still runs over a different slice of the progress, so
+    they sequence rather than moving in lockstep — everything sharing one
+    range is what made the very first attempt feel cheap.
   */
   const height = useTransform(p, [0, 0.72], [80, 60]);
   const logoSize = useTransform(p, [0, 0.72], [40, 32]);
-  const radius = useTransform(p, [0, 0.42], [0, 999]);
-  const width = useTransform(p, [0.18, 1], ['100%', '94%']);
-  const maxWidth = useTransform(p, [0.18, 1], [4000, 1120]);
-  const y = useTransform(p, [0.12, 1], [0, 8]);
   const chrome = useTransform(p, [0.3, 1], [0, 1]);
 
   // Solid at rest so the nav stays legible over /blog's cream background;
@@ -61,28 +61,26 @@ export default function Header() {
 
   return (
     /*
-      The <header> keeps a FIXED 5rem height at every scroll position. The pill
+      The <header> keeps a FIXED 5rem height at every scroll position. The bar
       inside it is what shrinks. If the header itself resized it would do so in
       flow — sticky elements still occupy space — and shove the page upward as
       you scrolled.
     */
     <header className="on-dark sticky top-0 z-50 h-20">
-      <motion.div
-        style={{ width, maxWidth, y, borderRadius: radius }}
-        className="relative mx-auto"
-      >
+      <motion.div className="relative w-full">
         {/* Background as its own layer so its opacity can animate without
             fading the nav text with it. */}
         <motion.div
           aria-hidden="true"
           style={{ opacity: bgOpacity }}
-          className="absolute inset-0 rounded-[inherit] bg-forest-950 backdrop-blur-md"
+          className="absolute inset-0 bg-forest-950 backdrop-blur-md"
         />
-        {/* Border and shadow arrive last, as the pill detaches. */}
+        {/* A bottom hairline, not a full border: the bar is full-bleed, so a
+            box outline would draw a line down the viewport edges. */}
         <motion.div
           aria-hidden="true"
           style={{ opacity: chrome }}
-          className="absolute inset-0 rounded-[inherit] border border-forest-700 shadow-lg shadow-black/30"
+          className="absolute inset-x-0 bottom-0 h-px bg-forest-700"
         />
 
         <motion.div

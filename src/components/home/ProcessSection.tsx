@@ -1,5 +1,5 @@
 import Reveal from '@/components/motion/Reveal';
-import ProcessRail from '@/components/home/ProcessRail';
+import ProcessStack from '@/components/home/ProcessStack';
 import { PROCESS } from '@/data/home';
 import { SITE } from '@/data/site';
 
@@ -44,11 +44,10 @@ export default function ProcessSection() {
           </div>
         </Reveal>
 
-        {/* The rail owns every panel. It is a client component, but client
-            components are still server-rendered, so all six panels ship in the
-            initial HTML with the inactive ones marked `hidden` rather than
-            omitted. */}
-        <ProcessRail steps={PROCESS.steps} />
+        {/* The stack owns the six step cards. It is a client component, but
+            client components are still server-rendered, so the full copy of
+            every step ships in the initial HTML. */}
+        <ProcessStack steps={PROCESS.steps} />
 
       </div>
     </section>
