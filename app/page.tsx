@@ -4,10 +4,6 @@ import Band from '@/components/home/Band';
 import Stages from '@/components/home/Stages';
 import WorkSection from '@/components/home/WorkSection';
 import Objections from '@/components/home/Objections';
-import AIShift from '@/components/home/AIShift';
-import SystemSection from '@/components/home/SystemSection';
-import MechanismChain from '@/components/home/MechanismChain';
-import StatsSection from '@/components/home/StatsSection';
 import ProcessSection from '@/components/home/ProcessSection';
 import Comparison from '@/components/home/Comparison';
 import PricingPreview from '@/components/home/PricingPreview';
@@ -25,14 +21,10 @@ export default function Home() {
       <Band label={BANDS[0]}><Stages /></Band>
       <Band label={BANDS[1]} dark><WorkSection /></Band>
       <Band label={BANDS[2]}><Objections /></Band>
-      <Band label={BANDS[3]} dark><AIShift /></Band>
-      <Band label={BANDS[4]}><SystemSection /></Band>
-      <Band label={BANDS[5]} dark><MechanismChain /></Band>
-      <Band label={BANDS[6]}><StatsSection /></Band>
-      <Band label={BANDS[7]} dark><ProcessSection /></Band>
-      <Band label={BANDS[8]}><Comparison /></Band>
-      <Band label={BANDS[9]} dark><PricingPreview /></Band>
-      <Band label={BANDS[10]} dark><DualClose /></Band>
+      <Band label={BANDS[3]} dark><ProcessSection /></Band>
+      <Band label={BANDS[4]}><Comparison /></Band>
+      <Band label={BANDS[5]} dark><PricingPreview /></Band>
+      <Band label={BANDS[6]} dark><DualClose /></Band>
     </>
   );
 }

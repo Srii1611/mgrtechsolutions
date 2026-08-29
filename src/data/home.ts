@@ -303,120 +303,6 @@ export const OBJECTIONS = {
   ],
 } as const;
 
-/** S5 — The AI search shift */
-export const AI_SHIFT = {
-  eyebrow: '— THE SHIFT',
-  lede:
-    "More and more, a homeowner's first question goes to an AI assistant instead of a search box. The businesses those assistants recommend are the ones with clear, structured, trustworthy websites. This isn't hype — it's a structure problem, and structure is exactly what I build.",
-  takeaway: 'WEBSITES THAT ANSWER QUESTIONS CLEARLY ARE THE ONES AI ASSISTANTS RECOMMEND.',
-  queries: [
-    {
-      style: 'SEARCH BOX STYLE',
-      query: 'plumber near me open now',
-      caption: 'THE OLD WAY — STILL MATTERS',
-      icon: 'Search',
-    },
-    {
-      style: 'AI CHAT STYLE',
-      query: "Who's a reliable tile installer near Framingham?",
-      caption: 'THE NEW WAY — GROWING FAST',
-      icon: 'MessageSquareText',
-    },
-    {
-      style: 'AI CHAT STYLE',
-      query: 'How much should blueboard installation cost in MA?',
-      caption: 'THE QUESTION BEFORE THE CALL',
-      icon: 'MessageSquareText',
-    },
-  ],
-} as const;
-
-/** S6 — One system */
-export const SYSTEM = {
-  eyebrow: '— ONE SYSTEM',
-  lede:
-    "Most people sell you a website and wave goodbye. A website alone is a brochure. Here's how the three pieces actually connect.",
-  loopLabel: 'EVERYTHING FEEDS THE PHONE',
-  takeaway:
-    'THE SITE EARNS THE VISIT → THE CONTENT EARNS THE TRUST → THE AUTOMATION EARNS THE CALL.',
-  cta: 'Explore the services',
-  nodes: [
-    {
-      title: 'THE SITE',
-      body: 'Hand-coded, fast, structured so Google and AI assistants can read it. The foundation everything else runs on.',
-    },
-    {
-      title: 'THE CONTENT',
-      body: 'Pages and articles that answer the exact questions your customers ask before they call — so you show up, and they trust you.',
-    },
-    {
-      title: 'THE AUTOMATION',
-      body: 'Forms, instant replies, and AI follow-up that respond to every inquiry in seconds — even at 11 p.m.',
-    },
-  ],
-} as const;
-
-/** S7 — Why it rings */
-export const MECHANISM = {
-  eyebrow: '— WHY IT RINGS',
-  closing: 'BREAK ANY LINK AND THE CHAIN GOES QUIET. I BUILD ALL SIX.',
-  steps: [
-    {
-      cause: 'Someone nearby has a problem.',
-      effect: 'They pull out their phone and search — or ask an AI assistant.',
-    },
-    {
-      cause: 'Your site shows up — because it was built to be found.',
-      effect: 'Fast pages, local structure, complete Google profile.',
-    },
-    {
-      cause: 'It loads in under two seconds and looks legitimate.',
-      effect: "They don't bounce. They keep reading.",
-    },
-    {
-      cause: 'It answers their real questions — cost, timing, trust.',
-      effect: 'Content written for customers, not for filler.',
-    },
-    {
-      cause: 'Calling you is the easiest thing on the page.',
-      effect: 'Tappable number everywhere, short forms, no hunting.',
-    },
-    {
-      cause: 'If they message instead, they hear back in seconds.',
-      effect: 'Automated follow-up catches every inquiry, day or night.',
-    },
-  ],
-} as const;
-
-/** S8 — Honest numbers. Stats must reconcile with spec §8. */
-export const STATS = {
-  eyebrow: '— NO INFLATED NUMBERS',
-  headline: 'Small studio.',
-  headlineAccent: 'Straight answers.',
-  testimonialHeading: 'What clients say',
-  disclosure:
-    "A NEWER STUDIO MEANS A SHORTER TESTIMONIAL PAGE. I'D RATHER BE HONEST ABOUT THAT THAN FAKE IT — THE WORK ABOVE SPEAKS FIRST.",
-  placeholderNote: '(Placeholder attributions — replaced with real names as permission is granted.)',
-  stats: [
-    { value: 7, suffix: '', label: 'PROJECTS BUILT & COUNTING' },
-    { value: 5, suffix: '', label: 'WEEKS, CALL TO LAUNCH' },
-    { value: 100, suffix: '%', label: 'HAND-CODED, NO TEMPLATES' },
-    { value: 1, suffix: '', label: 'POINT OF CONTACT, START TO FINISH' },
-  ],
-  testimonials: [
-    {
-      quote:
-        'He explained everything in plain English and the site was live when he said it would be.',
-      attribution: 'HOME SERVICES CLIENT · METROWEST, MA',
-    },
-    {
-      quote: 'I finally understand what my website is supposed to be doing.',
-      attribution: 'TRADES CLIENT · FRAMINGHAM, MA',
-    },
-  ],
-} as const;
-
-/** S9 — Process */
 export const PROCESS = {
   eyebrow: '— YOUR PART: 30 MINUTES',
   lede:
@@ -566,12 +452,8 @@ export const BANDS = [
   'SECTION 02 · HOW THE WORK ACTUALLY WORKS',
   'SECTION 03 · THE WORK',
   'SECTION 04 · THE QUESTIONS PEOPLE ACTUALLY ASK',
-  'SECTION 05 · THE SHIFT',
-  'SECTION 06 · ONE SYSTEM',
-  'SECTION 07 · WHY IT RINGS',
-  'SECTION 08 · THE HONEST NUMBERS',
-  'SECTION 09 · YOUR PART: 30 MINUTES',
-  'SECTION 10 · THE HONEST COMPARISON',
-  'SECTION 11 · PRICING, ON THE TABLE',
-  'SECTION 12 · TWO WAYS TO START',
+  'SECTION 05 · YOUR PART: 30 MINUTES',
+  'SECTION 06 · THE HONEST COMPARISON',
+  'SECTION 07 · PRICING, ON THE TABLE',
+  'SECTION 08 · TWO WAYS TO START',
 ] as const;
