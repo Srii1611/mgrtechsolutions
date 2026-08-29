@@ -2,11 +2,16 @@ import { PhoneCall } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import { HERO } from '@/data/home';
 import { SITE } from '@/data/site';
+import WireframeBall from '@/components/motion/WireframeBall';
+import StrokeText from '@/components/motion/StrokeText';
 
-/** SECTION 01 — Hero (dark). Full-bleed, dot-grid + radial accent glow. */
+/** SECTION 01 — Hero (dark). Full-bleed on true black: wireframe-ball canvas,
+ *  radial accent glow, in that paint order. */
 export default function Hero() {
   return (
-    <section className="on-dark relative flex min-h-[calc(100dvh-5rem)] items-center overflow-hidden bg-forest-950 dot-grid">
+    <section className="on-dark relative flex min-h-[calc(100dvh-5rem)] items-center overflow-hidden bg-ink-950">
+      <WireframeBall />
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
@@ -27,13 +32,17 @@ export default function Hero() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.05}>
-          <h1 className="h1-hero mt-6 max-w-4xl font-medium text-cream-50">
-            {HERO.headline}
-            <br />
-            <span className="text-accent">{HERO.headlineAccent}</span>
-          </h1>
-        </Reveal>
+        {/* No <Reveal> here: StrokeText runs its own per-letter entrance,
+            and stacking a second fade-up on top of it double-animates. */}
+        <h1 className="h1-hero mt-6 max-w-4xl font-medium text-cream-50">
+          <StrokeText text={HERO.headline} />
+          <br />
+          <StrokeText
+            text={HERO.headlineAccent}
+            className="text-accent"
+            startIndex={HERO.headline.replace(/ /g, '').length}
+          />
+        </h1>
 
         <Reveal delay={0.1}>
           <p className="lede mt-8 max-w-2xl text-mist">{HERO.lede}</p>

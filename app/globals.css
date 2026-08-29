@@ -2,6 +2,11 @@
 
 /* ─── Design tokens (spec §5) ──────────────────────────────────── */
 @theme {
+  /* True black, for the hero stage only. forest-950 is a green-tinted
+     near-black that washes out the wireframe ball glow; this gives the
+     canvas maximum contrast to sit on. */
+  --color-ink-950: #000000;
+
   --color-forest-950: #0A1B13;
   --color-forest-900: #0E241A;
   --color-forest-800: #14301F;
@@ -151,6 +156,47 @@ html.lenis, html.lenis body { height: auto; }
   background-size: 28px 28px;
 }
 
+/* ─── Stroke-in headline (StrokeText) ──────────────────────────── */
+/* Each letter draws in as an accent outline, then the solid fill wipes
+   down through it and the outline fades away. Pure CSS so the markup can
+   stay a Server Component and ship complete in the HTML (spec §3). The
+   per-letter delay comes from --i, set inline by StrokeText.tsx. */
+
+.stroke-char {
+  position: relative;
+  display: inline-block;
+}
+
+.stroke-char__fill {
+  display: inline-block;
+  animation: stroke-char-fill 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+  animation-delay: calc(var(--i) * 0.038s + 0.30s);
+}
+
+/* Sits exactly over the fill. The fill layer is the one in flow, so it
+   defines the letter's box and the outline can be absolutely positioned
+   without affecting layout. */
+.stroke-char__outline {
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-accent);
+  animation: stroke-char-draw 1.1s ease-out backwards;
+  animation-delay: calc(var(--i) * 0.038s);
+}
+
+@keyframes stroke-char-draw {
+  0%   { opacity: 0; transform: translateY(0.18em); }
+  32%  { opacity: 1; transform: translateY(0); }
+  62%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes stroke-char-fill {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
 /* ─── Reduced motion (hard requirement) ────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -160,4 +206,10 @@ html.lenis, html.lenis body { height: auto; }
     scroll-behavior: auto !important;
     transform: none !important;
   }
+
+  /* The rule above collapses the animations to their end state, which is
+     already correct here. Stated explicitly so the headline can never
+     depend on that side effect. */
+  .stroke-char__fill { animation: none !important; clip-path: none !important; }
+  .stroke-char__outline { animation: none !important; opacity: 0 !important; }
 }

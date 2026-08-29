@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Hero from '@/components/home/Hero';
 import Band from '@/components/home/Band';
-import Framework from '@/components/home/Framework';
+import Stages from '@/components/home/Stages';
 import WorkSection from '@/components/home/WorkSection';
 import PainSection from '@/components/home/PainSection';
 import AIShift from '@/components/home/AIShift';
@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Band label={BANDS[0]}><Framework /></Band>
+      <Band label={BANDS[0]}><Stages /></Band>
       <Band label={BANDS[1]} dark><WorkSection /></Band>
       <Band label={BANDS[2]}><PainSection /></Band>
       <Band label={BANDS[3]} dark><AIShift /></Band>

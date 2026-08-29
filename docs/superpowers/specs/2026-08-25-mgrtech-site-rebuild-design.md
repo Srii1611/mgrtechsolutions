@@ -275,11 +275,28 @@ over — it removes a system affordance for no benefit to this audience.
 
 ## 7. Motion
 
-Framer Motion for reveals and transitions; Lenis for smooth scroll. GSAP and
-three.js/React Three Fiber are dropped — GSAP duplicates Framer Motion's role,
-and a WebGL runtime is indefensible weight on a site selling speed to mobile
-users. The hero's WebGL layer is replaced with a CSS/SVG treatment built to read
-closely to the original.
+Framer Motion for reveals and transitions; Lenis for smooth scroll.
+three.js/React Three Fiber stay dropped — a WebGL runtime is indefensible
+weight on a site selling speed to mobile users. The hero's WebGL layer is
+replaced with a CSS/SVG treatment built to read closely to the original.
+
+**GSAP/ScrollTrigger reinstated (2026-08-28), narrowly.** This spec originally
+dropped GSAP on the grounds that it "duplicates Framer Motion's role." That
+holds for reveals, transitions and scroll-linked scrubbing, where `useScroll`
+and `useTransform` are sufficient and already in use. It does not hold for
+scroll *pinning*: ScrollTrigger's `pin` manages spacer elements and section
+height automatically, and Framer Motion ships no equivalent. Hand-rolling it
+across the Section 02 sequence — two pinned segments with a full-bleed band
+between them — is more fragile than the dependency.
+
+Scope of the reinstatement:
+
+- Pinning only. Framer Motion remains the default for everything else.
+- Dynamically imported, so it stays out of the critical path.
+- Wired to Lenis via `lenis.on('scroll', ScrollTrigger.update)`; without this,
+  pinned sections drift against smooth scroll.
+- Still no three.js, no WebGL, no GSAP-driven text splitting (the Section 02
+  headline animation is CSS in a Server Component, and stays that way).
 
 - Scroll reveal: fade up ~16px, 500ms, ease-out, ~60ms stagger, fires once
 - Hover lift on cards: `translateY(-3px)` plus soft shadow, 200ms

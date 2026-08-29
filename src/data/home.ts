@@ -17,29 +17,99 @@ export const HERO = {
   strapline: 'ONE POINT OF CONTACT · HAND-CODED, NO TEMPLATES · 5-WEEK BUILDS',
 } as const;
 
-/** S2 — The framework */
-export const FRAMEWORK = {
-  eyebrow: '— THE FRAMEWORK',
-  lede:
-    "Every project runs on the same three-part framework. Miss one part and the other two don't matter.",
-  closing: "Most sites stop at 02. That's why they don't ring.",
-  cards: [
+/**
+ * S2 — How the work actually works.
+ *
+ * The statistics below are quoted from the owner's copy as supplied. They are
+ * published as factual claims, so each should carry a source before this ships
+ * anywhere the numbers might be challenged.
+ */
+export const STAGES = {
+  eyebrow: '— HOW THE WORK ACTUALLY WORKS',
+  headline:
+    'Three things have to happen before your phone rings. Most websites only do one of them.',
+  intro:
+    "Getting found. Getting picked. Getting back to people fast enough that they don't call someone else. Skip any one of the three and the other two stop mattering — a site nobody finds is a brochure, a site people find but don't trust is a bounce, and a site that gets you calls you never answer is just an expensive way to feed your competitors.",
+  introSecondary:
+    "Here's what each stage means in plain English, why it matters, and exactly what we build for it.",
+
+  /** The hinge. Full-bleed accent band, sits between stages 02 and 03. */
+  hinge: {
+    line1: 'Almost every website stops here.',
+    line2: "That's why they still don't ring.",
+  },
+
+  stages: [
     {
-      index: '01 · GET FOUND',
+      index: '01',
+      label: 'GET FOUND',
       icon: 'MapPin',
-      body: 'Show up when someone two towns over searches for what you do. Local SEO, Google Business Profile, fast pages, clean structure.',
+      headline: "If you're not in the map box, you're not in the running.",
+      body: [
+        'When someone two towns over pulls out their phone and searches "drywall contractor near me," Google doesn\'t show them ten blue links. It shows a map with three businesses pinned to the top. That box is where the decision starts, and for most people it\'s where it ends.',
+        'Nearly half of all Google searches are looking for something local. The map box shows up in roughly 93% of those searches and takes about 44% of the clicks. Businesses inside it get 126% more traffic and 93% more calls, clicks and direction requests than the businesses ranked just below at positions four through ten. Being on page one isn’t the goal. Being in the box is.',
+        "Most trades businesses aren't in there for boring, fixable reasons: a business name on Google that doesn't match the name on their incorporation papers, missing or wrong service categories, an address Google can't verify, no photos, no reviews, and a website too slow or too tangled for Google to read properly.",
+      ],
+      buildLabel: 'What we build',
+      build: [
+        'Google Business Profile set up correctly — legal name, right primary and secondary categories, verified address, service areas mapped to the towns you actually work in',
+        "A dedicated page for each of those towns, so you're relevant in more than one map",
+        'Site speed and structure Google can crawl in a single pass',
+        'Your name, address and phone number identical across every directory that feeds Google',
+      ],
+      costLabel: 'What it costs you to skip this',
+      cost: 'You pay for ads to rent traffic you should be getting for free, or you stay entirely dependent on referrals and hope they keep coming.',
     },
     {
-      index: '02 · GET CHOSEN',
+      index: '02',
+      label: 'GET CHOSEN',
       icon: 'MousePointerClick',
-      body: 'Five seconds to look legitimate. Real photos, clear services, reviews up front, and a phone number nobody has to hunt for.',
+      headline: 'Being found is worth nothing if the next five seconds lose them.',
+      body: [
+        "They found you. Now you're sitting next to two competitors in the same box, and the comparison happens fast — people form an impression of a website in well under a second, and most of that impression is design and load speed before they've read a word.",
+        'But looking good is only half of it. 97% of consumers read reviews for local businesses. 68% won’t use one rated under four stars. 47% won’t use one with fewer than 20 reviews. And two thirds of people say they’re simply more likely to hire a contractor who has a real website at all — for a homeowner about to let a stranger into their house, the site is the background check.',
+        "The gap on most trades websites isn't ugliness. It's absence. No photos of actual finished jobs. Services buried in a paragraph instead of listed out. Reviews on a separate page nobody visits. A phone number sitting in the footer where nobody scrolls.",
+      ],
+      buildLabel: 'What we build',
+      build: [
+        "Real photographs of your work — your jobs, your trucks, your crew, not stock images of someone else's",
+        "Services listed plainly, with what's included and a real price range where you're willing to give one",
+        'Live Google reviews pulled onto the page, updating themselves, not screenshots from 2022',
+        'Licence number, insurance, and years in business visible without scrolling',
+        'Tap-to-call in reach on every screen, every page',
+      ],
+      costLabel: 'What it costs you to skip this',
+      cost: 'You generate the traffic and your competitor books the job.',
     },
     {
-      index: '03 · GET FOLLOWED UP',
+      index: '03',
+      label: 'GET FOLLOWED UP',
       icon: 'PhoneCall',
-      body: 'Forms that actually reach you, instant auto-replies, and AI follow-up so no inquiry quietly dies in an inbox.',
+      headline: "The lead you already paid to earn is the one you're most likely to lose.",
+      body: [
+        "This is the stage nobody sells you, and it's where most of the money leaks out.",
+        'Small businesses answer only about 38% of the calls that come in. The other six in ten go to voicemail or nowhere at all. Voicemail doesn’t save you either — more than 80% of callers hang up without leaving one, and roughly 85% of people whose call goes unanswered never call back. They call the next business on the list. Your marketing worked perfectly and you still lost the job.',
+        'Web forms are worse, because the clock is faster than anyone expects. Getting back to a new lead within five minutes makes you 100 times more likely to reach that person and 21 times more likely to qualify them than waiting thirty. Only about 7% of businesses actually manage it. The first business to respond usually wins — not the cheapest one, not the best one. The first one.',
+        "None of this is a work-ethic problem. You're on a roof. You're mid-pour. Your hands are full and your phone is in the truck. That's precisely why it can't depend on you remembering.",
+      ],
+      buildLabel: 'What we build',
+      build: [
+        "Forms that arrive on your phone as a text message, not an email you'll open at nine at night",
+        "An instant auto-reply, so the person knows within seconds they reached a real business that's awake",
+        "Missed-call text-back — every call you can't pick up gets a message before the caller has finished dialling your competitor",
+        'AI follow-up that asks the basic qualifying questions and books the estimate while you’re still working',
+        'Every call and inquiry logged in one place, so nothing dies quietly between your phone, your inbox and your truck console',
+      ],
+      costLabel: 'What it costs you to skip this',
+      cost: 'You spend real money making the phone ring, then miss six out of every ten calls it makes.',
     },
   ],
+
+  closer: [
+    'Get Found brings people to you. Get Chosen makes them pick you. Get Followed Up makes sure you’re the one who actually gets back to them.',
+    'Most agencies sell you the first. Some do the second. Almost nobody does the third — which is exactly why so many businesses have a website they paid good money for and a phone that doesn’t ring. We do all three, because doing two of them well is worth about the same as doing none.',
+  ],
+  cta: 'See where you stand right now — a free 10-minute audit of your map ranking, your website, and how long you actually take to respond.',
 } as const;
 
 /** S3 — Work. Source of truth is spec §8: 3 live, 4 demo. */
@@ -421,7 +491,7 @@ export const DUAL_CLOSE = {
 
 /** Band labels, in page order. */
 export const BANDS = [
-  'SECTION 02 · THE FRAMEWORK',
+  'SECTION 02 · HOW THE WORK ACTUALLY WORKS',
   'SECTION 03 · THE WORK',
   'SECTION 04 · SOUND FAMILIAR?',
   'SECTION 05 · THE SHIFT',
