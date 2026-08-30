@@ -269,7 +269,7 @@ html.lenis, html.lenis body { height: auto; }
   past. Two custom properties drive it, both set from the data module:
 
     --work-frame-h    the window height (also the transform's stop offset)
-    --work-scroll-ms  travel time, computed per item at ~900px/sec
+    --work-scroll-ms  travel time, computed per item at ~320px/sec
 
   Easing is LINEAR on purpose. Real scrolling has no ease-in or ease-out;
   anything else reads as an animation rather than a page moving. Mouse-out

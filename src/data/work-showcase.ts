@@ -119,8 +119,8 @@ export const WORK_FRAME_HEIGHT = 500;
  */
 export const WORK_NOMINAL_WIDTH = 556;
 
-/** Perceived scroll speed, px/sec. */
-export const WORK_SCROLL_SPEED = 900;
+/** Perceived scroll speed, px/sec. Reading pace, not a flyby. */
+export const WORK_SCROLL_SPEED = 320;
 
 /**
  * Seconds for one full travel of this item's image through the window.
