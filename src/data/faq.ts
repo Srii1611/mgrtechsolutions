@@ -41,11 +41,11 @@ export const FAQ_GROUPS: FaqGroup[] = [
     items: [
       {
         q: 'How much does a website cost?',
-        a: "It depends on scope, and anyone who gives you a number before knowing your project is guessing. My packages have real starting prices — right there on the pricing page — and after one 30-minute call you get a written quote that won't drift. No hourly meter running in the background.",
+        a: "It depends on scope, and anyone who gives you a number before knowing your project is guessing. My packages have real starting prices — right there on the pricing page — and after one 60-minute call you get a written quote that won't drift. No hourly meter running in the background.",
       },
       {
         q: 'What do you need from me to get started?',
-        a: "One 30-minute phone call, logins to anything that already exists (old site, domain, Google profile), and any photos you have — phone photos are fine. That's the complete list. I handle the writing, the technical setup, and everything in between.",
+        a: "One 60-minute phone call, logins to anything that already exists (old site, domain, Google profile), and any photos you have — phone photos are fine. That's the complete list. I handle the writing, the technical setup, and everything in between.",
       },
       {
         q: 'Are there ongoing costs after the site launches?',
@@ -60,7 +60,7 @@ export const FAQ_GROUPS: FaqGroup[] = [
     items: [
       {
         q: 'How long does it take to build a website?',
-        a: 'Five weeks from our first call to launch for a standard build. Rebuilds and larger sites get their own timeline — in writing, before we start — and I hit the dates I commit to.',
+        a: '15 days from our first call to launch for a standard build. Rebuilds and larger sites get their own timeline — in writing, before we start — and I hit the dates I commit to.',
       },
       {
         q: 'Will my website show up on Google?',

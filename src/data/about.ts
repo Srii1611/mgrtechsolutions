@@ -104,7 +104,7 @@ export const SERVICE_AREA = {
 export const ABOUT_CLOSE = {
   eyebrow: '— START HERE',
   heading: "Still reading? Let's talk.",
-  body: "One 30-minute call tells us both whether this is a fit. No script, no pressure — and if it isn't, I'll say so and point you somewhere better.",
+  body: "One 60-minute call tells us both whether this is a fit. No script, no pressure — and if it isn't, I'll say so and point you somewhere better.",
 } as const;
 
 export const ABOUT = {

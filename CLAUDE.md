@@ -36,7 +36,15 @@ skim the site on a phone. Copy and UI should read fast and plainly.
    entirely, not just slow them down.
 6. Server Components by default. `'use client'` only on leaf components that
    need interactivity/state.
-7. Motion is Framer Motion + Lenis only — no GSAP, no three.js.
+7. Motion is Framer Motion + Lenis, plus GSAP/ScrollTrigger where a section
+   genuinely needs scroll *pinning*. Still no three.js and no WebGL.
+   - Reach for Framer Motion first. `useScroll` covers scroll-linked
+     scrubbing; what it has no equivalent for is ScrollTrigger's `pin` with
+     automatic spacer management. That is the only reason GSAP is here.
+   - GSAP must be dynamically imported so it stays out of the critical path.
+   - ScrollTrigger must be wired to Lenis (`lenis.on('scroll',
+     ScrollTrigger.update)`), or pinned sections drift against smooth scroll.
+   - Added for the Section 02 pinned sequence. See spec §7.
 8. Mobile-first: build and check the 375px viewport first.
 9. Semantic HTML with accessible names and visible focus rings. Meet WCAG AA
    contrast (4.5:1 text, 3:1 for non-text UI like focus indicators).

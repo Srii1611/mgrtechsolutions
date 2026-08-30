@@ -15,7 +15,7 @@ export const WORK_HERO = {
   headlineAccent: 'honestly labeled.',
   lede:
     "Three live client sites and four demos built to show the approach. Every card on this page tells you which it is — because a portfolio you have to fact-check isn't worth much.",
-  ticker: '3 LIVE · 4 DEMO · 5-WEEK BUILDS · ALL HAND-CODED',
+  ticker: '3 LIVE · 4 DEMO · 15-DAY BUILDS · ALL HAND-CODED',
 } as const;
 
 /** S2 — Legend strip: sticky honest-label legend below the navbar. */
@@ -43,7 +43,7 @@ export const EIGHTH_SLOT = {
   headline: 'This spot is',
   headlineAccent: 'reserved for your business.',
   body:
-    "Every project above started with the same 30-minute phone call. If you want a site that's honestly labeled, hand-coded, and built to ring — the next case study on this page could be yours.",
+    "Every project above started with the same 60-minute phone call. If you want a site that's honestly labeled, hand-coded, and built to ring — the next case study on this page could be yours.",
   callLabel: 'Call',
   secondaryCta: 'See pricing',
   secondaryHref: '/pricing',

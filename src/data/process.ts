@@ -10,9 +10,9 @@ export const PROCESS_HERO = {
   breadcrumb: 'PROCESS',
   eyebrow: '— THE PROCESS',
   headline: 'Your part:',
-  headlineAccent: '30 minutes.',
+  headlineAccent: '90 minutes.',
   lede:
-    "You're running a business. The last thing you need is a second job managing a website project. So I built a process where your total time investment is one phone call and one design review — and everything else is mine.",
+    "You're running a business. The last thing you need is a second job managing a website project. So I built a process where your total time investment is about 90 minutes across one conversation and two reviews — and everything else is mine.",
   countdown: {
     line1: 'CALL',
     arrow: '→',
@@ -29,10 +29,10 @@ export const WEEK_TIMELINE = {
     {
       week: 'WEEK 1',
       title: 'Discovery',
-      body: "One 30-minute phone call. I ask about your business, your customers, what a good lead looks like, and what you hate about your current site. That's the last homework you get.",
+      body: "One 60-minute phone call. I ask about your business, your customers, what a good lead looks like, and what you hate about your current site. That's the last homework you get.",
       iDo: 'Research your market, competitors, and search landscape',
       youDo: 'One phone call',
-      chip: 'YOU: 30 MIN',
+      chip: 'YOU: 60 MIN',
     },
     {
       week: 'WEEK 2',
@@ -80,16 +80,16 @@ export const EFFORT_LEDGER = {
   headlineAccent: 'Very different time bill.',
   columns: ['LINE ITEM', 'A TYPICAL AGENCY PROJECT', 'WORKING WITH MGRTECH'],
   rows: [
-    ['Meetings before anything starts', '3–4 intro calls', 'One 30-minute call'],
+    ['Meetings before anything starts', '3–4 intro calls', 'One 60-minute call'],
     ['People you explain your business to', 'Sales rep → PM → designer → dev', 'One contact, once'],
-    ['Your hours on the project', '10–20 hours', 'Under 1 hour'],
-    ['Timeline', '3–6 months', '5 weeks'],
+    ['Your hours on the project', '10–20 hours', 'About 90 minutes'],
+    ['Timeline', '3–6 months', '15 days'],
     ['After launch', 'Ticket queue', 'Call the person who built it'],
   ],
   totals: {
     label: 'YOUR TOTAL EFFORT',
     agency: 'WEEKS OF MEETINGS',
-    mine: '~45 MINUTES',
+    mine: '~90 MINUTES',
   },
 } as const;
 
@@ -103,7 +103,7 @@ export const HOMEWORK_LIST = {
   packingListLabel: 'PACKING LIST',
   items: [
     {
-      label: '30 minutes for a phone call',
+      label: '60 minutes for a phone call',
       note: 'Any time that works. Early, late, between jobs.',
     },
     {
