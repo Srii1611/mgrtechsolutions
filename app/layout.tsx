@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { MotionConfig } from 'framer-motion';
-import Header from '@/components/layout/Header';
+import Header from '@/components/ui/navbar-mgrtech';
 import Footer from '@/components/layout/Footer';
 import SmoothScroll from '@/components/motion/SmoothScroll';
 import JsonLd from '@/components/JsonLd';
