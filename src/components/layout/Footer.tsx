@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { SITE, NAV, FOOTER_CATEGORIES } from '@/data/site';
+import { SITE, NAV, FOOTER_SUBPAGES, FOOTER_CATEGORIES } from '@/data/site';
 
 export default function Footer() {
   return (
@@ -37,6 +37,21 @@ export default function Footer() {
                   >
                     {item.label}
                   </Link>
+
+                  {FOOTER_SUBPAGES.some((sub) => sub.parent === item.href) && (
+                    <ul className="mt-2 space-y-2 border-l border-forest-700 pl-3">
+                      {FOOTER_SUBPAGES.filter((sub) => sub.parent === item.href).map((sub) => (
+                        <li key={sub.href}>
+                          <Link
+                            href={sub.href}
+                            className="text-[0.9375rem] transition-colors hover:text-accent"
+                          >
+                            {sub.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>

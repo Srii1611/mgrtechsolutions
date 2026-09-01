@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Check } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import { PACKAGES } from '@/data/pricing-page';
@@ -47,6 +48,19 @@ export default function Packages() {
 
         <Reveal delay={0.2}>
           <p className="eyebrow mt-10 text-ink-soft">{PACKAGES.footnote}</p>
+        </Reveal>
+
+        <Reveal delay={0.25}>
+          <p className="mt-6 text-[1.0625rem] text-ink-soft">
+            Looking for the fixed-price website builds?{' '}
+            <Link
+              href="/pricing/website-cost"
+              className="font-medium text-accent-ink underline underline-offset-4"
+            >
+              See the Starter, Growth, and Custom website packages
+            </Link>
+            .
+          </p>
         </Reveal>
       </div>
     </section>

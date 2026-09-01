@@ -17,11 +17,22 @@ export const NAV = [
   { href: '/services', label: 'Services' },
   { href: '/work', label: 'Work' },
   { href: '/process', label: 'Process' },
-  { href: '/pricing', label: 'Pricing' },
+  { href: '/pricing', label: 'Packages' },
   { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
   { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },
+] as const;
+
+/**
+ * Package/detail pages that hang off a primary nav route. Shown in the
+ * footer under their parent, not in the header — the header's eight items
+ * are already at the limit for the 375px viewport.
+ */
+export const FOOTER_SUBPAGES = [
+  { href: '/pricing/website-cost', label: 'Website Pricing', parent: '/pricing' },
+  { href: '/pricing/seo', label: 'SEO Packages', parent: '/pricing' },
+  { href: '/pricing/social', label: 'Social Media', parent: '/pricing' },
 ] as const;
 
 /** Blog categories, for footer routing. Six per spec. */
