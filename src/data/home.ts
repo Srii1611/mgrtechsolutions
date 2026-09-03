@@ -9,10 +9,22 @@
 /** S1 — Hero */
 export const HERO = {
   eyebrow: 'MGRTECH SOLUTIONS · ASHLAND, MA',
-  headline: "Your competitors aren't better.",
-  headlineAccent: "They're just easier to find.",
+  /**
+   * The previous headline — "Your competitors aren't better. / They're just
+   * easier to find." — was replaced on 3 Sep 2026. It is not a copyright
+   * problem (too short to protect) but at least three competing agencies run
+   * the same construction almost verbatim, so the most prominent sentence on
+   * the site was the house style of the local-SEO category.
+   *
+   * What replaces it was already the strongest writing on the page, buried in
+   * the lede. A web search for it returns no matches anywhere: it is the
+   * owner's own line, it names the reader's actual experience rather than
+   * making an abstract claim, and the three-beat rhythm carries display type.
+   */
+  headline: "You've paid for a website before.",
+  headlineAccent: 'It looked fine. It never rang.',
   lede:
-    "You've paid for a website before. It looked fine. It never rang. I build hand-coded websites for MetroWest businesses that are engineered to do one thing: turn nearby searches into phone calls.",
+    'I build hand-coded websites for MetroWest businesses that are engineered to do one thing: turn nearby searches into phone calls.',
   secondaryCta: 'See the results',
   strapline: 'ONE POINT OF CONTACT · HAND-CODED, NO TEMPLATES · 15-DAY BUILDS',
 } as const;
@@ -37,9 +49,8 @@ export const HERO = {
  *     but the sample was 433 B2B SaaS companies — wrong population for trades.
  *     411 Locals already makes the point on the right one.
  *
- * Still open: the 27% / 38% conflict with OBJECTIONS item 05, below. Both
- * figures are correctly cited but measure different samples, and picking one
- * is a positioning call rather than a factual one.
+ * The 27% / 38% conflict with OBJECTIONS item 05 is resolved there, by naming
+ * the sample behind each figure rather than dropping either one.
  */
 export const STAGES = {
   eyebrow: '— HOW THE WORK ACTUALLY WORKS',
@@ -215,11 +226,11 @@ export const WORK = {
  *   - Item 05 here cites Invoca: home service companies miss 27% of calls.
  *     STAGES stage 03 says small businesses answer "about 38%" of calls,
  *     i.e. miss ~62%. Both appear on the same page. Pick one.
- *     Note (2 Sep 2026): both are correctly cited and neither is wrong — they
- *     measure different samples (Invoca: home services; 411 Locals: 85 small
- *     businesses across 58 industries). A visitor reading both still sees a
- *     contradiction. Choosing between them changes the pitch, so it is left
- *     to the owner.
+ *     Resolved 3 Sep 2026: neither figure was wrong — they measure different
+ *     samples (Invoca: home services; 411 Locals: 85 small businesses across
+ *     58 industries). Rather than drop one, item 05 now states both and names
+ *     the scope of each, so the pair reads as corroboration instead of
+ *     contradiction.
  *   - Item 04 here repeats the 100x / 21x five-minute figures verbatim from
  *     STAGES stage 03. Attribution verified: MIT / InsideSales Lead Response
  *     Management study, Oldroyd, 2007 — the comparator is 5 vs 30 minutes,
@@ -281,10 +292,10 @@ export const OBJECTIONS = {
     {
       q: 'How many calls am I actually missing?',
       a: [
-        "Invoca's research found home service companies miss 27% of inbound calls.",
+        "Two studies, two different samples, same conclusion. Measured across small businesses generally, only about 38% of inbound calls are answered by a live person. Narrowed to home service companies specifically, Invoca puts the miss rate at 27%.",
         "41% of jobs booked online come in after hours, and 86% of people won't answer a number they don't recognise.",
       ],
-      sources: ['Invoca (2023)', 'CallRail'],
+      sources: ['411 Locals (2024)', 'Invoca (2023)', 'CallRail'],
     },
     {
       q: 'Do reviews really matter that much?',
