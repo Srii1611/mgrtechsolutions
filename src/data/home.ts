@@ -20,9 +20,26 @@ export const HERO = {
 /**
  * S2 — How the work actually works.
  *
- * The statistics below are quoted from the owner's copy as supplied. They are
- * published as factual claims, so each should carry a source before this ships
- * anywhere the numbers might be challenged.
+ * Every statistic below was traced to a primary source on 2 Sep 2026 and each
+ * stage now renders its `sources`, the same way OBJECTIONS does.
+ *
+ * Removed in that pass, and not to be reinstated without new evidence:
+ *   - "The map box shows up in roughly 93% of those searches" (Moz). True, but
+ *     it sat two clauses from SOCi's unrelated "93% more actions" and the
+ *     collision read as a copy-paste error. The 44%-of-clicks figure carries
+ *     the argument on its own.
+ *   - "Two thirds of people are more likely to hire a contractor who has a
+ *     real website." Misstated its source, which measured homeowners more
+ *     likely to CALL a contractor whose PRICING is on the website. The
+ *     corrected figure now lives in PRICING, where it is evidence for
+ *     publishing prices.
+ *   - "Only about 7% of businesses actually manage it" (Drift, 2017). Real,
+ *     but the sample was 433 B2B SaaS companies — wrong population for trades.
+ *     411 Locals already makes the point on the right one.
+ *
+ * Still open: the 27% / 38% conflict with OBJECTIONS item 05, below. Both
+ * figures are correctly cited but measure different samples, and picking one
+ * is a positioning call rather than a factual one.
  */
 export const STAGES = {
   eyebrow: '— HOW THE WORK ACTUALLY WORKS',
@@ -47,7 +64,7 @@ export const STAGES = {
       headline: "If you're not in the map box, you're not in the running.",
       body: [
         'When someone two towns over pulls out their phone and searches "drywall contractor near me," Google doesn\'t show them ten blue links. It shows a map with three businesses pinned to the top. That box is where the decision starts, and for most people it\'s where it ends.',
-        'Nearly half of all Google searches are looking for something local. The map box shows up in roughly 93% of those searches and takes about 44% of the clicks. Businesses inside it get 126% more traffic and 93% more calls, clicks and direction requests than the businesses ranked just below at positions four through ten. Being on page one isn’t the goal. Being in the box is.',
+        'Nearly half of all Google searches are looking for something local, and the map box takes about 44% of the clicks on them — more than the organic results and the paid ads combined. Businesses inside it get 126% more traffic and 93% more calls, clicks and direction requests than the businesses ranked just below at positions four through ten. Being on page one isn’t the goal. Being in the box is.',
         "Most trades businesses aren't in there for boring, fixable reasons: a business name on Google that doesn't match the name on their incorporation papers, missing or wrong service categories, an address Google can't verify, no photos, no reviews, and a website too slow or too tangled for Google to read properly.",
       ],
       buildLabel: 'What we build',
@@ -59,6 +76,10 @@ export const STAGES = {
       ],
       costLabel: 'What it costs you to skip this',
       cost: 'You pay for ads to rent traffic you should be getting for free, or you stay entirely dependent on referrals and hope they keep coming.',
+      sources: [
+        'Google — share of searches with local intent',
+        'SOCi — local pack traffic and actions vs. positions 4–10',
+      ],
     },
     {
       index: '02',
@@ -67,7 +88,7 @@ export const STAGES = {
       headline: 'Being found is worth nothing if the next five seconds lose them.',
       body: [
         "They found you. Now you're sitting next to two competitors in the same box, and the comparison happens fast — people form an impression of a website in well under a second, and most of that impression is design and load speed before they've read a word.",
-        'But looking good is only half of it. 97% of consumers read reviews for local businesses. 68% won’t use one rated under four stars. 47% won’t use one with fewer than 20 reviews. And two thirds of people say they’re simply more likely to hire a contractor who has a real website at all — for a homeowner about to let a stranger into their house, the site is the background check.',
+        'But looking good is only half of it. 97% of consumers read reviews for local businesses. 68% won’t use one rated under four stars. 47% won’t use one with fewer than 20 reviews. For a homeowner about to let a stranger into their house, your site and your reviews are the background check.',
         "The gap on most trades websites isn't ugliness. It's absence. No photos of actual finished jobs. Services buried in a paragraph instead of listed out. Reviews on a separate page nobody visits. A phone number sitting in the footer where nobody scrolls.",
       ],
       buildLabel: 'What we build',
@@ -80,6 +101,7 @@ export const STAGES = {
       ],
       costLabel: 'What it costs you to skip this',
       cost: 'You generate the traffic and your competitor books the job.',
+      sources: ['BrightLocal — Local Consumer Review Survey 2026 (1,002 US adults)'],
     },
     {
       index: '03',
@@ -89,7 +111,7 @@ export const STAGES = {
       body: [
         "This is the stage nobody sells you, and it's where most of the money leaks out.",
         'Small businesses answer only about 38% of the calls that come in. The other six in ten go to voicemail or nowhere at all. Voicemail doesn’t save you either — more than 80% of callers hang up without leaving one, and roughly 85% of people whose call goes unanswered never call back. They call the next business on the list. Your marketing worked perfectly and you still lost the job.',
-        'Web forms are worse, because the clock is faster than anyone expects. Getting back to a new lead within five minutes makes you 100 times more likely to reach that person and 21 times more likely to qualify them than waiting thirty. Only about 7% of businesses actually manage it. The first business to respond usually wins — not the cheapest one, not the best one. The first one.',
+        'Web forms are worse, because the clock is faster than anyone expects. Getting back to a new lead within five minutes makes you 100 times more likely to reach that person and 21 times more likely to qualify them than waiting thirty. The first business to respond usually wins — not the cheapest one, not the best one. The first one.',
         "None of this is a work-ethic problem. You're on a roof. You're mid-pour. Your hands are full and your phone is in the truck. That's precisely why it can't depend on you remembering.",
       ],
       buildLabel: 'What we build',
@@ -102,6 +124,11 @@ export const STAGES = {
       ],
       costLabel: 'What it costs you to skip this',
       cost: 'You spend real money making the phone ring, then miss six out of every ten calls it makes.',
+      sources: [
+        '411 Locals (2024) — 85 businesses across 58 industries',
+        'Forbes / RingCentral, Hiya, Marchex — voicemail abandonment',
+        'MIT / InsideSales — Lead Response Management study (Oldroyd, 2007)',
+      ],
     },
   ],
 
@@ -188,8 +215,15 @@ export const WORK = {
  *   - Item 05 here cites Invoca: home service companies miss 27% of calls.
  *     STAGES stage 03 says small businesses answer "about 38%" of calls,
  *     i.e. miss ~62%. Both appear on the same page. Pick one.
+ *     Note (2 Sep 2026): both are correctly cited and neither is wrong — they
+ *     measure different samples (Invoca: home services; 411 Locals: 85 small
+ *     businesses across 58 industries). A visitor reading both still sees a
+ *     contradiction. Choosing between them changes the pitch, so it is left
+ *     to the owner.
  *   - Item 04 here repeats the 100x / 21x five-minute figures verbatim from
- *     STAGES stage 03.
+ *     STAGES stage 03. Attribution verified: MIT / InsideSales Lead Response
+ *     Management study, Oldroyd, 2007 — the comparator is 5 vs 30 minutes,
+ *     commonly misquoted as 5 vs 10.
  *
  * Research notes addressed to the developer rather than the reader were
  * removed from the answers ("Strongest data in the whole set", "Use the
@@ -473,6 +507,15 @@ export const PRICING = {
     'Starting-at pricing, published. Your final quote is locked after one call — no hourly meters, no surprise invoices.',
   placeholderNote: 'FINAL PRICING CONFIRMED ON THE CALL.',
   cta: 'See what each package includes',
+  /**
+   * Published pricing is a differentiator, so the number that justifies it
+   * sits here rather than in STAGES 02, where it previously appeared in a
+   * misstated form ("two thirds more likely to hire a contractor who has a
+   * real website"). The survey measures pricing on the site, not the site.
+   */
+  proof:
+    'Roughly four in five homeowners say they’re more likely to call a contractor whose pricing is on the website. That’s why ours is.',
+  proofSource: 'Roofing Contractor — 2025 Homeowner Survey (roofing-specific)',
   plans: [
     {
       name: 'THE SITE',

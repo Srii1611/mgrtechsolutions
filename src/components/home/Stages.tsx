@@ -204,6 +204,15 @@ function Stage({
             {stage.cost}
           </p>
         </Reveal>
+
+        {/* Attribution. This section leans on specific figures as hard as the
+            FAQ does, so it shows its work the same way — see OBJECTIONS. */}
+        <Reveal delay={0.3}>
+          <p className="mt-6 max-w-2xl border-t border-cream-300 pt-3 text-[0.75rem] leading-relaxed text-ink-soft">
+            <span className="font-semibold text-accent-ink">Source: </span>
+            {stage.sources.join(' · ')}
+          </p>
+        </Reveal>
       </div>
     </article>
   );
