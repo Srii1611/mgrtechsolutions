@@ -20,6 +20,17 @@ export default function PricingPreview() {
           <p className="eyebrow mt-6 text-sand">{PRICING.placeholderNote}</p>
         </Reveal>
 
+        {/* The evidence for publishing prices at all, kept beside the prices. */}
+        <Reveal delay={0.12}>
+          <p className="mt-8 max-w-2xl border-l-2 border-accent pl-5 text-[1.0625rem] leading-[1.7] text-mist">
+            {PRICING.proof}
+          </p>
+          <p className="mt-3 max-w-2xl pl-5 text-[0.75rem] leading-relaxed text-cream-100/70">
+            <span className="font-semibold text-accent">Source: </span>
+            {PRICING.proofSource}
+          </p>
+        </Reveal>
+
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {PRICING.plans.map((plan, i) => (
             <Reveal key={plan.name} delay={i * 0.08}>
