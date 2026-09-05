@@ -2,6 +2,13 @@
 
 # MGRTECH Solutions — Marketing Site
 
+## Start here
+Read `docs/STATUS.md` before proposing any work. It records what has shipped,
+what is still open, and which decisions are already settled — including the
+stale plan checkboxes that make finished work look outstanding. The spec in
+`docs/superpowers/specs/` is the design authority; STATUS.md is the current
+state. Keep STATUS.md updated as work lands.
+
 ## What this is
 The marketing site for MGRTECH SOLUTIONS, Inc., a web development and AI
 automation studio in Ashland, MA serving MetroWest Massachusetts. Audience:
