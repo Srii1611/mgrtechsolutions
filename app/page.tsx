@@ -6,7 +6,8 @@ import WorkSection from '@/components/home/WorkSection';
 import Objections from '@/components/home/Objections';
 import ProcessSection from '@/components/home/ProcessSection';
 import Comparison from '@/components/home/Comparison';
-import PricingPreview from '@/components/home/PricingPreview';
+// SOFT-HIDE: restore before launch
+// import PricingPreview from '@/components/home/PricingPreview';
 import DualClose from '@/components/home/DualClose';
 import { BANDS } from '@/data/home';
 
@@ -23,7 +24,8 @@ export default function Home() {
       <Band label={BANDS[2]}><Objections /></Band>
       <Band label={BANDS[3]} dark><ProcessSection /></Band>
       <Band label={BANDS[4]}><Comparison /></Band>
-      <Band label={BANDS[5]} dark><PricingPreview /></Band>
+      {/* SOFT-HIDE: restore before launch */}
+      {/* <Band label={BANDS[5]} dark><PricingPreview /></Band> */}
       <Band label={BANDS[6]} dark><DualClose /></Band>
     </>
   );

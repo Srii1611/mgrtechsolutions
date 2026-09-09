@@ -17,7 +17,8 @@ export const NAV = [
   { href: '/services', label: 'Services' },
   { href: '/work', label: 'Work' },
   { href: '/process', label: 'Process' },
-  { href: '/pricing', label: 'Packages' },
+  // SOFT-HIDE: restore before launch
+  // { href: '/pricing', label: 'Packages' },
   { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
   { href: '/faq', label: 'FAQ' },
@@ -29,11 +30,16 @@ export const NAV = [
  * footer under their parent, not in the header — the header's eight items
  * are already at the limit for the 375px viewport.
  */
-export const FOOTER_SUBPAGES = [
-  { href: '/pricing/website-cost', label: 'Website Pricing', parent: '/pricing' },
-  { href: '/pricing/seo', label: 'SEO Packages', parent: '/pricing' },
-  { href: '/pricing/social', label: 'Social Media', parent: '/pricing' },
-] as const;
+export const FOOTER_SUBPAGES: ReadonlyArray<{
+  href: string;
+  label: string;
+  parent: string;
+}> = [
+  // SOFT-HIDE: restore before launch (parent /pricing nav item is hidden)
+  // { href: '/pricing/website-cost', label: 'Website Pricing', parent: '/pricing' },
+  // { href: '/pricing/seo', label: 'SEO Packages', parent: '/pricing' },
+  // { href: '/pricing/social', label: 'Social Media', parent: '/pricing' },
+];
 
 /** Blog categories, for footer routing. Six per spec. */
 export const FOOTER_CATEGORIES = [
