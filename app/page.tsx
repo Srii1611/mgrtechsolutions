@@ -8,7 +8,6 @@ import ProcessSection from '@/components/home/ProcessSection';
 import Comparison from '@/components/home/Comparison';
 import PricingPreview from '@/components/home/PricingPreview';
 import DualClose from '@/components/home/DualClose';
-import { BANDS } from '@/data/home';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -18,13 +17,13 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Band label={BANDS[0]}><Stages /></Band>
-      <Band label={BANDS[1]} dark><WorkSection /></Band>
-      <Band label={BANDS[2]}><Objections /></Band>
-      <Band label={BANDS[3]} dark><ProcessSection /></Band>
-      <Band label={BANDS[4]}><Comparison /></Band>
-      <Band label={BANDS[5]} dark><PricingPreview /></Band>
-      <Band label={BANDS[6]} dark><DualClose /></Band>
+      <Band><Stages /></Band>
+      <Band dark><WorkSection /></Band>
+      <Band><Objections /></Band>
+      <Band dark><ProcessSection /></Band>
+      <Band><Comparison /></Band>
+      <Band dark><PricingPreview /></Band>
+      <Band dark><DualClose /></Band>
     </>
   );
 }

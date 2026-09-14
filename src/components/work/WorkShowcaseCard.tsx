@@ -73,7 +73,7 @@ export default function WorkShowcaseCard({ item }: { item: WorkShowcaseItem }) {
           <span className="h-2 w-2 rounded-full bg-forest-700" />
           <span className="h-2 w-2 rounded-full bg-forest-700" />
         </span>
-        <span className="eyebrow truncate text-[0.625rem] text-mist">
+        <span className="eyebrow min-w-0 truncate text-[0.625rem] text-mist">
           {item.domain ?? item.name}
         </span>
 

@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { Menu, PhoneCall, X } from 'lucide-react';
 import {
   AnimatePresence,
   motion,
@@ -40,41 +39,20 @@ import {
 type NavItem = {
   name: string;
   link: string;
-  /**
-   * Optional mega-menu. Only routes that actually exist go in here — an
-   * empty column is better than a link to a page we haven't built.
-   */
-  menu?: { heading: string; items: { name: string; link: string }[] }[];
 };
 
+/**
+ * Every item is a section of the homepage. The standalone sales routes
+ * redirect to `/` (see `next.config.ts`), so the header never links to them.
+ * The `/` prefix lets the links work from blog pages too.
+ */
 const NAV_ITEMS: NavItem[] = [
-  { name: 'Services', link: '/services' },
-  { name: 'Work', link: '/work' },
-  { name: 'Process', link: '/process' },
-  {
-    name: 'Packages',
-    link: '/pricing',
-    menu: [
-      {
-        heading: 'Design & Development',
-        items: [
-          { name: 'Website Pricing', link: '/pricing/website-cost' },
-          { name: 'All Packages', link: '/pricing' },
-        ],
-      },
-      {
-        heading: 'Digital Marketing',
-        items: [
-          { name: 'SEO Packages', link: '/pricing/seo' },
-          { name: 'Social Media', link: '/pricing/social' },
-        ],
-      },
-    ],
-  },
-  { name: 'Blog', link: '/blog' },
-  { name: 'About', link: '/about' },
-  { name: 'FAQ', link: '/faq' },
-  { name: 'Contact', link: '/contact' },
+  { name: 'Services', link: '/#services' },
+  { name: 'Work', link: '/#work' },
+  { name: 'Process', link: '/#process' },
+  { name: 'Packages', link: '/#pricing' },
+  { name: 'FAQ', link: '/#faq' },
+  { name: 'Contact', link: '/#contact' },
 ];
 
 const PHONE = '774-460-1116';
@@ -90,11 +68,7 @@ const SPRING = { stiffness: 190, damping: 30, restDelta: 0.001 } as const;
 export default function NavbarMgrtech() {
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
-  /** Which mega-menu is open, by nav link. Hover opens it on desktop;
-   *  click/Enter on the trigger keeps it reachable from the keyboard. */
-  const [menuOpen, setMenuOpen] = useState<string | null>(null);
 
-  const pathname = usePathname();
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
 
@@ -229,115 +203,19 @@ export default function NavbarMgrtech() {
           <nav
             aria-label="Primary"
             className="hidden items-center lg:flex"
-            onMouseLeave={() => {
-              setHovered(null);
-              setMenuOpen(null);
-            }}
+            onMouseLeave={() => setHovered(null)}
           >
             {NAV_ITEMS.map((item) => {
-              const isActive = pathname === item.link || pathname.startsWith(`${item.link}/`);
-              // The underline follows the pointer when there is one, and
-              // falls back to the current route when there is not.
-              const isMarked = hovered ? hovered === item.link : isActive;
-
-              const linkClass = `relative px-3 py-2 text-[0.9375rem] transition-colors ${
-                isMarked ? 'text-white' : 'text-neutral-300 hover:text-white'
-              }`;
-
-              const underline = isMarked && (
-                <motion.div
-                  layoutId="nav-underline"
-                  aria-hidden="true"
-                  className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-emerald-400"
-                  transition={
-                    reduce ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 32 }
-                  }
-                />
-              );
-
-              // Items with a mega-menu render a disclosure button instead of
-              // a link: the parent route is reachable from inside the panel,
-              // so the trigger's only job is opening it.
-              if (item.menu) {
-                const isMenuOpen = menuOpen === item.link;
-                return (
-                  <div
-                    key={item.link}
-                    className="relative"
-                    onMouseEnter={() => {
-                      setHovered(item.link);
-                      setMenuOpen(item.link);
-                    }}
-                  >
-                    <button
-                      type="button"
-                      aria-expanded={isMenuOpen}
-                      aria-haspopup="true"
-                      onClick={() => setMenuOpen(isMenuOpen ? null : item.link)}
-                      className={`${linkClass} inline-flex items-center gap-1`}
-                    >
-                      <span className="relative">{item.name}</span>
-                      <ChevronDown
-                        aria-hidden="true"
-                        className={`h-3.5 w-3.5 transition-transform ${
-                          isMenuOpen ? 'rotate-180' : ''
-                        }`}
-                      />
-                      {underline}
-                    </button>
-
-                    <AnimatePresence>
-                      {isMenuOpen && (
-                        <motion.div
-                          initial={reduce ? false : { opacity: 0, y: -6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
-                          transition={reduce ? { duration: 0 } : { duration: 0.18 }}
-                          className="absolute left-0 top-full z-50 mt-3 grid min-w-[16rem] grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-x-10 gap-y-6 rounded-2xl border border-white/10 bg-black/95 p-6 shadow-lg shadow-black/40 backdrop-blur-md"
-                        >
-                          {item.menu.map((column) => (
-                            <div key={column.heading}>
-                              <p className="eyebrow text-neutral-500">{column.heading}</p>
-                              <ul className="mt-4 space-y-3">
-                                {column.items.map((sub) => {
-                                  const subActive = pathname === sub.link;
-                                  return (
-                                    <li key={sub.link}>
-                                      <Link
-                                        href={sub.link}
-                                        onClick={() => setMenuOpen(null)}
-                                        aria-current={subActive ? 'page' : undefined}
-                                        className={`block whitespace-nowrap text-[0.9375rem] transition-colors ${
-                                          subActive
-                                            ? 'text-emerald-400'
-                                            : 'text-neutral-200 hover:text-emerald-400'
-                                        }`}
-                                      >
-                                        {sub.name}
-                                      </Link>
-                                    </li>
-                                  );
-                                })}
-                              </ul>
-                            </div>
-                          ))}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              }
+              const isMarked = hovered === item.link;
 
               return (
                 <Link
                   key={item.link}
                   href={item.link}
-                  aria-current={isActive ? 'page' : undefined}
-                  onMouseEnter={() => {
-                    setHovered(item.link);
-                    setMenuOpen(null);
-                  }}
-                  className={linkClass}
+                  onMouseEnter={() => setHovered(item.link)}
+                  className={`relative px-3 py-2 text-[0.9375rem] transition-colors ${
+                    isMarked ? 'text-white' : 'text-neutral-300 hover:text-white'
+                  }`}
                 >
                   <span className="relative">{item.name}</span>
 
@@ -364,12 +242,18 @@ export default function NavbarMgrtech() {
             })}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-3">
+            {/* Call is a tel: link at every breakpoint. Below lg the number is
+                dropped from the label so logo, button and menu fit at 375px;
+                the accessible name keeps the full number. */}
             <a
               href={PHONE_HREF}
-              className="hidden rounded-full bg-emerald-400 px-5 py-2.5 text-[0.9375rem] font-semibold text-black transition hover:bg-emerald-300 lg:inline-block"
+              aria-label={`Call ${PHONE}`}
+              className="inline-flex items-center gap-2 rounded-full bg-emerald-400 px-4 py-2 text-[0.9375rem] font-semibold text-black transition hover:bg-emerald-300 lg:px-5 lg:py-2.5"
             >
-              Call {PHONE}
+              <PhoneCall className="h-4 w-4 lg:hidden" strokeWidth={2} aria-hidden="true" />
+              <span className="lg:hidden">Call</span>
+              <span className="hidden lg:inline">Call {PHONE}</span>
             </a>
 
             <button
@@ -408,51 +292,16 @@ export default function NavbarMgrtech() {
             className="absolute inset-x-0 top-full overflow-hidden border-t border-white/10 bg-black/95 backdrop-blur-md lg:hidden"
           >
             <div className="flex flex-col gap-1 px-6 py-6">
-              {NAV_ITEMS.map((item) => {
-                const isActive = pathname === item.link || pathname.startsWith(`${item.link}/`);
-
-                return (
-                  <div key={item.link}>
-                    <Link
-                      href={item.link}
-                      onClick={() => setOpen(false)}
-                      aria-current={isActive ? 'page' : undefined}
-                      className={`block py-2 text-lg transition-colors ${
-                        isActive ? 'text-emerald-400' : 'text-neutral-300 hover:text-emerald-400'
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-
-                    {/* Mega-menu contents render inline in the drawer —
-                        a nested disclosure inside an open drawer is more
-                        taps than it is worth at this list length. */}
-                    {item.menu?.map((column) => (
-                      <ul
-                        key={column.heading}
-                        className="mb-1 ml-3 space-y-1 border-l border-white/10 pl-4"
-                      >
-                        {column.items.map((sub) => (
-                          <li key={sub.link}>
-                            <Link
-                              href={sub.link}
-                              onClick={() => setOpen(false)}
-                              aria-current={pathname === sub.link ? 'page' : undefined}
-                              className={`block py-1.5 text-base transition-colors ${
-                                pathname === sub.link
-                                  ? 'text-emerald-400'
-                                  : 'text-neutral-400 hover:text-emerald-400'
-                              }`}
-                            >
-                              {sub.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    ))}
-                  </div>
-                );
-              })}
+              {NAV_ITEMS.map((item) => (
+                <Link
+                  key={item.link}
+                  href={item.link}
+                  onClick={() => setOpen(false)}
+                  className="block py-2 text-lg text-neutral-300 transition-colors hover:text-emerald-400"
+                >
+                  {item.name}
+                </Link>
+              ))}
 
               <a
                 href={PHONE_HREF}

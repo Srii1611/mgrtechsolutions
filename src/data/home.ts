@@ -30,12 +30,23 @@ export const HERO = {
 } as const;
 
 /**
- * S2 — How the work actually works.
+ * S2 — Services, in the order the phone needs them.
+ *
+ * Restructured on 14 Sep 2026 from three outcome stages (Get Found / Get
+ * Chosen / Get Followed Up) into five named services, so a visitor sees what
+ * we actually sell without decoding a metaphor. The layout, the pinned phone
+ * scenes, the beam and the hinge are unchanged; the existing copy moved under
+ * the service it describes, and each stage was cut to two paragraphs.
  *
  * Every statistic below was traced to a primary source on 2 Sep 2026 and each
- * stage now renders its `sources`, the same way OBJECTIONS does.
+ * stage renders its `sources`, the same way OBJECTIONS does. Google Ads and
+ * Social Media carry no figures, because none of the traced research is about
+ * them: their `sources` are empty and the attribution line is not rendered.
+ * Their copy is taken from `seo-packages.ts` and `social-packages.ts`, and
+ * deliberately quotes no prices — PRICING says ads and social are quoted on
+ * the call.
  *
- * Removed in that pass, and not to be reinstated without new evidence:
+ * Removed in the 2 Sep pass, and not to be reinstated without new evidence:
  *   - "The map box shows up in roughly 93% of those searches" (Moz). True, but
  *     it sat two clauses from SOCi's unrelated "93% more actions" and the
  *     collision read as a copy-paste error. The 44%-of-clicks figure carries
@@ -53,15 +64,15 @@ export const HERO = {
  * the sample behind each figure rather than dropping either one.
  */
 export const STAGES = {
-  eyebrow: '— HOW THE WORK ACTUALLY WORKS',
+  eyebrow: '— WHAT WE BUILD, IN ORDER',
   headline:
-    'Three things have to happen before your phone rings. Most websites only do one of them.',
+    'Five things have to work before your phone rings. Most businesses only pay for one of them.',
   intro:
-    "Getting found. Getting picked. Getting back to people fast enough that they don't call someone else. Skip any one of the three and the other two stop mattering — a site nobody finds is a brochure, a site people find but don't trust is a bounce, and a site that gets you calls you never answer is just an expensive way to feed your competitors.",
+    "A website people trust. SEO and ads that put it in front of people searching today. Follow-up fast enough that they don't call someone else. Content that proves you're busy and real. Skip one and the rest leak — a site nobody finds is a brochure, a site people find but don't trust is a bounce, and a site that gets you calls you never answer is just an expensive way to feed your competitors.",
   introSecondary:
-    "Here's what each stage means in plain English, why it matters, and exactly what we build for it.",
+    "Here's what each service is in plain English, why it matters, and exactly what we build for it.",
 
-  /** The hinge. Full-bleed accent band, sits between stages 02 and 03. */
+  /** The hinge. Full-bleed accent band, sits between stages 03 and 04. */
   hinge: {
     line1: 'Almost every website stops here.',
     line2: "That's why they still don't ring.",
@@ -70,40 +81,16 @@ export const STAGES = {
   stages: [
     {
       index: '01',
-      label: 'GET FOUND',
-      icon: 'MapPin',
-      headline: "If you're not in the map box, you're not in the running.",
+      label: 'WEBSITE DESIGN & DEVELOPMENT',
+      icon: 'MonitorSmartphone',
+      headline: "A website that's an asset, not a brochure.",
       body: [
-        'When someone two towns over pulls out their phone and searches "drywall contractor near me," Google doesn\'t show them ten blue links. It shows a map with three businesses pinned to the top. That box is where the decision starts, and for most people it\'s where it ends.',
-        'Nearly half of all Google searches are looking for something local, and the map box takes about 44% of the clicks on them — more than the organic results and the paid ads combined. Businesses inside it get 126% more traffic and 93% more calls, clicks and direction requests than the businesses ranked just below at positions four through ten. Being on page one isn’t the goal. Being in the box is.',
-        "Most trades businesses aren't in there for boring, fixable reasons: a business name on Google that doesn't match the name on their incorporation papers, missing or wrong service categories, an address Google can't verify, no photos, no reviews, and a website too slow or too tangled for Google to read properly.",
-      ],
-      buildLabel: 'What we build',
-      build: [
-        'Google Business Profile set up correctly — legal name, right primary and secondary categories, verified address, service areas mapped to the towns you actually work in',
-        "A dedicated page for each of those towns, so you're relevant in more than one map",
-        'Site speed and structure Google can crawl in a single pass',
-        'Your name, address and phone number identical across every directory that feeds Google',
-      ],
-      costLabel: 'What it costs you to skip this',
-      cost: 'You pay for ads to rent traffic you should be getting for free, or you stay entirely dependent on referrals and hope they keep coming.',
-      sources: [
-        'Google — share of searches with local intent',
-        'SOCi — local pack traffic and actions vs. positions 4–10',
-      ],
-    },
-    {
-      index: '02',
-      label: 'GET CHOSEN',
-      icon: 'MousePointerClick',
-      headline: 'Being found is worth nothing if the next five seconds lose them.',
-      body: [
-        "They found you. Now you're sitting next to two competitors in the same box, and the comparison happens fast — people form an impression of a website in well under a second, and most of that impression is design and load speed before they've read a word.",
+        "Someone finds you sitting next to two competitors, and the comparison happens fast — people form an impression of a website in well under a second, and most of that impression is design and load speed before they've read a word. That's why every site is hand-coded: no templates, no page builders, no rented themes.",
         'But looking good is only half of it. 97% of consumers read reviews for local businesses. 68% won’t use one rated under four stars. 47% won’t use one with fewer than 20 reviews. For a homeowner about to let a stranger into their house, your site and your reviews are the background check.',
-        "The gap on most trades websites isn't ugliness. It's absence. No photos of actual finished jobs. Services buried in a paragraph instead of listed out. Reviews on a separate page nobody visits. A phone number sitting in the footer where nobody scrolls.",
       ],
       buildLabel: 'What we build',
       build: [
+        'Custom design, hand-coded — no templates, no page builders, and under two seconds to load on a phone',
         "Real photographs of your work — your jobs, your trucks, your crew, not stock images of someone else's",
         "Services listed plainly, with what's included and a real price range where you're willing to give one",
         'Live Google reviews pulled onto the page, updating themselves, not screenshots from 2022',
@@ -115,15 +102,58 @@ export const STAGES = {
       sources: ['BrightLocal — Local Consumer Review Survey 2026 (1,002 US adults)'],
     },
     {
+      index: '02',
+      label: 'SEO',
+      icon: 'MapPin',
+      headline: "If you're not in the map box, you're not in the running.",
+      body: [
+        'When someone two towns over pulls out their phone and searches "drywall contractor near me," Google doesn\'t show them ten blue links. It shows a map with three businesses pinned to the top. That box is where the decision starts, and for most people it\'s where it ends.',
+        'Nearly half of all Google searches are looking for something local, and the map box takes about 44% of the clicks on them — more than the organic results and the paid ads combined. Businesses inside it get 126% more traffic and 93% more calls, clicks and direction requests than the businesses ranked just below at positions four through ten. Being on page one isn’t the goal. Being in the box is.',
+      ],
+      buildLabel: 'What we build',
+      build: [
+        'Google Business Profile set up correctly — legal name, right primary and secondary categories, verified address, service areas mapped to the towns you actually work in',
+        "A dedicated page for each of those towns, so you're relevant in more than one map",
+        'Site speed and structure Google can crawl in a single pass',
+        'Your name, address and phone number identical across every directory that feeds Google',
+        'Service pages and articles written around what your customers actually search — not vanity keywords',
+      ],
+      costLabel: 'What it costs you to skip this',
+      cost: 'You pay for ads to rent traffic you should be getting for free, or you stay entirely dependent on referrals and hope they keep coming.',
+      sources: [
+        'Google — share of searches with local intent',
+        'SOCi — local pack traffic and actions vs. positions 4–10',
+      ],
+    },
+    {
       index: '03',
-      label: 'GET FOLLOWED UP',
+      label: 'GOOGLE ADS & PPC',
+      icon: 'Megaphone',
+      headline: "SEO earns the map box over months. Ads put you in front of this week's searches.",
+      body: [
+        "SEO and content compound — most businesses see real movement in rankings and traffic over three to six months, not weeks. Ads can generate leads within days of launching, because you're paying for placement rather than waiting to earn it. The two work together, not as a replacement for each other.",
+        "What makes ads pay is alignment. The keyword someone searches, the ad they see, and the page they land on all have to say the same thing. Misalignment between those three is where most wasted ad spend comes from, and it's the first thing we fix.",
+      ],
+      buildLabel: 'What we build',
+      build: [
+        'Keyword and competitor research, and a campaign structure where your keyword, ad, and landing page all match',
+        'Conversion tracking for calls, forms, and sales — not just clicks and impressions',
+        'Search terms reviewed every month, cutting the keywords that waste money',
+        'Meta Ads (Facebook & Instagram) alongside Google, with the message matched to how warm each audience is',
+        'Ad accounts in your name, paid directly to Google and Meta, with no markup on your ad spend',
+      ],
+      costLabel: 'What it costs you to skip this',
+      cost: 'You wait months for SEO to build while the people searching for your service this week call whoever showed up first.',
+      sources: [],
+    },
+    {
+      index: '04',
+      label: 'AI AUTOMATION',
       icon: 'PhoneCall',
       headline: "The lead you already paid to earn is the one you're most likely to lose.",
       body: [
-        "This is the stage nobody sells you, and it's where most of the money leaks out.",
         'Small businesses answer only about 38% of the calls that come in. The other six in ten go to voicemail or nowhere at all. Voicemail doesn’t save you either — more than 80% of callers hang up without leaving one, and roughly 85% of people whose call goes unanswered never call back. They call the next business on the list. Your marketing worked perfectly and you still lost the job.',
         'Web forms are worse, because the clock is faster than anyone expects. Getting back to a new lead within five minutes makes you 100 times more likely to reach that person and 21 times more likely to qualify them than waiting thirty. The first business to respond usually wins — not the cheapest one, not the best one. The first one.',
-        "None of this is a work-ethic problem. You're on a roof. You're mid-pour. Your hands are full and your phone is in the truck. That's precisely why it can't depend on you remembering.",
       ],
       buildLabel: 'What we build',
       build: [
@@ -141,11 +171,31 @@ export const STAGES = {
         'MIT / InsideSales — Lead Response Management study (Oldroyd, 2007)',
       ],
     },
+    {
+      index: '05',
+      label: 'SOCIAL MEDIA & CONTENT',
+      icon: 'Camera',
+      headline: 'Your crew already does the impressive part. We make sure people see it.',
+      body: [
+        "For a trades business, social is where trust gets built before anyone picks up the phone. A homeowner comparing two roofers will look both up — and one of them has job-site reels, before-and-afters, and a post from this week, while the other hasn't posted since last spring. That gap decides more calls than most owners realise.",
+        "The hard part isn't knowing that — it's finding time to shoot and post while running crews all week. That's the part we take over: we show up to the site, capture the work, and handle everything from there.",
+      ],
+      buildLabel: 'What we build',
+      build: [
+        'On-site shoots at your real jobs, turned into videos and images every month',
+        'Captions written for every post',
+        'Scheduling and publishing handled for you',
+        'Community management — comments and messages answered',
+      ],
+      costLabel: 'What it costs you to skip this',
+      cost: "A homeowner looks you up, finds a feed that hasn't posted since spring, and calls the business that posted this week.",
+      sources: [],
+    },
   ],
 
   closer: [
-    'Get Found brings people to you. Get Chosen makes them pick you. Get Followed Up makes sure you’re the one who actually gets back to them.',
-    'Most agencies sell you the first. Some do the second. Almost nobody does the third — which is exactly why so many businesses have a website they paid good money for and a phone that doesn’t ring. We do all three, because doing two of them well is worth about the same as doing none.',
+    'The website makes people pick you. SEO and ads bring them to you. AI automation makes sure you’re the one who actually gets back to them. Content keeps you looking like the busy, trusted business you are.',
+    'Most agencies sell you one of these and leave you to stitch the rest together from four other vendors — which is exactly why so many businesses have a website they paid good money for and a phone that doesn’t ring. We plan all five together, with one point of contact, because each one only pays off when the others are doing their job.',
   ],
   cta: 'See where you stand right now — a free 10-minute audit of your map ranking, your website, and how long you actually take to respond.',
 } as const;
@@ -156,9 +206,9 @@ export const WORK = {
   headline: 'Real sites. Real labels.',
   headlineAccent: 'No stock portfolio theater.',
   lede:
-    "Three of these are live client sites, two are demos built to show the approach. You'll never have to guess which is which.",
-  legend: 'LIVE = A REAL CLIENT’S REAL SITE · DEMO = BUILT TO SHOW THE APPROACH',
-  cta: 'See all 5 projects',
+    "Three of these are live client sites, one is in production, one is a demo built to show the approach. You'll never have to guess which is which.",
+  legend:
+    'LIVE = A REAL CLIENT’S REAL SITE · PRODUCTION = DEPLOYED AND IN PROGRESS, NOT YET A CLIENT’S LIVE SITE · DEMO = BUILT TO SHOW THE APPROACH',
   projects: [
     {
       image: '/work/emanuel-blueboard.webp',
@@ -224,7 +274,7 @@ export const WORK = {
  * KNOWN CONFLICT with STAGES (section 02), flagged rather than silently
  * reconciled:
  *   - Item 05 here cites Invoca: home service companies miss 27% of calls.
- *     STAGES stage 03 says small businesses answer "about 38%" of calls,
+ *     STAGES stage 04 (AI Automation) says small businesses answer "about 38%" of calls,
  *     i.e. miss ~62%. Both appear on the same page. Pick one.
  *     Resolved 3 Sep 2026: neither figure was wrong — they measure different
  *     samples (Invoca: home services; 411 Locals: 85 small businesses across
@@ -232,7 +282,7 @@ export const WORK = {
  *     the scope of each, so the pair reads as corroboration instead of
  *     contradiction.
  *   - Item 04 here repeats the 100x / 21x five-minute figures verbatim from
- *     STAGES stage 03. Attribution verified: MIT / InsideSales Lead Response
+ *     STAGES stage 04 (AI Automation). Attribution verified: MIT / InsideSales Lead Response
  *     Management study, Oldroyd, 2007 — the comparator is 5 vs 30 minutes,
  *     commonly misquoted as 5 vs 10.
  *
@@ -353,7 +403,6 @@ export const PROCESS = {
   lede:
     'You run your business; I build the site. Your total time investment is about 90 minutes: one conversation at the start, then two short reviews. Everything else — writing, coding, setup, launch — is on me.',
   primaryCta: 'Start with a call',
-  secondaryCta: 'Full process details',
   steps: [
     {
       n: 1,
@@ -509,18 +558,17 @@ export const COMPARISON = {
 
 /**
  * S11 — Pricing preview.
- * PLACEHOLDER FIGURES. The owner supplies real numbers before launch; until
- * then every price renders as `$X,XXX` and the section says so plainly.
+ * Tiers, prices and bullets are taken from COST_TIERS in
+ * `website-cost-guide.ts` (the middle tier is named Growth there). Keep the
+ * two in step when either changes.
  */
 export const PRICING = {
   eyebrow: '— PRICING, ON THE TABLE',
   lede:
     'Starting-at pricing, published. Your final quote is locked after one call — no hourly meters, no surprise invoices.',
-  placeholderNote: 'FINAL PRICING CONFIRMED ON THE CALL.',
-  cta: 'See what each package includes',
   /**
    * Published pricing is a differentiator, so the number that justifies it
-   * sits here rather than in STAGES 02, where it previously appeared in a
+   * sits here rather than in the STAGES website stage, where it previously appeared in a
    * misstated form ("two thirds more likely to hire a contractor who has a
    * real website"). The survey measures pricing on the site, not the site.
    */
@@ -529,43 +577,67 @@ export const PRICING = {
   proofSource: 'Roofing Contractor — 2025 Homeowner Survey (roofing-specific)',
   plans: [
     {
-      name: 'THE SITE',
-      price: '$X,XXX',
-      tagline: 'A hand-coded website built to be found and chosen.',
+      name: 'STARTER',
+      price: '$499',
+      priceNote: 'ONE-TIME',
+      tagline: 'A single page that says who you are and makes the call easy.',
       featured: false,
+      badge: null,
+      inheritsFrom: null,
       includes: [
-        'Custom design',
-        'Up to N pages',
-        'Mobile-first',
-        'Google Business Profile setup',
-        'Launch & hosting setup',
+        '3–4 sections — Home, Services, About, Contact — on a single page',
+        'Primary CTA: click-to-call plus a quote request form',
+        'Mobile responsive design',
+        'Basic on-page SEO — titles, meta descriptions, alt text',
+        'Google Business Profile link and map embed',
+        '1 round of revisions',
       ],
     },
     {
-      name: 'THE SYSTEM',
-      price: '$X,XXX',
-      tagline: 'The site plus the content and follow-up that make it ring.',
+      name: 'STANDARD',
+      price: '$899',
+      priceNote: 'ONE-TIME',
+      tagline:
+        'The full build most contractors actually need — proof up front, service areas covered.',
       featured: true,
+      badge: 'BEST FIT FOR MOST CONTRACTORS',
+      inheritsFrom: 'Everything in Starter, plus:',
       includes: [
-        'Everything in The Site',
-        'Content pages/articles',
-        'Contact forms with instant auto-reply',
-        'AI follow-up automation',
-        '30 days post-launch support',
+        'Expanded multi-section build — reviews and proof placed early, not buried',
+        'Process / how-it-works section',
+        'Enhanced photo and video galleries',
+        'Multiple service area coverage',
+        'Enhanced schema markup and deeper on-page SEO',
+        '2 rounds of revisions',
       ],
     },
     {
-      name: 'THE REBUILD',
-      price: '$X,XXX',
-      tagline: 'Your existing site, taken apart and rebuilt properly.',
+      name: 'CUSTOM',
+      price: 'Quoted',
+      priceNote: '20% DEPOSIT SECURES THE START DATE',
+      tagline: 'Scoped to the build you actually have in mind.',
       featured: false,
+      badge: null,
+      inheritsFrom: 'Everything in Standard, plus:',
       includes: [
-        'Full audit of current site',
-        'Content salvage & rewrite',
-        'New hand-coded build',
-        'Redirect & SEO preservation',
+        'Custom interactive builds — scroll sequences, animated process timelines',
+        'Custom integrations — booking, quote calculators, multi-page architecture',
+        'Extended post-launch collaboration',
       ],
     },
+  ],
+  /** Same six promises as ALWAYS_INCLUDED on the pricing page. */
+  standards: [
+    'HAND-CODED',
+    'YOU OWN IT',
+    'MOBILE-FIRST',
+    'UNDER 2 SECONDS',
+    'PLAIN ENGLISH',
+    'ONE PHONE NUMBER',
+  ],
+  notes: [
+    'Build cost is separate from your domain and hosting, which stay in your name.',
+    "SEO, social and ads are quoted on the call, based on how many towns you're competing in.",
   ],
 } as const;
 
@@ -579,14 +651,3 @@ export const DUAL_CLOSE = {
   reviewBody:
     "Send me your website's address. I'll send back a short, honest look at the 3 things most likely costing you calls — free, no strings, no follow-up spam.",
 } as const;
-
-/** Band labels, in page order. */
-export const BANDS = [
-  'SECTION 02 · HOW THE WORK ACTUALLY WORKS',
-  'SECTION 03 · THE WORK',
-  'SECTION 04 · THE QUESTIONS PEOPLE ACTUALLY ASK',
-  'SECTION 05 · YOUR PART: 90 MINUTES',
-  'SECTION 06 · THE HONEST COMPARISON',
-  'SECTION 07 · PRICING, ON THE TABLE',
-  'SECTION 08 · TWO WAYS TO START',
-] as const;

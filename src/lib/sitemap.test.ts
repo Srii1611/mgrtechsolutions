@@ -5,8 +5,16 @@ import { SITE } from '@/data/site';
 const routes = buildSitemapRoutes();
 
 describe('buildSitemapRoutes', () => {
-  it('covers every route: 12 static + 132 posts + 6 categories', () => {
-    expect(routes).toHaveLength(150);
+  it('covers every route: 2 static + 132 posts + 6 categories', () => {
+    expect(routes).toHaveLength(140);
+  });
+
+  it('never lists a route that redirects to the homepage', () => {
+    const gated = ['/services', '/work', '/process', '/pricing', '/about', '/faq', '/contact'];
+    for (const r of routes) {
+      const path = r.url.slice(SITE.url.length);
+      expect(gated.some((g) => path === g || path.startsWith(`${g}/`))).toBe(false);
+    }
   });
 
   it('makes every url absolute and on the site domain', () => {

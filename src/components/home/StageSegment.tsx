@@ -62,7 +62,7 @@ export default function StageSegment({
             {segment === 'a' ? (
               <SegmentAScenes p={p} reduce={!!reduce} />
             ) : (
-              <SceneFollowUp p={p} reduce={!!reduce} />
+              <SegmentBScenes p={p} reduce={!!reduce} />
             )}
           </PhoneFrame>
         </div>
@@ -86,38 +86,65 @@ function PhoneFrame({ children }: { children: ReactNode }) {
   );
 }
 
-/* ── Segment A: stages 01 and 02 share one phone ──────────────────── */
+/* ── Segment A: 01 Website, 02 SEO, 03 Google Ads share one phone ─── */
 
 function SegmentAScenes({ p, reduce }: { p: MotionValue<number>; reduce: boolean }) {
-  // First half of the segment is stage 01, second half is stage 02.
-  const foundOpacity = useTransform(p, [0, 0.44, 0.52], [1, 1, 0]);
-  const chosenOpacity = useTransform(p, [0.44, 0.52, 1], [0, 1, 1]);
+  // The segment splits into thirds, one per stage. Each crossfade straddles a
+  // boundary, and each scene gets its own 0→1 progress for its third, so the
+  // scenes' internal timings never depend on how many scenes share the phone.
+  const siteOpacity = useTransform(p, [0, 0.3, 0.36], [1, 1, 0]);
+  const searchOpacity = useTransform(p, [0.3, 0.36, 0.64, 0.7], [0, 1, 1, 0]);
+  const adsOpacity = useTransform(p, [0.64, 0.7, 1], [0, 1, 1]);
+
+  const siteP = useTransform(p, [0, 0.34], [0, 1]);
+  const searchP = useTransform(p, [0.33, 0.67], [0, 1]);
+  const adsP = useTransform(p, [0.66, 1], [0, 1]);
 
   return (
     <>
-      <motion.div
-        style={{ opacity: reduce ? 1 : foundOpacity }}
-        className="absolute inset-0"
-      >
-        <SceneFound p={p} reduce={reduce} />
+      <motion.div style={{ opacity: reduce ? 1 : siteOpacity }} className="absolute inset-0">
+        <SceneChosen p={siteP} reduce={reduce} />
       </motion.div>
 
-      <motion.div
-        style={{ opacity: reduce ? 0 : chosenOpacity }}
-        className="absolute inset-0"
-      >
-        <SceneChosen p={p} reduce={reduce} />
+      <motion.div style={{ opacity: reduce ? 0 : searchOpacity }} className="absolute inset-0">
+        <SceneFound p={searchP} reduce={reduce} />
+      </motion.div>
+
+      <motion.div style={{ opacity: reduce ? 0 : adsOpacity }} className="absolute inset-0">
+        <SceneAds p={adsP} reduce={reduce} />
       </motion.div>
     </>
   );
 }
 
-/* ── Scene 01 — Get Found ──────────────────────────────────────────── */
+/* ── Segment B: 04 AI Automation, 05 Social Media share one phone ─── */
+
+function SegmentBScenes({ p, reduce }: { p: MotionValue<number>; reduce: boolean }) {
+  const followUpOpacity = useTransform(p, [0, 0.46, 0.54], [1, 1, 0]);
+  const socialOpacity = useTransform(p, [0.46, 0.54, 1], [0, 1, 1]);
+
+  const followUpP = useTransform(p, [0, 0.5], [0, 1]);
+  const socialP = useTransform(p, [0.5, 1], [0, 1]);
+
+  return (
+    <>
+      <motion.div style={{ opacity: reduce ? 1 : followUpOpacity }} className="absolute inset-0">
+        <SceneFollowUp p={followUpP} reduce={reduce} />
+      </motion.div>
+
+      <motion.div style={{ opacity: reduce ? 0 : socialOpacity }} className="absolute inset-0">
+        <SceneSocial p={socialP} reduce={reduce} />
+      </motion.div>
+    </>
+  );
+}
+
+/* ── Scene: SEO ────────────────────────────────────────────────────── */
 
 /** The client's card climbs from #11 into the map box and takes the accent. */
 function SceneFound({ p, reduce }: { p: MotionValue<number>; reduce: boolean }) {
-  // Runs over the first ~40% of the segment.
-  const climb = useTransform(p, [0.06, 0.36], [0, 1]);
+  // Runs over the middle of this scene's progress.
+  const climb = useTransform(p, [0.12, 0.75], [0, 1]);
 
   const clientY = useTransform(climb, [0, 1], [232, 0]);
   const clientScale = useTransform(climb, [0, 1], [0.94, 1]);
@@ -132,20 +159,7 @@ function SceneFound({ p, reduce }: { p: MotionValue<number>; reduce: boolean }) 
     <div className="flex h-full flex-col">
       <StatusBar />
 
-      <div className="px-3 pb-2 pt-1">
-        <div className="flex items-center gap-2 rounded-full border border-cream-300 bg-cream-100 px-3 py-2">
-          <span className="h-3 w-3 rounded-full border-2 border-ink-soft" />
-          <span className="truncate text-[0.625rem] text-forest-950">
-            drywall contractor Framingham MA
-          </span>
-        </div>
-      </div>
-
-      <div className="flex gap-4 border-b border-cream-300 px-4 pb-1.5 text-[0.5625rem] font-medium">
-        <span className="border-b-2 border-forest-950 pb-1 text-forest-950">All</span>
-        <span className="text-ink-soft">Maps</span>
-        <span className="text-ink-soft">Images</span>
-      </div>
+      <SearchBar query="drywall contractor Framingham MA" />
 
       <div className="px-3 pt-3">
         <MapStrip climb={climb} reduce={staticEnd} />
@@ -222,10 +236,7 @@ function MapStrip({ climb, reduce }: { climb: MotionValue<number>; reduce: boole
 
   return (
     <div className="relative h-24 overflow-hidden rounded-lg border border-cream-300 bg-cream-100">
-      <div className="absolute left-0 top-8 h-px w-full bg-cream-300" />
-      <div className="absolute left-0 top-16 h-px w-full bg-cream-300" />
-      <div className="absolute left-10 top-0 h-full w-px bg-cream-300" />
-      <div className="absolute left-24 top-0 h-full w-px bg-cream-300" />
+      <MapRoads />
 
       <Pin className="left-[22%] top-[26%]" />
       <Pin className="left-[74%] top-[30%]" />
@@ -241,11 +252,11 @@ function MapStrip({ climb, reduce }: { climb: MotionValue<number>; reduce: boole
   );
 }
 
-/* ── Scene 02 — Get Chosen ─────────────────────────────────────────── */
+/* ── Scene: Website ────────────────────────────────────────────────── */
 
 /** Two sites compared, a five-second timer, then one survives. */
 function SceneChosen({ p, reduce }: { p: MotionValue<number>; reduce: boolean }) {
-  const t = useTransform(p, [0.5, 1], [0, 1]);
+  const t = p;
 
   const ring = useTransform(t, [0.05, 0.4], [1, 0]);
   const greyOut = useTransform(t, [0.4, 0.48], [0, 1]);
@@ -349,7 +360,87 @@ function MiniSite({ poor = false }: { poor?: boolean }) {
   );
 }
 
-/* ── Scene 03 — Get Followed Up ────────────────────────────────────── */
+/* ── Scene: Google Ads ─────────────────────────────────────────────── */
+
+/** The client's ad drops in above the map box, then the call comes in. */
+function SceneAds({ p, reduce }: { p: MotionValue<number>; reduce: boolean }) {
+  const drop = useTransform(p, [0.1, 0.4], [0, 1]);
+  const adY = useTransform(drop, [0, 1], [-24, 0]);
+  const callAccent = useTransform(p, [0.45, 0.6], [0, 1]);
+  const toastOpacity = useTransform(p, [0.62, 0.74], [0, 1]);
+  const toastY = useTransform(p, [0.62, 0.74], [12, 0]);
+
+  const settled = reduce;
+
+  return (
+    <div className="relative flex h-full flex-col">
+      <StatusBar />
+
+      <SearchBar query="drywall repair near me" />
+
+      <div className="px-3 pt-3">
+        {/* The ad slot keeps its height from the start, so nothing below it
+            moves when the ad arrives. */}
+        <div className="h-[92px] overflow-hidden">
+          <motion.div
+            style={{ y: settled ? 0 : adY, opacity: settled ? 1 : drop }}
+            className="rounded-lg border border-cream-300 bg-cream-50 px-2.5 py-2"
+          >
+            <p className="text-[0.5rem] font-semibold text-forest-950">Sponsored</p>
+            <p className="mt-0.5 truncate text-[0.625rem] font-semibold text-accent-ink">
+              Your business — Drywall repair in Framingham
+            </p>
+            <p className="mt-0.5 text-[0.5rem] text-ink-soft">
+              Licensed &amp; insured · Free estimates · Same-week starts
+            </p>
+            <div className="mt-1.5 flex gap-1.5">
+              <span className="relative overflow-hidden rounded-full border border-cream-300 px-2.5 py-0.5 text-[0.5rem] font-semibold text-forest-950">
+                <motion.span
+                  style={{ opacity: settled ? 1 : callAccent }}
+                  className="absolute inset-0 bg-accent"
+                />
+                <span className="relative">Call</span>
+              </span>
+              <span className="rounded-full border border-cream-300 px-2.5 py-0.5 text-[0.5rem] font-medium text-ink-soft">
+                Get a quote
+              </span>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="relative mt-2 h-20 overflow-hidden rounded-lg border border-cream-300 bg-cream-100">
+          <MapRoads />
+          <Pin className="left-[22%] top-[30%]" />
+          <Pin className="left-[56%] top-[58%]" />
+          <Pin className="left-[78%] top-[28%]" />
+        </div>
+
+        <div className="mt-2 overflow-hidden rounded-lg border border-cream-300">
+          <MapResult rank="1" name="Bay State Drywall" rating="4.8" reviews="112" />
+          <MapResult rank="2" name="Sullivan Plaster Co." rating="4.7" reviews="86" />
+        </div>
+      </div>
+
+      <div className="mt-3 flex-1 space-y-2 border-t border-cream-300 px-3 pt-3">
+        <GhostResult />
+        <GhostResult />
+      </div>
+
+      {/* The payoff: the click became a call. */}
+      <motion.div
+        style={{ opacity: settled ? 1 : toastOpacity, y: settled ? 0 : toastY }}
+        className="absolute inset-x-4 bottom-4 flex items-center gap-2 rounded-xl bg-forest-950 px-3 py-2.5"
+      >
+        <span className="h-2 w-2 shrink-0 rounded-full bg-accent" />
+        <span className="text-[0.625rem] font-medium text-cream-50">
+          New call from your ad · just now
+        </span>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ── Scene: AI Automation ──────────────────────────────────────────── */
 
 /** Calls go unanswered, then the text-back fires and the tally recovers. */
 function SceneFollowUp({ p, reduce }: { p: MotionValue<number>; reduce: boolean }) {
@@ -426,6 +517,83 @@ function SceneFollowUp({ p, reduce }: { p: MotionValue<number>; reduce: boolean 
   );
 }
 
+/* ── Scene: Social Media ───────────────────────────────────────────── */
+
+/** An empty feed fills with this month's job-site posts, then a comment
+ *  comes in and gets answered. */
+function SceneSocial({ p, reduce }: { p: MotionValue<number>; reduce: boolean }) {
+  const fill = useTransform(p, [0.1, 0.6], [0, 1]);
+  const commentOpacity = useTransform(p, [0.6, 0.7], [0, 1]);
+  const replyOpacity = useTransform(p, [0.72, 0.82], [0, 1]);
+
+  const [posted, setPosted] = useState(0);
+  useMotionValueEvent(fill, 'change', (v) => {
+    setPosted(Math.round(v * 9));
+  });
+
+  const shown = reduce ? 9 : posted;
+
+  return (
+    <div className="flex h-full flex-col">
+      <StatusBar />
+
+      <div className="flex items-center gap-3 px-4 pb-3 pt-2">
+        <span className="h-10 w-10 shrink-0 rounded-full bg-forest-950 ring-2 ring-accent" />
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-[0.6875rem] font-semibold text-forest-950">
+            Your business
+          </span>
+          <span className="mt-0.5 block text-[0.5rem] text-ink-soft">
+            Drywall contractor · Framingham, MA
+          </span>
+        </span>
+      </div>
+
+      <div className="flex justify-between border-y border-cream-300 px-4 py-2 text-[0.5625rem] text-ink-soft">
+        <span>
+          <span className="font-semibold text-forest-950">{shown}</span> new this month
+        </span>
+        <span>{shown > 0 ? 'Last post: today' : 'Last post: April'}</span>
+      </div>
+
+      <div className="grid grid-cols-3 gap-1 px-3 pt-3">
+        {Array.from({ length: 9 }).map((_, i) => {
+          const live = i < shown;
+          return (
+            <span
+              key={i}
+              className={`relative flex aspect-square items-center justify-center rounded transition-colors duration-300 ${
+                live ? 'bg-forest-800' : 'border border-dashed border-form-border bg-cream-100'
+              }`}
+            >
+              {/* Every third post is a video reel. */}
+              {live && i % 3 === 0 && (
+                <span className="h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-cream-50" />
+              )}
+            </span>
+          );
+        })}
+      </div>
+
+      <div className="mt-auto space-y-2 px-3 pb-4">
+        <motion.div
+          style={{ opacity: reduce ? 1 : commentOpacity }}
+          className="rounded-xl rounded-bl-sm bg-cream-100 px-3 py-2 text-[0.5625rem] leading-snug text-forest-950"
+        >
+          <span className="font-semibold">Homeowner · </span>
+          That ceiling came out perfect. Do you work in Natick?
+        </motion.div>
+        <motion.div
+          style={{ opacity: reduce ? 1 : replyOpacity }}
+          className="ml-6 rounded-xl rounded-br-sm bg-accent px-3 py-2 text-[0.5625rem] leading-snug text-forest-950"
+        >
+          We do! Send us a message and we&rsquo;ll set up a free estimate.
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Shared ────────────────────────────────────────────────────────── */
 
 function StatusBar() {
@@ -437,6 +605,36 @@ function StatusBar() {
         <span className="h-1.5 w-3 rounded-sm border border-ink-soft" />
       </span>
     </div>
+  );
+}
+
+function SearchBar({ query }: { query: string }) {
+  return (
+    <>
+      <div className="px-3 pb-2 pt-1">
+        <div className="flex items-center gap-2 rounded-full border border-cream-300 bg-cream-100 px-3 py-2">
+          <span className="h-3 w-3 rounded-full border-2 border-ink-soft" />
+          <span className="truncate text-[0.625rem] text-forest-950">{query}</span>
+        </div>
+      </div>
+
+      <div className="flex gap-4 border-b border-cream-300 px-4 pb-1.5 text-[0.5625rem] font-medium">
+        <span className="border-b-2 border-forest-950 pb-1 text-forest-950">All</span>
+        <span className="text-ink-soft">Maps</span>
+        <span className="text-ink-soft">Images</span>
+      </div>
+    </>
+  );
+}
+
+function MapRoads() {
+  return (
+    <>
+      <div className="absolute left-0 top-8 h-px w-full bg-cream-300" />
+      <div className="absolute left-0 top-16 h-px w-full bg-cream-300" />
+      <div className="absolute left-10 top-0 h-full w-px bg-cream-300" />
+      <div className="absolute left-24 top-0 h-full w-px bg-cream-300" />
+    </>
   );
 }
 

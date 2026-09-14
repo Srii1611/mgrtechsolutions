@@ -13,7 +13,7 @@
  * a real client's work.
  */
 
-type ScreenState = 'found' | 'followup';
+type ScreenState = 'found' | 'ads' | 'followup' | 'social';
 
 export default function PhoneMock({ screen }: { screen: ScreenState }) {
   return (
@@ -25,7 +25,10 @@ export default function PhoneMock({ screen }: { screen: ScreenState }) {
 
         {/* Screen */}
         <div className="relative h-[560px] overflow-hidden rounded-[1.65rem] bg-cream-50">
-          {screen === 'found' ? <ScreenFound /> : <ScreenFollowUp />}
+          {screen === 'found' && <ScreenFound />}
+          {screen === 'ads' && <ScreenAds />}
+          {screen === 'followup' && <ScreenFollowUp />}
+          {screen === 'social' && <ScreenSocial />}
         </div>
       </div>
     </div>
@@ -217,6 +220,116 @@ function ScreenFollowUp() {
           ))}
         </div>
         <p className="mt-2 text-[0.5625rem] text-mist">4 of 10</p>
+      </div>
+    </div>
+  );
+}
+
+/* ── State 03 — Google Ads ────────────────────────────────────────── */
+
+/** The "after": the client's ad sits above the map box, call button lit. */
+function ScreenAds() {
+  return (
+    <div className="flex h-full flex-col">
+      <StatusBar />
+
+      <div className="px-3 pb-2 pt-1">
+        <div className="flex items-center gap-2 rounded-full border border-cream-300 bg-cream-100 px-3 py-2">
+          <span className="h-3 w-3 rounded-full border-2 border-ink-soft" />
+          <span className="truncate text-[0.625rem] text-forest-950">drywall repair near me</span>
+        </div>
+      </div>
+
+      <div className="flex gap-4 border-b border-cream-300 px-4 pb-1.5 text-[0.5625rem] font-medium">
+        <span className="border-b-2 border-forest-950 pb-1 text-forest-950">All</span>
+        <span className="text-ink-soft">Maps</span>
+        <span className="text-ink-soft">Images</span>
+      </div>
+
+      <div className="px-3 pt-3">
+        <div className="rounded-lg border border-cream-300 bg-cream-50 px-2.5 py-2">
+          <p className="text-[0.5rem] font-semibold text-forest-950">Sponsored</p>
+          <p className="mt-0.5 truncate text-[0.625rem] font-semibold text-accent-ink">
+            Your business — Drywall repair in Framingham
+          </p>
+          <p className="mt-0.5 text-[0.5rem] text-ink-soft">
+            Licensed &amp; insured · Free estimates · Same-week starts
+          </p>
+          <div className="mt-1.5 flex gap-1.5">
+            <span className="rounded-full bg-accent px-2.5 py-0.5 text-[0.5rem] font-semibold text-forest-950">
+              Call
+            </span>
+            <span className="rounded-full border border-cream-300 px-2.5 py-0.5 text-[0.5rem] font-medium text-ink-soft">
+              Get a quote
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-2">
+          <MapStrip />
+        </div>
+
+        <div className="mt-2 space-y-px overflow-hidden rounded-lg border border-cream-300">
+          <MapResult rank="1" name="Bay State Drywall" rating="4.8" reviews="112" />
+          <MapResult rank="2" name="Sullivan Plaster Co." rating="4.7" reviews="86" />
+        </div>
+      </div>
+
+      <div className="mt-3 flex-1 space-y-2 border-t border-cream-300 px-3 pt-3">
+        <GhostResult />
+      </div>
+    </div>
+  );
+}
+
+/* ── State 05 — Social Media ──────────────────────────────────────── */
+
+/** The "after": a feed full of this month's job-site posts. */
+function ScreenSocial() {
+  return (
+    <div className="flex h-full flex-col">
+      <StatusBar />
+
+      <div className="flex items-center gap-3 px-4 pb-3 pt-2">
+        <span className="h-10 w-10 shrink-0 rounded-full bg-forest-950 ring-2 ring-accent" />
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-[0.6875rem] font-semibold text-forest-950">
+            Your business
+          </span>
+          <span className="mt-0.5 block text-[0.5rem] text-ink-soft">
+            Drywall contractor · Framingham, MA
+          </span>
+        </span>
+      </div>
+
+      <div className="flex justify-between border-y border-cream-300 px-4 py-2 text-[0.5625rem] text-ink-soft">
+        <span>
+          <span className="font-semibold text-forest-950">9</span> new this month
+        </span>
+        <span>Last post: today</span>
+      </div>
+
+      <div className="grid grid-cols-3 gap-1 px-3 pt-3">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <span
+            key={i}
+            className="flex aspect-square items-center justify-center rounded bg-forest-800"
+          >
+            {i % 3 === 0 && (
+              <span className="h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-cream-50" />
+            )}
+          </span>
+        ))}
+      </div>
+
+      <div className="mt-auto space-y-2 px-3 pb-4">
+        <div className="rounded-xl rounded-bl-sm bg-cream-100 px-3 py-2 text-[0.5625rem] leading-snug text-forest-950">
+          <span className="font-semibold">Homeowner · </span>
+          That ceiling came out perfect. Do you work in Natick?
+        </div>
+        <div className="ml-6 rounded-xl rounded-br-sm bg-accent px-3 py-2 text-[0.5625rem] leading-snug text-forest-950">
+          We do! Send us a message and we&rsquo;ll set up a free estimate.
+        </div>
       </div>
     </div>
   );

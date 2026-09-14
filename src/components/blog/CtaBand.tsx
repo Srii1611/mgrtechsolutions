@@ -28,7 +28,7 @@ export default function CtaBand({
             {SITE.phone}
           </a>
           <Link
-            href="/contact"
+            href="/#contact"
             className="inline-flex items-center gap-2 rounded-full border border-forest-700 px-6 py-3 font-medium text-cream-50 transition-colors hover:border-accent"
           >
             Contact us

@@ -11,7 +11,10 @@ export default function SmoothScroll() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+    // `anchors` routes same-page hash links (the header's /#pricing etc.)
+    // through Lenis, whose scrollTo honours each section's scroll-margin-top,
+    // so a jump lands below the sticky header instead of fighting it.
+    const lenis = new Lenis({ duration: 1.1, smoothWheel: true, anchors: true });
     let frame = 0;
 
     const raf = (time: number) => {

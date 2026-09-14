@@ -5,7 +5,7 @@ import { WORK } from '@/data/home';
 /** SECTION 03 — The work (dark). Renders all seven projects. */
 export default function WorkSection() {
   return (
-    <section id="work-section" className="on-dark scroll-mt-24 bg-forest-950 py-20 md:py-28">
+    <section id="work" className="on-dark scroll-mt-24 bg-forest-950 py-20 md:py-28">
       <div className="container-page">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -32,15 +32,6 @@ export default function WorkSection() {
         <div className="mt-14">
           <WorkShowcaseGrid />
         </div>
-
-        <Reveal delay={0.15}>
-          <a
-            href="/work"
-            className="mt-12 inline-flex items-center gap-2 rounded-full border border-forest-700 px-6 py-3 font-medium text-cream-50 transition-colors hover:border-accent"
-          >
-            {WORK.cta}
-          </a>
-        </Reveal>
       </div>
     </section>
   );
