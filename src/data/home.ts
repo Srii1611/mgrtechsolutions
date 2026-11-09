@@ -403,6 +403,7 @@ export const PROCESS = {
   lede:
     'You run your business; I build the site. Your total time investment is about 90 minutes: one conversation at the start, then two short reviews. Everything else — writing, coding, setup, launch — is on me.',
   primaryCta: 'Start with a call',
+  swipeHint: 'SWIPE →',
   steps: [
     {
       n: 1,

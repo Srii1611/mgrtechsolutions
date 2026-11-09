@@ -139,6 +139,16 @@ html.lenis, html.lenis body { height: auto; }
   line-height: 1.65;
 }
 
+/* Reveal travel. Spec §7's 16px is the desktop value; on a phone it is too
+   small to register, so the same fade-up rises further there. */
+:root {
+  --reveal-y: 32px;
+}
+
+@media (min-width: 1024px) {
+  :root { --reveal-y: 16px; }
+}
+
 /* ─── Layout helpers ───────────────────────────────────────────── */
 @utility container-page {
   width: 100%;
@@ -243,6 +253,24 @@ html.lenis, html.lenis body { height: auto; }
 @keyframes stage-dot-fill {
   from { background-color: var(--color-cream-300); }
   to   { background-color: var(--color-accent-ink); }
+}
+
+/* Process swipe track (below lg): the centred card is full size and its
+   neighbours ease back as they leave. Without support every card simply sits
+   at full size, which is the correct, complete appearance. */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (max-width: 1023.98px) {
+    .process-slide {
+      animation: process-slide linear both;
+      animation-timeline: view(inline);
+    }
+  }
+}
+
+@keyframes process-slide {
+  0%, 100% { opacity: 0.55; transform: scale(0.94); }
+  50%      { opacity: 1;    transform: scale(1); }
 }
 
 /* ─── Reduced motion (hard requirement) ────────────────────────── */

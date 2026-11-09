@@ -1,4 +1,4 @@
-import { SITE } from '@/data/site';
+import { SITE, SOCIAL } from '@/data/site';
 import { truncateAtWordBoundary } from '@/lib/blog';
 
 const METROWEST_TOWNS = [
@@ -35,6 +35,7 @@ export function buildLocalBusiness(): object {
       '@type': 'City',
       name,
     })),
+    sameAs: SOCIAL.map((profile) => profile.href),
   };
 }
 

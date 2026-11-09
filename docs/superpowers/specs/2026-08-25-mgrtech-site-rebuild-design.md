@@ -298,7 +298,7 @@ Scope of the reinstatement:
 - Still no three.js, no WebGL, no GSAP-driven text splitting (the Section 02
   headline animation is CSS in a Server Component, and stays that way).
 
-- Scroll reveal: fade up ~16px, 500ms, ease-out, ~60ms stagger, fires once
+- Scroll reveal: fade up ~16px (32px below `lg`), 500ms, ease-out, ~60ms stagger, fires once
 - Hover lift on cards: `translateY(-3px)` plus soft shadow, 200ms
 - Accordion: height and opacity, 250ms — never snap
 - **`prefers-reduced-motion: reduce` disables transforms and transitions

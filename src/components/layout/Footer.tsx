@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { SITE, NAV, FOOTER_CATEGORIES } from '@/data/site';
+import SocialLinks from '@/components/layout/SocialLinks';
 
 export default function Footer() {
   return (
@@ -24,6 +25,7 @@ export default function Footer() {
             >
               {SITE.email}
             </a>
+            <SocialLinks />
           </div>
 
           <nav aria-label="Footer">

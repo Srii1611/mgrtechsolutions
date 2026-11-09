@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useSyncExternalStore, type CSSProperties } from 'react';
 import {
   motion,
   useReducedMotion,
@@ -31,17 +31,29 @@ type Step = (typeof PROCESS.steps)[number];
  * step's days lit — which is the argument the section exists to make: the
  * build is a wide band and the client's days are slivers.
  *
+ * BELOW `lg` THE SAME CARDS ARE A SWIPE TRACK. Every card is taller than a
+ * phone's viewport, so a pinned stack would cover the bottom of each one
+ * before it could be read, and it cost ~4,500px of scroll. CSS scroll-snap
+ * does the swiping; a `view(inline)` timeline in globals.css eases the
+ * neighbouring cards back.
+ *
  * All six cards are always in the DOM. Nothing here is conditionally
  * rendered, so the full copy ships in the server HTML.
  */
 export default function ProcessStack({ steps }: { steps: readonly Step[] }) {
   const ref = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+  const isDesktop = useIsDesktop();
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end end'],
   });
+
+  // Starts one card in, so the bar never reads as empty on the first step.
+  const { scrollXProgress } = useScroll({ container: trackRef });
+  const trackFill = useTransform(scrollXProgress, [0, 1], [1 / steps.length, 1]);
 
   /*
     The gauge measures the BUILD only. "After launch" is ongoing, so its span
@@ -61,19 +73,54 @@ export default function ProcessStack({ steps }: { steps: readonly Step[] }) {
 
   return (
     <div ref={ref} className="relative mt-14">
-      {steps.map((step, i) => (
-        <Card
-          key={step.title}
-          step={step}
-          index={i}
-          total={steps.length}
-          startDay={startDays[i]}
-          buildDays={buildDays}
-          progress={scrollYProgress}
-          reduce={!!reduce}
-        />
-      ))}
+      <div aria-hidden="true" className="mb-5 flex items-center gap-4 lg:hidden">
+        <p className="eyebrow shrink-0 text-mist">{PROCESS.swipeHint}</p>
+        <div className="h-px flex-1 bg-forest-700">
+          <motion.div
+            style={{ scaleX: reduce ? 1 : trackFill, transformOrigin: 'left' }}
+            className="h-full bg-accent"
+          />
+        </div>
+      </div>
+
+      <div
+        ref={trackRef}
+        role="group"
+        aria-label="The build, step by step"
+        tabIndex={isDesktop ? undefined : 0}
+        className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-6 px-6 pb-4 [scrollbar-width:none] md:-mx-10 md:scroll-px-10 md:px-10 lg:mx-0 lg:block lg:overflow-visible lg:p-0"
+      >
+        {steps.map((step, i) => (
+          <Card
+            key={step.title}
+            step={step}
+            index={i}
+            total={steps.length}
+            startDay={startDays[i]}
+            buildDays={buildDays}
+            progress={scrollYProgress}
+            still={!!reduce || !isDesktop}
+          />
+        ))}
+      </div>
     </div>
+  );
+}
+
+const DESKTOP_QUERY = '(min-width: 1024px)';
+
+function subscribeToDesktop(onChange: () => void) {
+  const query = window.matchMedia(DESKTOP_QUERY);
+  query.addEventListener('change', onChange);
+  return () => query.removeEventListener('change', onChange);
+}
+
+/** False on the server, so the stack's scroll effects start after hydration. */
+function useIsDesktop() {
+  return useSyncExternalStore(
+    subscribeToDesktop,
+    () => window.matchMedia(DESKTOP_QUERY).matches,
+    () => false,
   );
 }
 
@@ -90,7 +137,7 @@ function Card({
   startDay,
   buildDays,
   progress,
-  reduce,
+  still,
 }: {
   step: Step;
   index: number;
@@ -98,7 +145,8 @@ function Card({
   startDay: number;
   buildDays: number;
   progress: MotionValue<number>;
-  reduce: boolean;
+  /** No scale or dim: reduced motion, or the mobile swipe track. */
+  still: boolean;
 }) {
   const isLast = index === total - 1;
   const track = TRACK[step.track];
@@ -116,27 +164,29 @@ function Card({
 
   return (
     <div
-      className="sticky"
-      style={{
-        // Each card parks lower than the last, so the pile shows its edges.
-        top: `calc(5.5rem + ${index * 14}px)`,
-        zIndex: index + 1,
-        marginBottom: isLast ? 0 : '3rem',
-      }}
+      className="process-slide w-[84vw] max-w-md shrink-0 snap-center lg:sticky lg:top-[var(--stack-top)] lg:mb-[var(--stack-gap)] lg:w-auto lg:max-w-none"
+      style={
+        {
+          // Each card parks lower than the last, so the pile shows its edges.
+          '--stack-top': `calc(5.5rem + ${index * 14}px)`,
+          '--stack-gap': isLast ? '0px' : '3rem',
+          zIndex: index + 1,
+        } as CSSProperties
+      }
     >
       <motion.article
-        style={{ scale: reduce ? 1 : scale, transformOrigin: 'top center' }}
-        className={`relative overflow-hidden rounded-2xl border bg-forest-800 shadow-[0_24px_48px_-24px_rgba(0,0,0,0.85)] ${track.edge}`}
+        style={{ scale: still ? 1 : scale, transformOrigin: 'top center' }}
+        className={`relative h-full overflow-hidden rounded-2xl border bg-forest-800 shadow-[0_24px_48px_-24px_rgba(0,0,0,0.85)] lg:h-auto ${track.edge}`}
       >
         {/* Dimming veil as a separate layer, so the card's own text is not
             faded by an opacity applied to the whole element. */}
         <motion.span
           aria-hidden="true"
-          style={{ opacity: reduce ? 0 : veil }}
+          style={{ opacity: still ? 0 : veil }}
           className="absolute inset-0 z-10 bg-forest-950"
         />
 
-        <div className="relative grid gap-x-10 gap-y-8 p-7 md:p-10 lg:grid-cols-[1fr_20rem] lg:gap-x-14">
+        <div className="relative grid h-full grid-rows-[1fr_auto] gap-x-10 gap-y-8 p-6 md:p-10 lg:h-auto lg:grid-cols-[1fr_20rem] lg:grid-rows-none lg:gap-x-14">
           {/* ── Narrative ─────────────────────────────────────────── */}
           <div>
             <div className="flex items-baseline gap-4">
@@ -158,7 +208,7 @@ function Card({
               {step.body}
             </p>
 
-            <ul className="mt-7 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+            <ul className="mt-7 grid gap-x-8 gap-y-3 lg:grid-cols-2">
               {step.bullets.map((bullet) => (
                 <li
                   key={bullet}

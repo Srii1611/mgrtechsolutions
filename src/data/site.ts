@@ -13,6 +13,28 @@ export const SITE = {
 } as const;
 
 /**
+ * Public company profiles. Drives the footer buttons and the schema.org
+ * `sameAs` list, so a change here updates both.
+ */
+export const SOCIAL = [
+  {
+    network: 'instagram',
+    label: 'Instagram',
+    href: 'https://www.instagram.com/mgrtechsolutions/',
+  },
+  {
+    network: 'facebook',
+    label: 'Facebook',
+    href: 'https://www.facebook.com/profile.php?id=61596086248607',
+  },
+  {
+    network: 'linkedin',
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/111959757/',
+  },
+] as const;
+
+/**
  * Footer page links. Order is the order shown. Everything except the blog is
  * a section of the homepage — the standalone sales routes redirect to `/`
  * (see `next.config.ts`).

@@ -24,6 +24,30 @@ clean, 157 static pages.
 
 ---
 
+## Changed on 2026-11-09
+
+**Footer social buttons added** for Instagram, Facebook and LinkedIn. URLs live
+in `SOCIAL` in `src/data/site.ts`, which drives both the footer
+(`SocialLinks.tsx`) and the `sameAs` list in the `ProfessionalService` schema.
+Icons are inline SVG because `lucide-react` 1.x has no brand icons.
+
+**Mobile motion pass (below `lg`).**
+
+1. **Animated phones on mobile.** Each stage now has an inline `StagePhone`
+   running the same scenes as the desktop pinned phone, scrubbed by its own
+   trip up the viewport. Stage 01 gained a phone. The static `PhoneMock.tsx`
+   is deleted.
+2. **Process section is a swipe track below `lg`.** Cards were all taller than
+   the visible area, so the pinned stack covered their bottoms before they
+   could be read. CSS scroll-snap plus a `view(inline)` timeline. Desktop keeps
+   the sticky stack. Homepage at 375px went from 31,318px to 27,667px.
+3. **Reveal travels 32px below `lg`** via `--reveal-y` (16px on desktop), and
+   "What we build" items stagger in.
+4. **Work tiles on touch** now trigger from the frame, not the clipped image,
+   so they start when the tile arrives rather than when it is almost centred.
+
+---
+
 ## Changed on 2026-09-14 (`single-page-homepage` branch, uncommitted)
 
 **Homepage Section 02 is now service-led.** The three outcome stages (Get

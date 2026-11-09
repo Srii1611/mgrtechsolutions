@@ -56,7 +56,10 @@ export default function WorkShowcaseCard({ item }: { item: WorkShowcaseItem }) {
       { threshold: 0.4 },
     );
 
-    observer.observe(img);
+    // Watch the fixed-height window, not the image. The image is up to 2.4×
+    // taller than its clipped frame, so 40% of it needs nearly the whole
+    // frame on screen and the tile would start far too late.
+    observer.observe(img.parentElement ?? img);
     return () => observer.disconnect();
   }, []);
 

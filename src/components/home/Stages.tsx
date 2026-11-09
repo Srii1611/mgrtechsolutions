@@ -1,8 +1,7 @@
 import { MonitorSmartphone, MapPin, Megaphone, PhoneCall, Camera, Check } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import StageBeam from '@/components/motion/StageBeam';
-import PhoneMock from '@/components/home/PhoneMock';
-import StageSegment from '@/components/home/StageSegment';
+import StageSegment, { StagePhone, type StageScreen } from '@/components/home/StageSegment';
 import { STAGES } from '@/data/home';
 import { SITE } from '@/data/site';
 
@@ -78,7 +77,7 @@ function StageBeamGroup() {
           (automation, content).
         */}
         <StageSegment segment="a">
-          <Stage stage={site} />
+          <Stage stage={site} screen="site" />
           <Stage stage={seo} screen="found" />
           <Stage stage={ads} screen="ads" />
         </StageSegment>
@@ -105,8 +104,8 @@ function Stage({
 }: {
   stage: (typeof STAGES.stages)[number];
   emphasis?: boolean;
-  /** Mobile-only inline phone. Omitted for stages whose screen isn't built. */
-  screen?: 'found' | 'ads' | 'followup' | 'social';
+  /** Mobile-only inline phone, scrubbed by scroll. */
+  screen: StageScreen;
 }) {
   const Icon = ICONS[stage.icon];
 
@@ -150,11 +149,9 @@ function Stage({
 
         {/* Mobile only. On desktop the phone lives in the sticky Segment
             column instead, so it is never rendered twice at one breakpoint. */}
-        {screen && (
-          <Reveal className="mt-8 lg:hidden">
-            <PhoneMock screen={screen} />
-          </Reveal>
-        )}
+        <Reveal className="mt-8 lg:hidden">
+          <StagePhone screen={screen} />
+        </Reveal>
 
         <Reveal delay={0.05}>
           <h3 className="h3-card mt-4 max-w-2xl font-medium text-forest-950">
@@ -185,8 +182,8 @@ function Stage({
             </p>
 
             <ul className="mt-5 space-y-3">
-              {stage.build.map((item) => (
-                <li key={item} className="flex gap-3">
+              {stage.build.map((item, i) => (
+                <Reveal as="li" key={item} delay={i * 0.06} className="flex gap-3">
                   <Check
                     className={`mt-1 h-4 w-4 shrink-0 ${emphasis ? 'text-accent' : 'text-accent-ink'}`}
                     strokeWidth={2.5}
@@ -197,7 +194,7 @@ function Stage({
                   >
                     {item}
                   </span>
-                </li>
+                </Reveal>
               ))}
             </ul>
           </div>

@@ -71,14 +71,72 @@ export default function StageSegment({
   );
 }
 
+/* ── Mobile: one phone per stage ───────────────────────────────────── */
+
+type SceneProps = { p: MotionValue<number>; reduce: boolean };
+
+const STAGE_SCENES = {
+  site: SceneChosen,
+  found: SceneFound,
+  ads: SceneAds,
+  followup: SceneFollowUp,
+  social: SceneSocial,
+} satisfies Record<string, (props: SceneProps) => ReactNode>;
+
+export type StageScreen = keyof typeof STAGE_SCENES;
+
+/**
+ * Below `lg` there is no room for a pinned column, so each stage carries its
+ * own phone inline. Same scenes as desktop, scrubbed by this phone's own trip
+ * up the viewport: it finishes as the phone reaches the header, while the
+ * whole screen is still in view. Nothing pins, so it adds no scroll length.
+ */
+export function StagePhone({ screen }: { screen: StageScreen }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start 85%', 'start 12%'],
+  });
+
+  const p = useSpring(scrollYProgress, {
+    stiffness: 200,
+    damping: 40,
+    restDelta: 0.001,
+  });
+
+  const Scene = STAGE_SCENES[screen];
+
+  return (
+    <div ref={ref}>
+      <PhoneFrame compact>
+        <Scene p={p} reduce={!!reduce} />
+      </PhoneFrame>
+    </div>
+  );
+}
+
 /* ── Frame ─────────────────────────────────────────────────────────── */
 
-function PhoneFrame({ children }: { children: ReactNode }) {
+function PhoneFrame({
+  children,
+  compact = false,
+}: {
+  children: ReactNode;
+  /** The inline mobile size. A shorter screen keeps the long page shorter. */
+  compact?: boolean;
+}) {
   return (
-    <div aria-hidden="true" className="mx-auto w-[330px] select-none">
+    <div
+      aria-hidden="true"
+      className={`mx-auto select-none ${compact ? 'w-full max-w-[300px]' : 'w-[330px]'}`}
+    >
       <div className="relative rounded-[2.25rem] border border-forest-700 bg-forest-950 p-2.5 shadow-2xl shadow-black/20">
         <div className="absolute left-1/2 top-2.5 z-20 h-5 w-24 -translate-x-1/2 rounded-b-2xl bg-forest-950" />
-        <div className="relative h-[560px] overflow-hidden rounded-[1.65rem] bg-cream-50">
+        <div
+          className={`relative overflow-hidden rounded-[1.65rem] bg-cream-50 ${compact ? 'h-[520px]' : 'h-[560px]'}`}
+        >
           {children}
         </div>
       </div>
