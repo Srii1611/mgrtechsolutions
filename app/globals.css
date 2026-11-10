@@ -310,6 +310,13 @@ html.lenis, html.lenis body { height: auto; }
   overflow: hidden;
 }
 
+/* A full-page capture scaled to a phone-width tile is far shorter than at
+   desktop width. The shortest (Master Tile) renders about 540px tall, so a
+   500px window left it only 39px to travel and it looked stalled. */
+@media (max-width: 1023.98px) {
+  .work-frame { --work-frame-h: 20rem; }
+}
+
 .work-frame__img {
   display: block;
   width: 100%;

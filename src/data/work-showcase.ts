@@ -109,7 +109,7 @@ export const WORK_SHOWCASE: readonly WorkShowcaseItem[] = [
  * computed without touching the DOM.
  */
 
-/** Visible window height, in px. Mirrors `--work-frame-h` in globals.css. */
+/** Visible window height, in px. Mirrors desktop `--work-frame-h` in globals.css. */
 export const WORK_FRAME_HEIGHT = 500;
 
 /**

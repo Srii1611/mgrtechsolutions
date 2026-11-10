@@ -43,11 +43,20 @@ export default function WorkShowcaseCard({ item }: { item: WorkShowcaseItem }) {
     if (!window.matchMedia('(hover: none)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    let cancelled = false;
+    const play = () => {
+      if (!cancelled) img.dataset.played = 'true';
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          img.dataset.played = 'true';
+          // Wait for the screenshot. These are lazy and several hundred KB,
+          // so on a phone connection the fixed-length transition could finish
+          // before the image arrived, leaving it parked at the bottom with no
+          // visible movement.
+          img.decode().then(play, play);
           // Once only — the tile holds at the bottom rather than replaying
           // every time it scrolls back into view.
           observer.disconnect();
@@ -60,7 +69,10 @@ export default function WorkShowcaseCard({ item }: { item: WorkShowcaseItem }) {
     // taller than its clipped frame, so 40% of it needs nearly the whole
     // frame on screen and the tile would start far too late.
     observer.observe(img.parentElement ?? img);
-    return () => observer.disconnect();
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+    };
   }, []);
 
   const seconds = workScrollDuration(item);

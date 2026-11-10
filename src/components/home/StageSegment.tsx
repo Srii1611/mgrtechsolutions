@@ -88,8 +88,14 @@ export type StageScreen = keyof typeof STAGE_SCENES;
 /**
  * Below `lg` there is no room for a pinned column, so each stage carries its
  * own phone inline. Same scenes as desktop, scrubbed by this phone's own trip
- * up the viewport: it finishes as the phone reaches the header, while the
- * whole screen is still in view. Nothing pins, so it adds no scroll length.
+ * up the viewport. Nothing pins, so it adds no scroll length.
+ *
+ * The window runs from the phone being about half on screen to its bottom
+ * passing mid-viewport, so the beats play while the phone is readable. Every
+ * payoff sits in the lower part of the screen, which is still visible at the
+ * end. Progress is used raw, with no spring: touch scrolling already has its
+ * own momentum, and a spring on top keeps the scene moving after the finger
+ * has stopped.
  */
 export function StagePhone({ screen }: { screen: StageScreen }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -97,13 +103,7 @@ export function StagePhone({ screen }: { screen: StageScreen }) {
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start 85%', 'start 12%'],
-  });
-
-  const p = useSpring(scrollYProgress, {
-    stiffness: 200,
-    damping: 40,
-    restDelta: 0.001,
+    offset: ['start 70%', 'end 45%'],
   });
 
   const Scene = STAGE_SCENES[screen];
@@ -111,7 +111,7 @@ export function StagePhone({ screen }: { screen: StageScreen }) {
   return (
     <div ref={ref}>
       <PhoneFrame compact>
-        <Scene p={p} reduce={!!reduce} />
+        <Scene p={scrollYProgress} reduce={!!reduce} />
       </PhoneFrame>
     </div>
   );

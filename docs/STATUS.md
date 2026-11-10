@@ -24,6 +24,21 @@ clean, 157 static pages.
 
 ---
 
+## Changed on 2026-11-10
+
+**Mobile animation timing (below `lg`).**
+
+1. **Stage phones retimed.** `StagePhone` now scrubs from `start 70%` to
+   `end 45%`, with no spring. The old window finished before the phone was
+   fully on screen at 375x667, and the spring kept it moving about 0.8s after
+   scrolling stopped.
+2. **Proof tiles start only once their screenshot is decoded.** On a slow
+   connection the transition could end before the image arrived.
+3. **Proof window is 20rem below `lg`** (500px on desktop). At phone width
+   Master Tile had only 39px to travel in a 500px window.
+
+---
+
 ## Changed on 2026-11-09
 
 **Footer social buttons added** for Instagram, Facebook and LinkedIn. URLs live
