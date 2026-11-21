@@ -5,8 +5,8 @@ import { SITE } from '@/data/site';
 const routes = buildSitemapRoutes();
 
 describe('buildSitemapRoutes', () => {
-  it('covers every route: 2 static + 132 posts + 6 categories', () => {
-    expect(routes).toHaveLength(140);
+  it('covers every route: 2 static + 53 posts + 6 categories', () => {
+    expect(routes).toHaveLength(61);
   });
 
   it('never lists a route that redirects to the homepage', () => {

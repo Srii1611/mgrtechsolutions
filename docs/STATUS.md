@@ -15,12 +15,31 @@ The rebuild is **done and live**. All nine spec phases shipped and the domain
 cutover is complete — `mgrtechsolutionsinc.com` serves the Next.js build, not
 the old Vite SPA.
 
-**Routes live:** `/` · `/about` · `/blog` (132 posts, 6 categories) · `/contact` ·
+**Routes live:** `/` · `/about` · `/blog` (53 posts, 6 categories) · `/contact` ·
 `/faq` · `/pricing` (+ `/website-cost`, `/seo`, `/social`) · `/process` ·
 `/services` · `/work`
 
 **Health:** 112 tests passing (7 files) · `verify:copy` passing · `next build`
 clean, 157 static pages.
+
+---
+
+## Changed on 2026-11-20
+
+**Blog cut from 132 posts to 53.** The 132 were rewrites of other sites'
+articles, which Google's spam policy (scraping / scaled content) targets, and
+most were generic explainers that AI Overviews now answer on the results page.
+Kept: posts that support a page we sell (service pages, industry hubs,
+pricing, process, FAQ) plus Srii's picks. Retired: 79.
+
+1. Retired markdown moved to `content/blog-retired/` — not built, not deleted.
+2. Each retired URL 308-redirects (permanent) to the closest kept post or its
+   category page. The map is `src/data/retired-posts.ts`, read by
+   `next.config.ts`; `retired-posts.test.ts` fails if a target stops existing.
+3. To restore a post: move it back to `content/blog/` and delete its entry.
+4. Next: Deepa adds "Related guides" blocks linking service/industry pages to
+   their posts; kept posts get rewritten in Srii's voice over time; n8n refresh
+   drafts go through a PR, never straight to `main`.
 
 ---
 

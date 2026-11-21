@@ -12,8 +12,8 @@ import { CATEGORIES } from '@/data/blog-categories';
 const posts = getAllPosts();
 
 describe('getAllPosts', () => {
-  it('finds all 132 articles', () => {
-    expect(posts).toHaveLength(132);
+  it('finds all 53 kept articles', () => {
+    expect(posts).toHaveLength(53);
   });
 
   it('gives every post a non-empty title, slug, and body', () => {
@@ -77,16 +77,16 @@ describe('getPostsByCategory', () => {
       (sum, c) => sum + getPostsByCategory(c.slug).length,
       0,
     );
-    expect(total).toBe(132);
+    expect(total).toBe(53);
   });
 
   it('matches the known per-category counts', () => {
-    expect(getPostsByCategory('lead-generation')).toHaveLength(27);
-    expect(getPostsByCategory('ai-search')).toHaveLength(13);
-    expect(getPostsByCategory('local-seo')).toHaveLength(32);
-    expect(getPostsByCategory('content-marketing')).toHaveLength(25);
-    expect(getPostsByCategory('business-growth')).toHaveLength(16);
-    expect(getPostsByCategory('website-performance')).toHaveLength(19);
+    expect(getPostsByCategory('lead-generation')).toHaveLength(7);
+    expect(getPostsByCategory('ai-search')).toHaveLength(3);
+    expect(getPostsByCategory('local-seo')).toHaveLength(13);
+    expect(getPostsByCategory('content-marketing')).toHaveLength(12);
+    expect(getPostsByCategory('business-growth')).toHaveLength(6);
+    expect(getPostsByCategory('website-performance')).toHaveLength(12);
   });
 
   it('returns an empty array for an unknown category', () => {

@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { RETIRED_POSTS } from "./src/data/retired-posts";
 
 /**
  * Standalone sales routes that are not ready for production. Their page code
@@ -23,11 +24,19 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   async redirects() {
-    return GATED_ROUTES.map((source) => ({
-      source,
-      destination: '/',
-      permanent: false,
-    }));
+    return [
+      ...GATED_ROUTES.map((source) => ({
+        source,
+        destination: '/',
+        permanent: false,
+      })),
+      // Retired blog posts forward for good (308, Next's permanent redirect).
+      ...RETIRED_POSTS.map(({ slug, destination }) => ({
+        source: `/blog/${slug}`,
+        destination,
+        permanent: true,
+      })),
+    ];
   },
 };
 
