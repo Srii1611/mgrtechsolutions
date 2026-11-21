@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { SITE, FOOTER_CATEGORIES } from '@/data/site';
 import FooterPhone from '@/components/layout/FooterPhone';
+import SocialLinks from '@/components/layout/SocialLinks';
 
 /** Each service page, linked directly. /services redirects to Website Design, so it is not linked. */
 const SERVICE_LINKS = [
@@ -63,6 +64,9 @@ export default function Footer() {
             >
               Get a free site review <span aria-hidden="true">&rarr;</span>
             </Link>
+          </div>
+          <div className="mt-6">
+            <SocialLinks />
           </div>
         </div>
 

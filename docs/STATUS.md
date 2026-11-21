@@ -1,6 +1,6 @@
 # MGRTECH Site — Current Status
 
-**Updated:** 2026-09-13
+**Updated:** 2026-11-21 (this branch: `deepa/service-pages`, merged with `main`)
 **Live:** https://www.mgrtechsolutionsinc.com (Vercel, deploys from `main`)
 **Spec (authority):** `docs/superpowers/specs/2026-08-25-mgrtech-site-rebuild-design.md`
 
@@ -21,12 +21,16 @@ second restructure landed 2026-09-13 (see below): `/work` and `/pricing` were
 retired as standalone routes, Services absorbed the pricing content and grew
 to six topics, and Contact grew from two doors to four.
 
-**Routes live:** `/` · `/about` · `/blog` (132 posts, 6 categories) · `/contact` ·
-`/faq` · `/industries` · `/process` · `/services`
+**Routes on this branch:** `/` · `/about` · `/blog` (53 posts, 6 categories) ·
+`/contact` · `/faq` · `/industries` · `/process` · `/services/*` (six pages)
 
 **Retired:** `/work` and `/pricing` (+ `/website-cost`, `/seo`, `/social`) no
 longer exist as routes — see "Changed on 2026-09-13" below for where their
-content went.
+content went. The pricing task (Nov 21) brings a new `/pricing` back.
+
+**Production differs:** `main` still 307s the sales pages to `/` (its
+`GATED_ROUTES` in `next.config.ts`). This branch drops that list so the pages
+can be built and previewed. Decide what stays gated when this merges to `main`.
 
 **Health:** 112 tests passing (7 files) · `verify:copy` passing · `next build`
 clean, 146 static/SSG pages.
@@ -181,6 +185,101 @@ A site-wide restructure: nav trimmed to Home / Services / Industries / Process
 which was already stale before this change (the data has always had more
 than 2 non-live entries) and is now more visibly wrong with 7 tiles instead
 of 5. Worth a copy pass.
+
+---
+
+## Changed on 2026-11-20
+
+**Blog cut from 132 posts to 53.** The 132 were rewrites of other sites'
+articles, which Google's spam policy (scraping / scaled content) targets, and
+most were generic explainers that AI Overviews now answer on the results page.
+Kept: posts that support a page we sell (service pages, industry hubs,
+pricing, process, FAQ) plus Srii's picks. Retired: 79.
+
+1. Retired markdown moved to `content/blog-retired/` — not built, not deleted.
+2. Each retired URL 308-redirects (permanent) to the closest kept post or its
+   category page. The map is `src/data/retired-posts.ts`, read by
+   `next.config.ts`; `retired-posts.test.ts` fails if a target stops existing.
+3. To restore a post: move it back to `content/blog/` and delete its entry.
+4. Next: Deepa adds "Related guides" blocks linking service/industry pages to
+   their posts; kept posts get rewritten in Srii's voice over time; n8n refresh
+   drafts go through a PR, never straight to `main`.
+
+---
+
+## Changed on 2026-11-10
+
+**Mobile animation timing (below `lg`).**
+
+1. **Stage phones retimed.** `StagePhone` now scrubs from `start 70%` to
+   `end 45%`, with no spring. The old window finished before the phone was
+   fully on screen at 375x667, and the spring kept it moving about 0.8s after
+   scrolling stopped.
+2. **Proof tiles start only once their screenshot is decoded.** On a slow
+   connection the transition could end before the image arrived.
+3. **Proof window is 20rem below `lg`** (500px on desktop). At phone width
+   Master Tile had only 39px to travel in a 500px window.
+
+---
+
+## Changed on 2026-11-09
+
+**Footer social buttons added** for Instagram, Facebook and LinkedIn. URLs live
+in `SOCIAL` in `src/data/site.ts`, which drives both the footer
+(`SocialLinks.tsx`) and the `sameAs` list in the `ProfessionalService` schema.
+Icons are inline SVG because `lucide-react` 1.x has no brand icons.
+
+**Mobile motion pass (below `lg`).**
+
+1. **Animated phones on mobile.** Each stage now has an inline `StagePhone`
+   running the same scenes as the desktop pinned phone, scrubbed by its own
+   trip up the viewport. Stage 01 gained a phone. The static `PhoneMock.tsx`
+   is deleted.
+2. **Process section is a swipe track below `lg`.** Cards were all taller than
+   the visible area, so the pinned stack covered their bottoms before they
+   could be read. CSS scroll-snap plus a `view(inline)` timeline. Desktop keeps
+   the sticky stack. Homepage at 375px went from 31,318px to 27,667px.
+3. **Reveal travels 32px below `lg`** via `--reveal-y` (16px on desktop), and
+   "What we build" items stagger in.
+4. **Work tiles on touch** now trigger from the frame, not the clipped image,
+   so they start when the tile arrives rather than when it is almost centred.
+
+---
+
+## Changed on 2026-09-14 (`single-page-homepage` branch, uncommitted)
+
+**Homepage Section 02 is now service-led.** The three outcome stages (Get
+Found / Get Chosen / Get Followed Up) became five named services, in this
+order: 01 Website Design & Development · 02 SEO · 03 Google Ads & PPC ·
+*hinge band* · 04 AI Automation · 05 Social Media & Content. E-commerce is
+deliberately left off the homepage.
+
+1. **Layout and motion kept.** Same beam, stage dots, sticky numerals, hinge
+   band, "What we build" cards, cost line and sources. Each stage was cut to
+   two paragraphs to offset the extra length.
+2. **Existing copy moved, not rewritten.** The map-box stats sit under SEO,
+   the review stats under Website, the missed-call and 5-minute figures under
+   AI Automation — sources travelled with them. The SEO "What we build" list
+   is unchanged word for word.
+3. **Ads and Social carry no statistics.** None of the traced research is
+   about them; their `sources` are empty and the attribution line is hidden.
+   Their copy comes from `seo-packages.ts` and `social-packages.ts` and quotes
+   no prices (PRICING says those are quoted on the call).
+4. **Phone scenes.** Segment A now runs three scenes in thirds (website
+   comparison → map-box climb → new *sponsored ad + incoming call*); segment B
+   runs two (missed-call text-back → new *feed filling with posts*). Each
+   scene receives its own 0→1 progress. Mobile gained static `ads` and
+   `social` screens in `PhoneMock.tsx`.
+5. **No per-service links.** `/services` redirects to `/` on this branch, so
+   the stages link nowhere; the section keeps `id="services"` for the nav.
+6. **"SECTION 0N · …" band labels removed** from every homepage section, at
+   Srii's request — they read as AI-generated scaffolding. `Band` now only
+   sets the background; `SectionDivider.tsx` and `BANDS` were deleted, since
+   nothing else used them. Do not reinstate.
+7. **Fixed ~20px horizontal overflow at 375px** in the Work grid. The grid's
+   implicit `auto` column couldn't shrink below each card's chrome bar; it is
+   now `grid-cols-1` (`minmax(0, 1fr)`), and the domain label got `min-w-0`
+   so `truncate` works.
 
 ---
 

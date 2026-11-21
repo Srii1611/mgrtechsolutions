@@ -6,7 +6,7 @@ import {
   buildBreadcrumbs,
   buildFaqPage,
 } from './schema';
-import { SITE } from '@/data/site';
+import { SITE, SOCIAL } from '@/data/site';
 
 describe('buildLocalBusiness', () => {
   const s = buildLocalBusiness() as Record<string, unknown>;
@@ -41,6 +41,10 @@ describe('buildLocalBusiness', () => {
   it('declares a service area', () => {
     expect(s.areaServed).toBeDefined();
     expect(JSON.stringify(s.areaServed)).toContain('Framingham');
+  });
+
+  it('links every public social profile through sameAs', () => {
+    expect(s.sameAs).toEqual(SOCIAL.map((profile) => profile.href));
   });
 
   it('does not fabricate ratings or reviews', () => {

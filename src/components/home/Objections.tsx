@@ -83,7 +83,7 @@ export default function Objections() {
   }
 
   return (
-    <section className="py-20 md:py-28" aria-labelledby="objections-heading">
+    <section id="faq" className="scroll-mt-24 py-20 md:py-28" aria-labelledby="objections-heading">
       <div className="container-page">
         <div className="mx-auto max-w-5xl">
           <Reveal>

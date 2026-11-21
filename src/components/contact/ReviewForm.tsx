@@ -205,6 +205,10 @@ export default function ReviewForm({ showHeader = true }: { showHeader?: boolean
         >
           {status === 'sending' ? 'Sending…' : 'Send my free review'}
         </button>
+
+        <p className="text-[0.8125rem] leading-relaxed text-ink-soft">
+          Your email is used only to send your review — never sold, never added to a mailing list.
+        </p>
       </form>
     </div>
   );

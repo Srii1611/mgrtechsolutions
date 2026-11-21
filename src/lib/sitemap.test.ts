@@ -5,8 +5,8 @@ import { SITE } from '@/data/site';
 const routes = buildSitemapRoutes();
 
 describe('buildSitemapRoutes', () => {
-  it('covers every route: 13 static + 132 posts + 6 categories', () => {
-    expect(routes).toHaveLength(151);
+  it('covers every route: 13 static + 53 posts + 6 categories', () => {
+    expect(routes).toHaveLength(72);
   });
 
   it('makes every url absolute and on the site domain', () => {

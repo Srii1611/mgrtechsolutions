@@ -1,15 +1,14 @@
-import { MapPin, MousePointerClick, PhoneCall, Check } from 'lucide-react';
+import { MonitorSmartphone, MapPin, Megaphone, PhoneCall, Camera, Check } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import StageBeam from '@/components/motion/StageBeam';
-import PhoneMock from '@/components/home/PhoneMock';
-import StageSegment from '@/components/home/StageSegment';
+import StageSegment, { StagePhone, type StageScreen } from '@/components/home/StageSegment';
 import { STAGES } from '@/data/home';
 import { SITE } from '@/data/site';
 
-const ICONS = { MapPin, MousePointerClick, PhoneCall } as const;
+const ICONS = { MonitorSmartphone, MapPin, Megaphone, PhoneCall, Camera } as const;
 
 /**
- * SECTION 02 — How the work actually works (light).
+ * SECTION 02 — What we build, in order (light).
  *
  * A Server Component. The stage headings stick with plain CSS `position:
  * sticky`, so the only client code in the whole section is the progress beam.
@@ -22,7 +21,11 @@ const ICONS = { MapPin, MousePointerClick, PhoneCall } as const;
  */
 export default function Stages() {
   return (
-    <section className="bg-cream-50 py-20 md:py-28" aria-labelledby="stages-heading">
+    <section
+      id="services"
+      className="scroll-mt-24 bg-cream-50 py-20 md:py-28"
+      aria-labelledby="stages-heading"
+    >
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent-ink">{STAGES.eyebrow}</p>
@@ -54,7 +57,7 @@ export default function Stages() {
 }
 
 function StageBeamGroup() {
-  const [one, two, three] = STAGES.stages;
+  const [site, seo, ads, followUp, social] = STAGES.stages;
 
   return (
     <div className="mt-20">
@@ -67,22 +70,23 @@ function StageBeamGroup() {
       */}
       <StageBeam>
         {/*
-          TWO PINNED SEGMENTS, not one. The hinge band sits between stages 02
-          and 03 and that placement is deliberate, so the phone has to release
-          there. Segment A covers stages 01–02, segment B covers stage 03.
-
-          In Phase 2 these become the ScrollTrigger pins; the `lg:sticky` here
-          is the JS-free structure they will replace.
+          TWO PINNED SEGMENTS, not one. The hinge band sits between stages 03
+          and 04 and that placement is deliberate, so the phone has to release
+          there. Segment A covers the three services that bring people in
+          (website, SEO, ads); segment B covers the two that keep them
+          (automation, content).
         */}
         <StageSegment segment="a">
-          <Stage stage={one} screen="found" />
-          <Stage stage={two} />
+          <Stage stage={site} screen="site" />
+          <Stage stage={seo} screen="found" />
+          <Stage stage={ads} screen="ads" />
         </StageSegment>
 
         <Hinge />
 
         <StageSegment segment="b">
-          <Stage stage={three} emphasis screen="followup" />
+          <Stage stage={followUp} emphasis screen="followup" />
+          <Stage stage={social} screen="social" />
         </StageSegment>
       </StageBeam>
 
@@ -100,8 +104,8 @@ function Stage({
 }: {
   stage: (typeof STAGES.stages)[number];
   emphasis?: boolean;
-  /** Mobile-only inline phone. Omitted for stages whose screen isn't built. */
-  screen?: 'found' | 'followup';
+  /** Mobile-only inline phone, scrubbed by scroll. */
+  screen: StageScreen;
 }) {
   const Icon = ICONS[stage.icon];
 
@@ -145,11 +149,9 @@ function Stage({
 
         {/* Mobile only. On desktop the phone lives in the sticky Segment
             column instead, so it is never rendered twice at one breakpoint. */}
-        {screen && (
-          <Reveal className="mt-8 lg:hidden">
-            <PhoneMock screen={screen} />
-          </Reveal>
-        )}
+        <Reveal className="mt-8 lg:hidden">
+          <StagePhone screen={screen} />
+        </Reveal>
 
         <Reveal delay={0.05}>
           <h3 className="h3-card mt-4 max-w-2xl font-medium text-forest-950">
@@ -165,8 +167,8 @@ function Stage({
           </Reveal>
         ))}
 
-        {/* Stage 03 is the differentiator, so its build list gets the dark
-            treatment rather than the light card the first two use. */}
+        {/* AI Automation is the differentiator, so its build list gets the
+            dark treatment rather than the light card the others use. */}
         <Reveal delay={0.2}>
           <div
             className={
@@ -180,8 +182,8 @@ function Stage({
             </p>
 
             <ul className="mt-5 space-y-3">
-              {stage.build.map((item) => (
-                <li key={item} className="flex gap-3">
+              {stage.build.map((item, i) => (
+                <Reveal as="li" key={item} delay={i * 0.06} className="flex gap-3">
                   <Check
                     className={`mt-1 h-4 w-4 shrink-0 ${emphasis ? 'text-accent' : 'text-accent-ink'}`}
                     strokeWidth={2.5}
@@ -192,7 +194,7 @@ function Stage({
                   >
                     {item}
                   </span>
-                </li>
+                </Reveal>
               ))}
             </ul>
           </div>
@@ -206,20 +208,23 @@ function Stage({
         </Reveal>
 
         {/* Attribution. This section leans on specific figures as hard as the
-            FAQ does, so it shows its work the same way — see OBJECTIONS. */}
-        <Reveal delay={0.3}>
-          <p className="mt-6 max-w-2xl border-t border-cream-300 pt-3 text-[0.75rem] leading-relaxed text-ink-soft">
-            <span className="font-semibold text-accent-ink">Source: </span>
-            {stage.sources.join(' · ')}
-          </p>
-        </Reveal>
+            FAQ does, so it shows its work the same way — see OBJECTIONS.
+            Stages that cite no figures have nothing to attribute. */}
+        {stage.sources.length > 0 && (
+          <Reveal delay={0.3}>
+            <p className="mt-6 max-w-2xl border-t border-cream-300 pt-3 text-[0.75rem] leading-relaxed text-ink-soft">
+              <span className="font-semibold text-accent-ink">Source: </span>
+              {stage.sources.join(' · ')}
+            </p>
+          </Reveal>
+        )}
       </div>
     </article>
   );
 }
 
 /**
- * The hinge. Sits between stages 02 and 03 — that placement is the point, so
+ * The hinge. Sits between stages 03 and 04 — that placement is the point, so
  * it must not move. Full-bleed by construction: it lives outside the
  * `container-page` wrappers rather than escaping one with a viewport hack.
  */

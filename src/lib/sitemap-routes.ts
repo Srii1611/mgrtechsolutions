@@ -15,6 +15,7 @@ export type SitemapRoute = {
   priority?: number;
 };
 
+/** Only routes that actually serve a page: a sitemap must never list a redirect. */
 const STATIC_ROUTES: { path: string; priority: number; changeFrequency: SitemapRoute['changeFrequency'] }[] = [
   { path: '/', priority: 1, changeFrequency: 'weekly' },
   { path: '/about', priority: 0.6, changeFrequency: 'monthly' },

@@ -12,16 +12,39 @@ export const SITE = {
   tagline: 'Websites that bring in actual phone calls.',
 } as const;
 
-/** Primary navigation. Order is the order shown. */
+/**
+ * Public company profiles. Drives the footer buttons and the schema.org
+ * `sameAs` list, so a change here updates both.
+ */
+export const SOCIAL = [
+  {
+    network: 'instagram',
+    label: 'Instagram',
+    href: 'https://www.instagram.com/mgrtechsolutions/',
+  },
+  {
+    network: 'facebook',
+    label: 'Facebook',
+    href: 'https://www.facebook.com/profile.php?id=61596086248607',
+  },
+  {
+    network: 'linkedin',
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/111959757/',
+  },
+] as const;
+
+/**
+ * Footer page links. Order is the order shown. Everything except the blog is
+ * a section of the homepage — the standalone sales routes redirect to `/`
+ * (see `next.config.ts`).
+ */
 export const NAV = [
   { href: '/', label: 'Home' },
   { href: '/services', label: 'Services' },
   { href: '/industries', label: 'Industries' },
   { href: '/process', label: 'Process' },
   { href: '/blog', label: 'Blog' },
-  { href: '/about', label: 'About' },
-  { href: '/faq', label: 'FAQ' },
-  { href: '/contact', label: 'Contact' },
 ] as const;
 
 /** Blog categories, for footer routing. Six per spec. */

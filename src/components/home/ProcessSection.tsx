@@ -13,7 +13,8 @@ import { SITE } from '@/data/site';
 export default function ProcessSection() {
   return (
     <section
-      className="on-dark bg-forest-950 py-20 md:py-28"
+      id="process"
+      className="on-dark scroll-mt-24 bg-forest-950 py-20 md:py-28"
       aria-labelledby="process-heading"
     >
       <div className="container-page">
@@ -34,12 +35,6 @@ export default function ProcessSection() {
               className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-medium text-forest-950 transition-transform hover:scale-[1.03]"
             >
               {PROCESS.primaryCta}
-            </a>
-            <a
-              href="/process"
-              className="inline-flex items-center gap-2 rounded-full border border-forest-700 px-6 py-3 font-medium text-cream-50 transition-colors hover:border-accent"
-            >
-              {PROCESS.secondaryCta}
             </a>
           </div>
         </Reveal>

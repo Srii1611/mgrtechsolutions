@@ -5,7 +5,7 @@ import { WORK } from '@/data/home';
 /** SECTION 03 — The work (dark). Renders all seven projects. */
 export default function WorkSection() {
   return (
-    <section id="work-section" className="on-dark scroll-mt-24 bg-forest-950 py-20 md:py-28">
+    <section id="work" className="on-dark scroll-mt-24 bg-forest-950 py-20 md:py-28">
       <div className="container-page">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>

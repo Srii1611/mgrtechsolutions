@@ -6,7 +6,7 @@ import { SITE } from '@/data/site';
 /** SECTION 13 — dual close: call panel + real review-request form (dark). */
 export default function DualClose() {
   return (
-    <section className="py-20 md:py-28">
+    <section id="contact" className="scroll-mt-24 py-20 md:py-28">
       <div className="container-page">
         <Reveal>
           <p className="eyebrow text-accent">{DUAL_CLOSE.eyebrow}</p>
