@@ -30,7 +30,7 @@ export const leadSchema = z.object({
     .string()
     .trim()
     .max(40, 'That phone number is too long')
-    .regex(/^[\d\s().+-]*$/, 'Use digits, spaces, dashes or a leading +')
+    .regex(/^[\d ().+-]*$/, 'Use digits, spaces, dashes or a leading +')
     .optional(),
   notes: z.string().trim().max(5000).optional(),
   /**
