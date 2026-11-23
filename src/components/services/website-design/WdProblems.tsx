@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { PROBLEMS } from '@/data/website-design';
 import { Bullets, ReadLink } from '@/components/services/website-design/WdBits';
+import { useStableHeight } from '@/components/services/service-page/useStableHeight';
 
 const READ_LABELS: Record<string, string> = {
   'website-not-generating-leads': "A fix-it playbook for sites that don't bring in leads",
@@ -17,6 +18,8 @@ const READ_LABELS: Record<string, string> = {
  */
 export default function WdProblems() {
   const [open, setOpen] = useState(0);
+  const row = useRef<HTMLDivElement>(null);
+  useStableHeight(row);
 
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const clearTimer = () => {
@@ -48,7 +51,7 @@ export default function WdProblems() {
   };
 
   return (
-    <div className="wd-xps">
+    <div className="wd-xps" ref={row}>
       {PROBLEMS.map((p, i) => {
         const on = open === i;
         return (

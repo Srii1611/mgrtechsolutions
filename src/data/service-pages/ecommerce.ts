@@ -1,4 +1,4 @@
-import { PRICE_MASK } from '@/data/website-design';
+import { HOURLY_LINE, LAUNCH, PRICES, money, perMonth } from '@/data/prices';
 import { ICON } from '@/data/service-pages/icons';
 import type { ServicePageData } from '@/data/service-pages/types';
 
@@ -13,7 +13,8 @@ import type { ServicePageData } from '@/data/service-pages/types';
  *    SEO basics, training). No wording copied.
  *  - Platform names, store features, timeline and price shape are all
  *    proposals. Every line carries a CONFIRM note or sits under this one.
- *  - Every price is PRICE_MASK. Pricing is quoted to the catalog.
+ *  - Every price comes from src/data/prices.ts. Stores start at a quoted price and
+ *    take about five weeks; Commerce care is required with every store.
  *  - No conversion or sales figures appear anywhere.
  */
 export const ECOMMERCE_PAGE: ServicePageData = {
@@ -226,7 +227,7 @@ export const ECOMMERCE_PAGE: ServicePageData = {
         items: [
           [1, 'Images compressed for fast loading'], // CONFIRM
           [1, 'SSL certificate (the padlock and https)'],
-          [1, 'Hosting set up in your name'],
+          [1, 'Hosting through the required Commerce care plan'],
           [1, 'Speed checked on a phone'],
         ],
       },
@@ -285,43 +286,32 @@ export const ECOMMERCE_PAGE: ServicePageData = {
 
   pricing: {
     eyebrow: 'PRICING',
-    heading: 'Quoted to your catalog, not a flat rate.',
-    lede: 'A store with a dozen products and a store with a thousand are different jobs. We scope the build to your catalog and quote it in writing.',
-    plans: [
-      {
-        name: 'Online store',
-        note: 'Quoted on the call',
-        pitch: 'A complete store, scoped to the size and needs of your catalog.',
-        lead: 'Scoped from these pieces:',
-        items: [
-          'Store design for phones first',
-          'Product catalog set up',
-          'Secure checkout with payments to your account',
-          'Shipping, tax and stock rules',
-          'Product pages built to be found on Google',
-          'Launch, walkthrough and support',
-        ],
-        goodFor: 'Good for: shops and makers who want to sell online and own the store',
-      },
-    ],
+    heading: 'Two store packages, and a care plan that is required.',
+    lede: `A store with a dozen products and a store with a thousand are different jobs, so stores start at a price and are quoted to your catalog in writing. A store takes ${LAUNCH.custom}.`,
+    service: 'commerce',
     facts: [
       {
-        title: 'What changes the price',
-        text: 'The scope sets the starting point. These things move the final number:',
+        title: 'What helps decide the package',
+        text: 'The package sets the starting price. These things move the final number:',
         kind: 'check',
-        items: ['How many products and categories you have', 'How many options each product has', 'Shipping and tax complexity', 'Special features, such as bundles or subscriptions', 'Moving products from an existing store'],
+        items: ['How many products and categories you have', 'How many options each product has', 'Shipping and tax complexity', 'Special features, such as bundles or subscriptions', 'Moving products from an old store'],
       },
       {
         title: "What's not included",
         text: 'We keep these separate so you always know what you are paying for.',
         kind: 'x',
-        items: ['Platform, payment and hosting fees billed by the provider', 'Product photography, unless we agree it', 'SEO, social media and ads, quoted on the call'],
+        items: ['Payment processing fees billed by the processor', 'Product photography, unless we agree it', 'SEO, social media and ads. They are separate services with their own plans'],
       },
       {
         title: 'How payment works',
         text: 'No surprises. You see the price in writing before any work begins.',
         kind: 'check',
-        items: ['A written quote after one call', `Pricing: ${PRICE_MASK}`, 'No hourly meters', 'Changes after launch are priced clearly before work starts'],
+        items: [
+          `Commerce care, ${perMonth(PRICES.commerce.care.monthly)}, is required with every store`,
+          'No mystery subscriptions. Every monthly fee is shown here',
+          `Work outside what we agreed is always quoted first, at ${HOURLY_LINE}`,
+          'Changes after launch are priced clearly before work starts',
+        ],
       },
     ],
     readLead: 'Want help comparing?',
@@ -334,7 +324,7 @@ export const ECOMMERCE_PAGE: ServicePageData = {
   timeline: {
     eyebrow: 'TIMELINE',
     heading: 'From first call to first order.',
-    lede: 'The timeline depends on how many products you have. This is a typical shape, drawn to scale. Your quote gives the real dates.',
+    lede: 'A store takes about five weeks. This is the shape of those weeks, drawn to scale. Your quote gives the real dates.',
     phases: [
       { key: 'discovery', bar: 'STEP 1', short: 'Discovery', weight: 1, mark: '1', days: 'Step 1', title: 'Discovery', text: 'A conversation about what you sell and how, and a plan for the catalog.', time: 'Your time: about 60 minutes' },
       { key: 'preview', bar: 'STEP 2', short: 'Preview', weight: 1, mark: '2', days: 'Step 2', title: 'Working preview', text: 'A real, working version of the store with the first products.', time: 'Your time: about 15 minutes' },
@@ -392,7 +382,7 @@ export const ECOMMERCE_PAGE: ServicePageData = {
       { label: 'Customers', cells: ['Yours', 'Yours', 'Yours', 'Shared with the marketplace'], us: 'Yours, with your own store and brand' },
       { label: 'Fees', cells: ['Platform fees and payment fees', 'Depends on the platform', 'Depends on the platform', 'Fees on each sale'], us: 'Provider fees billed directly to you, no hidden markup' }, // CONFIRM
       { label: 'Found on Google', cells: ['You do it yourself', 'Depends on the person', 'Usually offered, at extra cost', 'Mostly their search, not yours'], us: 'Product pages built to be found on their own' },
-      { label: 'Cost', cells: ['Lowest upfront', 'Lower than an agency', 'Highest', 'Low to start, fees on every sale'], us: 'A written quote after one call' },
+      { label: 'Cost', cells: ['Lowest upfront', 'Varies, and care is often extra', 'Highest', 'Low to start, fees on every sale'], us: `Store from ${money(PRICES.commerce.tiers[0].oneTime)}, plus ${perMonth(PRICES.commerce.care.monthly)} care` },
     ],
     note: 'If one of the others fits you better, we will tell you. More reading:',
     reads: [
@@ -478,16 +468,16 @@ export const ECOMMERCE_PAGE: ServicePageData = {
     heading: 'What else you may want to know.',
     lede: "Can't find your question? Call and ask. You'll get a straight answer from the person who would build it.",
     items: [
-      { q: 'How much does an online store cost?', a: `It depends on your catalog. Number of products, options, shipping and tax all change the job, so we quote it in writing after one call. Pricing: ${PRICE_MASK}.`, read: { slug: 'how-much-does-a-contractor-website-cost', label: 'what a website really costs' } },
+      { q: 'How much does an online store cost?', a: `Store starts from ${money(PRICES.commerce.tiers[0].oneTime)} and Store Pro from ${money(PRICES.commerce.tiers[1].oneTime)}. The final number follows your catalog (products, options, shipping and tax), so it is quoted in writing after one call. Commerce care, ${perMonth(PRICES.commerce.care.monthly)}, is required with every store.`, read: { slug: 'how-much-does-a-contractor-website-cost', label: 'what a website really costs' } },
       { q: 'Which platform do you use?', a: 'We choose the platform with you, based on how many products you have and how you sell. We explain the choice in plain English before you commit.' }, // CONFIRM
       { q: 'Do I own the store?', a: 'Yes. The store, the domain and the payment accounts are in your name, and the content and products are yours.' },
       { q: 'Who gets the money from sales?', a: 'You do. Payments go straight to your own payment account.' },
-      { q: 'How long does it take?', a: 'It depends on the size of your catalog. Your quote gives the dates, and we aim to show you a working preview early.' }, // CONFIRM
+      { q: 'How long does it take?', a: `A store takes ${LAUNCH.custom}. We aim to show you a working preview early, and your quote gives the dates.` },
       { q: 'Can you move my products from another store?', a: 'Often, yes. We check what you have and tell you what can be moved before you start.' }, // CONFIRM
       { q: 'Will my products show on Google?', a: 'Each product page is set up so Google can understand it. Rankings build over time, and nobody can promise a position.' },
       { q: 'Do I have to write the product descriptions?', a: 'You send us what you know and we help turn it into clear descriptions. You review them before launch.' }, // CONFIRM
       { q: 'Can I add products myself later?', a: 'Yes. We show you how, and we are a call away if you get stuck.' },
-      { q: 'Are there ongoing costs?', a: 'Platform, payment and hosting fees are billed by the provider. We list them in writing before you start.' },
+      { q: 'Are there ongoing costs?', a: `Commerce care is ${perMonth(PRICES.commerce.care.monthly)} and is required with every store. Hosting is part of the care plans. Payment processing fees are billed by the processor, and we list them in writing before you start.` },
       { q: 'Do you only work with MetroWest businesses?', a: "MetroWest Massachusetts is home, and where most clients are. If you're outside the area and the fit is right, call and we'll talk." },
     ],
   },

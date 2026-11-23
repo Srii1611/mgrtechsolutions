@@ -32,8 +32,8 @@ export default function WdCompare() {
               {c.rows.map((r) => (
                 <tr key={r.label}>
                   <th scope="row">{r.label}</th>
-                  {r.cells.map((cell) => (
-                    <td key={cell}>{cell}</td>
+                  {r.cells.map((cell, i) => (
+                    <td key={i}>{cell}</td>
                   ))}
                   <td className="wd-us-c">{r.us}</td>
                 </tr>

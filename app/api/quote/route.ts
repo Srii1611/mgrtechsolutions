@@ -77,6 +77,7 @@ export async function POST(request: Request) {
     ``,
     `Name:         ${quote.name}`,
     `Email:        ${quote.email}`,
+    `Phone:        ${quote.phone?.trim() ? quote.phone : '(not given)'}`,
     `Project type: ${quote.projectType}`,
     `Budget:       ${quote.budget}`,
     `Timeline:     ${quote.timeline}`,

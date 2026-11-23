@@ -2,7 +2,6 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { clamp, dotPos, lerp, reveal, seg, smooth, type Pt, type SceneApi } from '@/components/services/scroll-scenes/lib';
 
-export const WEB_TAG = 'THE BUILD';
 export const WEB_TICKS = [0.14, 0.3, 0.56, 0.8];
 
 const WebScene = forwardRef<SceneApi>(function WebScene(_, ref) {

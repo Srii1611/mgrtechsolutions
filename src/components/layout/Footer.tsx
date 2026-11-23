@@ -54,7 +54,7 @@ export default function Footer() {
           <p className="text-[1rem] text-cream-50 md:text-[1.125rem]">One call. One point of contact. No handoffs.</p>
           <FooterPhone phone={SITE.phone} href={SITE.phoneHref} label={`Call ${SITE.name} at ${SITE.phone}`} />
           <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 text-[1rem]">
-            <span className="text-cream-50">Call anytime</span>
+            <span className="text-cream-50">Call {SITE.hours}</span>
             <a href={`mailto:${SITE.email}`} className="transition-colors hover:text-accent">
               {SITE.email}
             </a>
@@ -84,6 +84,15 @@ export default function Footer() {
           </p>
           <p>{SITE.location}</p>
         </div>
+        <p className="mt-6 text-[0.9375rem]">
+          Know a business that needs this?{' '}
+          <a
+            href={`mailto:${SITE.email}?subject=${encodeURIComponent('Referral')}`}
+            className="text-cream-50 underline underline-offset-4 transition-colors hover:text-accent"
+          >
+            Email me
+          </a>
+        </p>
       </div>
     </footer>
   );

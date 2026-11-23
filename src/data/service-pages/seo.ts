@@ -1,4 +1,4 @@
-import { PRICE_MASK } from '@/data/website-design';
+import { HOURLY_LINE, PRICES, money, perMonth } from '@/data/prices';
 import { ICON } from '@/data/service-pages/icons';
 import type { ServicePageData } from '@/data/service-pages/types';
 
@@ -10,7 +10,8 @@ import type { ServicePageData } from '@/data/service-pages/types';
  * providers (what they list, how they price). No wording copied.
  *
  * OPEN for Srii before treating as final:
- *  - Every price is PRICE_MASK. Real amounts are not set on this page.
+ *  - Every price comes from src/data/prices.ts. SEO is priced on its own, never bundled
+ *    with social media or ads.
  *  - Lines marked CONFIRM are not stated on the live site's SEO section.
  *  - The timeline phases follow our own blog post "how long does SEO take"
  *    and are not a promise. No ranking or call numbers appear anywhere.
@@ -167,10 +168,9 @@ export const SEO_PAGE: ServicePageData = {
   included: {
     eyebrow: "WHAT'S INCLUDED",
     heading: 'Everything it takes to be found nearby.',
-    lede: 'Eight areas of work in one place. Flip through them with the list, the arrows, or your keyboard. Everything is in both plans unless a line says otherwise.',
-    noteLead: 'Premium builds on Standard.',
-    note: 'Premium includes everything in Standard, and adds paid ads management. Ad spend is paid directly to Google and Meta and is never part of our fee.',
-    tierLabels: { 2: 'Premium only' },
+    lede: 'Eight areas of work in one place. Flip through them with the list, the arrows, or your keyboard. This is the work behind local SEO.',
+    noteLead: 'SEO is priced on its own.',
+    note: 'Ads management and social media are separate services with their own plans. Ad spend is paid directly to Google and Meta and is never part of our fee.',
     categories: [
       {
         title: 'Google Business Profile',
@@ -264,17 +264,15 @@ export const SEO_PAGE: ServicePageData = {
         ],
       },
       {
-        title: 'Reporting and ads',
-        desc: 'A report you can read, and optional paid ads on top.',
+        title: 'Reporting',
+        desc: 'A report you can read, every month.',
         icon: ICON.chart,
         read: { slug: 'local-seo-vs-paid-ads', label: 'Local SEO vs paid ads' },
         items: [
           [1, 'Monthly SEO report in plain English'],
           [1, 'A monthly consulting call'],
-          [1, 'Social media management included'],
-          [2, 'Google Ads management, with a setup project first'],
-          [2, 'Meta Ads management (Facebook and Instagram)'],
-          [2, 'Call and form tracking for ad leads'],
+          [1, 'Keyword tracking dashboard and Google Analytics'],
+          [1, 'A plan for next month, every month'],
         ],
       },
     ],
@@ -320,54 +318,18 @@ export const SEO_PAGE: ServicePageData = {
 
   pricing: {
     eyebrow: 'PRICING',
-    heading: 'Two plans. Premium adds paid ads.',
-    lede: 'SEO is a monthly service because the work builds over time. Pick the plan that matches the job. If you are between two, we will tell you which fits on the call.',
-    plans: [
-      {
-        name: 'Standard',
-        note: 'Billed monthly',
-        pitch: 'Full SEO and social media management, run every month.',
-        lead: "What's in it",
-        items: [
-          'Keyword research and competitor analysis',
-          'Technical SEO audit and fixes',
-          'On-page SEO and website content',
-          'Google Business Profile management and directory listings',
-          'Blogging and link-building',
-          'Keyword tracking dashboard and Google Analytics',
-          'Social media management',
-          'Monthly report and a consulting call',
-        ],
-        goodFor: 'Good for: getting found in the towns you already serve',
-      },
-      {
-        name: 'Premium',
-        badge: 'Adds paid ads',
-        highlight: true,
-        note: 'Billed monthly, ad spend separate',
-        pitch: 'Everything in Standard, plus Google Ads and Meta Ads management.',
-        lead: 'Everything in Standard, plus:',
-        items: [
-          'A setup project for Google Ads: audit, research, structure, ad copy',
-          'A setup project for Meta Ads: audience research and creative',
-          'Monthly bid, budget and ad copy management',
-          'Conversion tracking for calls, forms and sales',
-          'Monthly reporting on leads and cost per lead',
-          'Ad accounts in your name, no markup on ad spend',
-        ],
-        goodFor: 'Good for: businesses that want calls this week and a stronger map presence over time',
-      },
-    ],
+    heading: 'Three monthly plans and one setup fee.',
+    lede: `Local SEO builds over time, so it is a monthly service. Every plan starts with a one-time ${money(PRICES.seo.setup)} setup. SEO is priced on its own, separate from social media and ads.`,
+    service: 'seo',
     facts: [
       {
-        title: 'What changes the price',
-        text: 'The plan sets the starting point. These things move the final number:',
+        title: 'What helps decide the plan',
+        text: 'The plan sets the price. These things help us tell you which one fits:',
         kind: 'check',
         items: [
           'How many towns and service areas you compete in',
           'How competitive your trade is where you work',
           'How many pages and articles you need each month',
-          'Whether you add paid ads',
           'The condition of your current site and listing',
         ],
       },
@@ -377,18 +339,18 @@ export const SEO_PAGE: ServicePageData = {
         kind: 'x',
         items: [
           'Ad spend. You pay Google and Meta directly',
-          'A new website build. That is quoted separately',
-          'Large jobs outside the plan, such as a full rebuild',
+          'Ads management and social media. They are separate services with their own plans',
+          'A new website build. That is priced separately',
         ],
       },
       {
         title: 'How payment works',
-        text: 'No surprises. You see the price in writing before any work begins.',
+        text: 'No surprises. The prices on this page are the prices.',
         kind: 'check',
         items: [
-          'A written quote after one call',
-          `Plans from ${PRICE_MASK} a month, billed monthly`,
-          'Anything outside the plan is priced clearly before work starts',
+          `A one-time ${money(PRICES.seo.setup)} setup, then billed monthly`,
+          'No mystery subscriptions. Every monthly fee is shown here',
+          `Work outside the plan is always quoted first, at ${HOURLY_LINE}`,
           'Cancel with notice, no long contract', // CONFIRM
         ],
       },
@@ -460,7 +422,7 @@ export const SEO_PAGE: ServicePageData = {
       { label: 'Website and listing', cells: ['You do it all', 'Depends on the person', 'Often a separate team', 'Depends on the hire'], us: 'We do the pages, listing and articles together' },
       { label: 'Ownership', cells: ['Yours', 'Ask before you hire', 'Ask before you sign', 'Yours'], us: 'Listing, analytics and content in your name' },
       { label: 'Reporting', cells: ['Whatever you build', 'Depends on the person', 'Often long reports full of jargon', 'Depends on the hire'], us: 'A short monthly report in plain English' },
-      { label: 'Cost', cells: ['Lowest upfront, most of your time', 'Lower than an agency', 'Highest', 'Salary, tools and management time'], us: 'A written quote after one call' },
+      { label: 'Cost', cells: ['Lowest upfront, most of your time', 'Varies, and reporting is often extra', 'Highest', 'Salary, tools and management time'], us: `${perMonth(PRICES.seo.tiers[0].monthly)} to ${perMonth(PRICES.seo.tiers[2].monthly)}, shown openly` },
     ],
     note: 'If one of the others fits you better, we will tell you. More reading:',
     reads: [
@@ -530,16 +492,6 @@ export const SEO_PAGE: ServicePageData = {
     eyebrow: 'GUIDES FROM OUR BLOG',
     heading: 'Read up before you decide.',
     lede: 'Short, plain-English guides on the questions people ask us most about being found on Google. No sign-up needed.',
-    featured: {
-      slug: 'local-seo-101',
-      kicker: 'Start here: the basics',
-      blurb: 'What local SEO is, how the map box works, and where a service business should begin.',
-    },
-    groups: [
-      { title: 'The map box and your listing', slugs: ['how-to-rank-google-maps', 'google-business-profile-optimization', 'google-business-profile-posts-strategy', 'what-are-local-citations'] },
-      { title: 'Pages and content', slugs: ['local-keyword-research-for-service-businesses', 'how-to-write-service-pages', 'service-area-pages-rank-multiple-cities', 'on-page-seo-checklist'] },
-      { title: 'Timing and what is next', slugs: ['how-long-does-seo-take', 'local-seo-vs-paid-ads', 'how-chatgpt-finds-businesses', 'optimize-for-ai-search'] },
-    ],
   },
 
   faq: {
@@ -547,13 +499,13 @@ export const SEO_PAGE: ServicePageData = {
     heading: 'What else you may want to know.',
     lede: "Can't find your question? Call and ask. You'll get a straight answer from the person who would do the work.",
     items: [
-      { q: 'How much does SEO cost?', a: `It depends on the plan and how competitive your market is. Standard and Premium are billed monthly, and you get a written quote after one call. Pricing: ${PRICE_MASK}.`, read: { slug: 'digital-marketing-budget', label: 'how to set a marketing budget' } },
+      { q: 'How much does SEO cost?', a: `There are three monthly plans, ${perMonth(PRICES.seo.tiers[0].monthly)}, ${perMonth(PRICES.seo.tiers[1].monthly)} and ${perMonth(PRICES.seo.tiers[2].monthly)}, plus a one-time ${money(PRICES.seo.setup)} setup. They are priced openly on this page, and SEO is separate from social media and ads.`, read: { slug: 'digital-marketing-budget', label: 'how to set a marketing budget' } },
       { q: 'How long until I see results?', a: 'Local SEO usually shows first signs in months three and four, with real movement later in the first year. Nobody can promise a date, and anyone who does is selling something.', read: { slug: 'how-long-does-seo-take', label: 'the honest SEO timeline' } },
       { q: 'What do you need from me?', a: 'One call about your business, logins to anything that already exists (your Google listing, your site, analytics), and photos of recent jobs. We handle the rest and send you drafts to approve.' },
       { q: 'Do I own my Google listing and accounts?', a: 'Yes. Your listing, analytics and content belong to your business. If you ever leave, they go with you.' }, // CONFIRM
       { q: 'Do I need a new website first?', a: 'Not always. We audit what you have. If the site blocks results, we tell you and quote the fix separately.' },
       { q: 'Will you guarantee a ranking?', a: 'No. Rankings depend on your market, your competitors and Google. We guarantee the work, and we report on it every month.' },
-      { q: 'What is the difference between Standard and Premium?', a: 'Standard is SEO and social media. Premium adds Google Ads and Meta Ads management. Ad spend is always separate and goes directly to Google and Meta.' },
+      { q: 'Is social media or ad management included?', a: 'No. Local SEO, ads management and social media are separate services with their own plans, and you can add any of them. Ad spend is always separate and goes directly to Google and Meta.' },
       { q: 'Do you write the articles?', a: 'Yes. We plan, write and publish them, and you review each one before it goes live.' },
       { q: 'Is there a long contract?', a: 'Plans are billed monthly. Notice terms are confirmed in writing before you start.' }, // CONFIRM
       { q: 'Will AI tools like ChatGPT mention my business?', a: 'We cannot control what they say. We make your pages, listing and reviews clear so they have good information to use.', read: { slug: 'how-chatgpt-finds-businesses', label: 'how AI tools find businesses' } },

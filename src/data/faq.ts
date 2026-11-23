@@ -9,6 +9,7 @@
  * Positioning rule (spec §4): nothing here may claim the company is one
  * person. First person singular is fine where Srii speaks to the reader.
  */
+import { LAUNCH, PRICES, money, perMonth } from '@/data/prices';
 
 export interface FaqItem {
   q: string;
@@ -41,7 +42,7 @@ export const FAQ_GROUPS: FaqGroup[] = [
     items: [
       {
         q: 'How much does a website cost?',
-        a: "It depends on scope, and anyone who gives you a number before knowing your project is guessing. My packages have real starting prices, right there on the services page, and after one 60-minute call you get a written quote that won't drift. No hourly meter running in the background.",
+        a: `It depends on scope, and anyone who gives you a number before knowing your project is guessing. The Site is ${money(PRICES.website.tiers[0].oneTime)} and The System is ${money(PRICES.website.tiers[1].oneTime)}, one-time, and Rebuild / Custom starts from ${money(PRICES.website.tiers[2].oneTime)}. Every price is on the pricing page, and after one 60-minute call you get a written quote that won't drift. No hourly meter running in the background.`,
       },
       {
         q: 'What do you need from me to get started?',
@@ -49,7 +50,7 @@ export const FAQ_GROUPS: FaqGroup[] = [
       },
       {
         q: 'Are there ongoing costs after the site launches?',
-        a: "Two small ones: your domain and hosting (a few dollars a month, registered in your name, so you own them), and any support plan you choose. Every recurring cost is listed in writing before launch: nothing appears on an invoice that you didn't agree to.",
+        a: `Only the ones you choose. A Care plan is ${perMonth(PRICES.care.tiers[0].monthly)}, ${perMonth(PRICES.care.tiers[1].monthly)} or ${perMonth(PRICES.care.tiers[2].monthly)} a month, and hosting is part of it. Your domain stays registered in your name. Every recurring cost is listed in writing before launch: nothing appears on an invoice that you didn't agree to.`,
       },
     ],
   },
@@ -60,7 +61,7 @@ export const FAQ_GROUPS: FaqGroup[] = [
     items: [
       {
         q: 'How long does it take to build a website?',
-        a: '15 days from our first call to launch for a standard build. Rebuilds and larger sites get their own timeline, in writing, before we start, and I hit the dates I commit to.',
+        a: `${LAUNCH.standardDays} days from our first call to launch for The Site and The System. Rebuild / Custom builds and online stores take ${LAUNCH.custom}, with the timeline in writing before we start, and I hit the dates I commit to.`,
       },
       {
         q: 'Will my website show up on Google?',

@@ -3,6 +3,7 @@ import 'server-only';
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
+import { asDateString } from '@/lib/post-date';
 
 export type BlogHeading = { depth: 2 | 3; text: string; id: string };
 
@@ -18,6 +19,8 @@ export type Post = {
   seoTitle: string;
   metaDescription: string;
   datePublished?: string;
+  /** Optional `updated: YYYY-MM-DD` in the frontmatter. Shown as "Updated <date>" and sent as dateModified. */
+  updated?: string;
 };
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'blog');
@@ -225,6 +228,7 @@ function loadPosts(): Post[] {
       seoTitle: deriveSeoTitle(data.title),
       metaDescription: deriveMetaDescription(excerpt),
       datePublished: typeof data.datePublished === 'string' ? data.datePublished : undefined,
+      updated: asDateString(data.updated),
     };
   });
 

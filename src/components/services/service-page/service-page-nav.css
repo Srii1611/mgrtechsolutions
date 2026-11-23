@@ -1,7 +1,7 @@
-/* Section-navigation experiments on the service pages that use the shared template.
-   Everything here is scoped under .wd-nav-merged / .wd-nav-list / .wd-nav-jump (set by
-   ServicePage), so pages that use neither are untouched. Same dark frosted look for every
-   surface: the merged bar, the list panel and the dropdown sheets. */
+/* Section navigation on every service page.
+   Desktop (1100px+): an always-open section list on the left. Under 1100px: one slim bar
+   (logo, current section, Call, Menu). Scoped under .wd-nav-list, set by ServicePage and the
+   Website Design page. */
 
 /* ---------- shared: dropdown sheet ---------- */
 .sn-sheet{position:absolute;top:calc(100% + 8px);left:12px;right:12px;max-height:calc(100vh - 72px);max-height:calc(100dvh - 72px);overflow-y:auto;padding:6px;border:1px solid var(--night-line);border-radius:16px;background:var(--night);box-shadow:0 16px 40px color-mix(in srgb,var(--night) 45%,transparent)}
@@ -12,7 +12,7 @@
 .sn-sheet a span{font:500 11px/1 var(--mono);letter-spacing:.06em;color:var(--accent);opacity:.75}
 .sn-sheet a.sn-key{font-weight:600;color:var(--on-night)}
 .sn-sheet a[aria-current="true"]{color:var(--on-night);font-weight:600;background:color-mix(in srgb,var(--accent) 14%,transparent);box-shadow:inset 2px 0 0 var(--accent)}
-.sn-sheet a:focus-visible,.sn-bar a:focus-visible,.sn-bar button:focus-visible,.sn-topbar button:focus-visible,.sn-list a:focus-visible,.sn-list button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.sn-sheet a:focus-visible,.sn-bar a:focus-visible,.sn-bar button:focus-visible,.sn-list a:focus-visible,.sn-list button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .sn-sub{margin:10px 12px 2px;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
 @media(min-width:640px){
   .sn-sheet ol{display:grid;grid-template-columns:1fr 1fr;gap:0 8px}
@@ -30,7 +30,6 @@
 .sn-current[aria-expanded="true"] i{transform:translateY(1px) rotate(225deg)}
 
 /* ---------- SEO: one merged bar ---------- */
-.wd-nav-merged section[id]{scroll-margin-top:72px}
 .sn-merged{position:fixed;z-index:45;top:0;left:0;right:0;opacity:0;pointer-events:none;transform:translateY(-100%);transition:opacity .3s,transform .3s}
 .sn-merged[data-show="true"]{opacity:1;pointer-events:auto;transform:translateY(0)}
 .sn-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;height:calc(56px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) max(14px,env(safe-area-inset-right,0px)) 0 max(14px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--night) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--night-line)}
@@ -47,17 +46,12 @@
 @media(min-width:900px){.sn-merged .sn-label{display:inline}}
 @media(max-width:420px){.sn-merged .sn-current{padding:0 12px;gap:8px}.sn-merged .sn-name{max-width:6.5rem}}
 
-/* ---------- Google Ads: a list on the left (wide), a Sections bar (small) ---------- */
-.wd-nav-list section[id]{scroll-margin-top:64px}
+/* ---------- Wide screens: the section list on the left ---------- */
+.wd-nav-list section[id]{scroll-margin-top:72px}
 .sn-list{display:none}
-.sn-topbar{position:fixed;z-index:40;top:0;left:0;right:0;opacity:0;pointer-events:none;transform:translateY(-100%);transition:opacity .3s,transform .3s;padding:env(safe-area-inset-top,0px) max(12px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--night) 94%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--night-line)}
-.sn-topbar[data-show="true"]{opacity:1;pointer-events:auto;transform:translateY(0)}
-html[data-nav="shown"] .sn-topbar[data-show="true"]{transform:translateY(60px)}
-.sn-topbar .sn-current{width:100%;margin:2px 0;background:transparent}
-.sn-topbar .sn-label{display:inline;margin-left:auto}
 @media(min-width:1100px){
   .wd-nav-list section[id]{scroll-margin-top:24px}
-  .sn-topbar{display:none}
+  .sn-merged{display:none}
   .sn-list{display:block;position:fixed;z-index:45;left:32px;top:50%;transform:translateY(-50%);width:188px;max-height:calc(100vh - 32px);overflow-y:auto;padding:0 8px 12px;background:color-mix(in srgb,var(--night) 92%,transparent);backdrop-filter:blur(12px);border:1px solid var(--night-line);border-radius:16px;box-shadow:0 12px 32px color-mix(in srgb,var(--night) 40%,transparent)}
   .sn-prog{height:2px;margin:0 -8px 8px;background:var(--night-line);border-radius:16px 16px 0 0;overflow:hidden}
   .sn-prog i{display:block;height:100%;width:calc(var(--sn-p,0) * 100%);background:var(--accent)}
@@ -82,20 +76,21 @@ html[data-nav="shown"] .sn-topbar[data-show="true"]{transform:translateY(60px)}
   html[data-sn-collapsed="true"] .sn-list-head i{transform:rotate(-135deg)}
   html[data-sn-collapsed="true"] .sn-list ol a{justify-content:center;padding:4px 0;border-radius:8px;border-left-width:0}
   html[data-sn-collapsed="true"] .sn-list ol a[aria-current="true"]{box-shadow:inset 0 0 0 1.5px var(--accent)}
+  /* collapsed: the section name appears beside the number on hover or keyboard focus */
+  html[data-sn-collapsed="true"] .sn-list{overflow:visible}
+  html[data-sn-collapsed="true"] .sn-list ol a{position:relative}
+  html[data-sn-collapsed="true"] .sn-list ol a::after{content:attr(data-label);position:absolute;left:calc(100% + 12px);top:50%;transform:translate(-4px,-50%);padding:7px 12px;border:1px solid var(--night-line);border-radius:10px;background:var(--night);color:var(--on-night);font:500 13px/1.2 var(--sans);white-space:nowrap;box-shadow:0 8px 20px color-mix(in srgb,var(--night) 40%,transparent);opacity:0;pointer-events:none;transition:opacity .15s,transform .15s}
+  html[data-sn-collapsed="true"] .sn-list ol a::before{content:"";position:absolute;left:calc(100% + 8px);top:50%;width:8px;height:8px;margin-top:-4px;border-left:1px solid var(--night-line);border-bottom:1px solid var(--night-line);background:var(--night);transform:rotate(45deg);opacity:0;pointer-events:none;transition:opacity .15s;z-index:1}
+  html[data-sn-collapsed="true"] .sn-list ol a:hover::before,html[data-sn-collapsed="true"] .sn-list ol a:focus-visible::before{opacity:1}
+  html[data-sn-collapsed="true"] .sn-list ol a:hover::after,html[data-sn-collapsed="true"] .sn-list ol a:focus-visible::after{opacity:1;transform:translate(0,-50%)}
   /* keep the page content clear of the list */
   .wd-nav-list .wd-wrap,.wd-nav-list .wd-approach .sc-wrap{margin-left:max(252px,calc((100% - 76rem)/2));margin-right:0;width:calc(100% - max(252px,calc((100% - 76rem)/2)) - 16px);max-width:76rem}
   html[data-sn-collapsed="true"] .wd-nav-list .wd-wrap,html[data-sn-collapsed="true"] .wd-nav-list .wd-approach .sc-wrap{margin-left:max(112px,calc((100% - 76rem)/2));width:calc(100% - max(112px,calc((100% - 76rem)/2)) - 16px)}
 }
 
-/* ---------- Social Media: quick-jump shortcuts in the hero ---------- */
-.wd-jump{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px}
-.wd-jump span{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mist);margin-right:4px}
-.wd-jump a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--night-line);border-radius:999px;background:color-mix(in srgb,var(--on-night) 6%,transparent);color:var(--on-night);font:500 14px/1 var(--sans);text-decoration:none}
-.wd-jump a:hover{border-color:var(--accent);color:var(--accent)}
-.wd-jump a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 @media(prefers-reduced-motion:reduce){
-  .sn-merged,.sn-topbar{transition:none}
+  .sn-merged{transition:none}
   .sn-current i{transition:none}
-  html[data-nav="shown"] .sn-topbar[data-show="true"]{transform:translateY(80px)}
+  html[data-sn-collapsed="true"] .sn-list ol a::before,html[data-sn-collapsed="true"] .sn-list ol a::after{transition:none;transform:translate(0,-50%)}
 }

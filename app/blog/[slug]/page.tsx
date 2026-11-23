@@ -9,6 +9,8 @@ import { getAllPosts, getPost, getRelatedPosts } from '@/lib/blog';
 import { CATEGORY_BY_SLUG } from '@/data/blog-categories';
 import JsonLd from '@/components/JsonLd';
 import { buildArticle, buildBreadcrumbs } from '@/lib/schema';
+import { SITE } from '@/data/site';
+import { formatPostDate } from '@/lib/post-date';
 
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
@@ -66,6 +68,7 @@ export default async function BlogPostPage({
           excerpt: post.metaDescription,
           category: post.category,
           datePublished: post.datePublished,
+          dateModified: post.updated,
         })}
       />
       <JsonLd data={buildBreadcrumbs(breadcrumbItems)} />
@@ -99,6 +102,7 @@ export default async function BlogPostPage({
           <p className="eyebrow mt-8 text-accent">{post.category}</p>
           <h1 className="h1-page mt-4 max-w-3xl font-medium text-cream-50">{post.title}</h1>
           <p className="eyebrow mt-6 text-mist">{post.readTime} min read</p>
+          {post.updated ? <p className="eyebrow mt-2 text-mist">Updated {formatPostDate(post.updated)}</p> : null}
         </div>
       </section>
 
@@ -139,7 +143,7 @@ export default async function BlogPostPage({
       <CtaBand
         eyebrow="Ready to start?"
         heading="Let's build a website that brings in phone calls."
-        body="Call and talk through what you need, or send your details and we'll follow up within a day."
+        body={`Call and talk through what you need, or send your details. ${SITE.replyTime}`}
       />
     </>
   );

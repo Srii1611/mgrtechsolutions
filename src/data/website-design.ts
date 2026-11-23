@@ -1,29 +1,31 @@
 /**
  * Copy for /services/website-design. Plain English for contractors and local
- * service owners. Pricing and timeline follow the live site: Starter /
- * Standard / Custom, and a 15-day build.
+ * service owners. Prices come from src/data/prices.ts: The Site / The System /
+ * Rebuild-Custom, plus Care plans. A standard build is 15 days.
  *
  * OPEN for Srii before treating as final:
- *  - Prices are `****` placeholders (PRICE_MASK). Real amounts not set.
+ *  - TODO(Srii): the package details in the Included section come from the old
+ *    Starter / Standard / Custom sheet; replace with his new descriptions.
  *  - Items marked CONFIRM are standard web-design deliverables that are not
  *    on the live site's own tier lists.
  *  - The statistic in PROBLEMS[1] is Google/SOASTA (2017) via Think with Google.
  */
 
-export const PRICE_MASK = '****';
+
+import { HOURLY_LINE, LAUNCH, PRICES, money, perMonth } from '@/data/prices';
 
 export const WD_HERO = {
   breadcrumb: 'WEBSITE DESIGN',
   headline: 'A website that brings in calls,',
   headlineAccent: 'not just a page that exists.',
   lede:
-    'We build custom websites for contractors and local service businesses. Fast on a phone, set up to be found on Google, and the domain, hosting and content stay in your name.',
+    'We build custom websites for contractors and local service businesses. Fast on a phone, set up to be found on Google, and the domain, words, photos and code stay in your name.',
   secondaryCta: 'Get a free site review',
   location: 'Ashland, MA · Serving MetroWest',
   facts: [
     { title: '15-day build', text: 'From first call to launch for a standard site.' },
     { title: 'About 90 minutes', text: 'Your total time across the whole project.' },
-    { title: 'You own it', text: 'Domain and hosting stay in your name.' },
+    { title: 'You own it', text: 'Your domain, words, photos and code are yours.' },
     { title: 'Written quote', text: 'Locked after one call. No hourly meters.' },
   ],
 } as const;
@@ -125,7 +127,7 @@ export const WD_APPROACH = {
     'Designed for your business, no templates',
     'Loads fast on any phone',
     'Shows up for your town and trade',
-    'Domain and hosting in your name',
+    'Your domain, words, photos and code in your name',
   ],
 } as const;
 
@@ -161,7 +163,7 @@ export const WD_COMMITMENTS = {
       text: 'Everything is registered and delivered in your name, so nothing can be held back.',
       points: [
         'Domain registered in your name',
-        'Hosting account in your name',
+        'Hosting comes with the Care plans',
         'Content, photos and code belong to you',
         'You can move the site if you ever choose to',
       ],
@@ -181,14 +183,14 @@ export const WD_COMMITMENTS = {
 } as const;
 
 /* ── 04 What's included ─────────────────────────────────────────── */
-/** tier: 1 = every package, 2 = Standard and Custom, 3 = Custom only. */
+/** tier: 1 = every package, 2 = The System and Custom, 3 = Custom only. */
 export type Tier = 1 | 2 | 3;
 
 export const WD_INCLUDED = {
   eyebrow: "WHAT'S INCLUDED",
   heading: 'Everything a local business needs on day one.',
   lede: 'Eight areas of work in one place. Flip through them with the list, the arrows, or your keyboard. Everything is in every package unless a line says otherwise.',
-  note: 'Standard includes everything in Starter, and Custom includes everything in Standard. Rebuilds are scoped on the call.',
+  note: 'The System includes everything in The Site, and Custom includes everything in The System. Rebuilds are scoped on the call.',
   noteLead: 'Packages build on each other.',
   categories: [
     {
@@ -261,7 +263,7 @@ export const WD_INCLUDED = {
         [1, 'Lean, hand-written code with no heavy page-builder add-ons'], // CONFIRM
         [1, 'Images compressed and sized for fast loading'], // CONFIRM
         [1, 'SSL certificate (the padlock and https in the browser)'],
-        [1, 'Hosting set up for you, in your name'],
+        [1, 'Hosting through any Care plan'],
         [1, 'Domain connected, in your name'],
         [1, "Page speed checked against Google's Core Web Vitals (its page experience measures)"], // CONFIRM
       ],
@@ -276,7 +278,7 @@ export const WD_INCLUDED = {
         [2, '2 rounds of revisions'],
         [1, 'Domain connection and Google submission at launch'],
         [1, 'Close support for fixes during the first two weeks'],
-        [1, 'Optional ongoing support after that'],
+        [1, 'Optional Care plan after that, with hosting included'],
         [3, 'Extended post-launch collaboration'],
       ],
     },
@@ -328,7 +330,7 @@ export const WD_HOW = {
       text: 'You see a real, working version quickly, so feedback happens on something concrete and not a sketch.',
       we: ['Design the pages around getting the call', 'Write the first draft of the words', 'Publish a private working preview'],
       you: ['Look the preview over', 'Tell us what to change'],
-      get: ['A working preview link', 'Revisions: 1 round (Starter), 2 rounds (Standard)'],
+      get: ['A working preview link', 'Revisions: 1 round (The Site), 2 rounds (The System)'],
     },
     {
       title: 'Build and review',
@@ -350,65 +352,20 @@ export const WD_HOW = {
 /* ── 06 Pricing ─────────────────────────────────────────────────── */
 export const WD_PRICING = {
   eyebrow: 'PRICING',
-  heading: 'Three packages. Each one builds on the last.',
-  lede: "Website builds are a one-time cost. Pick the package that matches the job your site needs to do. If you're between two, we'll tell you which fits on the call.",
-  plans: [
-    {
-      name: 'Starter',
-      note: 'One-time build cost',
-      pitch: 'A single page that says who you are and makes the call easy.',
-      lead: "What's in it",
-      items: [
-        '3 to 4 sections on one page: Home, Services, About, Contact',
-        'Primary action: click-to-call plus a quote request form',
-        'Mobile responsive design',
-        'Basic on-page SEO: titles, meta descriptions, alt text',
-        'Google Business Profile link and map embed',
-        '1 round of revisions',
-      ],
-      goodFor: 'Good for: getting off a social page and onto a real website',
-    },
-    {
-      name: 'Standard',
-      badge: 'Best fit for most contractors',
-      highlight: true,
-      note: 'One-time build cost',
-      pitch: 'The full build most contractors need: proof up front and your service areas covered.',
-      lead: 'Everything in Starter, plus:',
-      items: [
-        'Expanded multi-section build, with reviews and proof placed early',
-        'Process / how-it-works section',
-        'Enhanced photo and video galleries',
-        'Multiple service area coverage',
-        'Enhanced schema markup and deeper on-page SEO',
-        '2 rounds of revisions',
-      ],
-      goodFor: 'Good for: established crews competing in more than one town',
-    },
-    {
-      name: 'Custom',
-      note: 'Quoted per project',
-      pitch: 'Scoped to the build you have in mind.',
-      lead: 'Everything in Standard, plus:',
-      items: [
-        'Custom interactive builds, such as scroll sequences and animated process timelines',
-        'Custom integrations: booking, quote calculators, multi-page architecture',
-        'Extended post-launch collaboration',
-      ],
-      goodFor: 'Good for: businesses whose site has to do a specific job',
-    },
-  ],
+  heading: 'Three packages, plus care plans.',
+  lede: `A website build is a one-time cost. Pick the package that fits the job. A Care plan, which includes hosting, keeps it running after launch. The Site and The System launch in ${LAUNCH.standard}.`,
+  service: 'website',
+  alsoShow: ['care'],
   facts: [
     {
-      title: 'What changes the price',
-      text: 'The package sets the starting point. These things move the final number:',
+      title: 'What helps decide the package',
+      text: 'The package sets the price. These things help us tell you which one fits:',
       kind: 'check',
       items: [
         'How many sections or pages the site needs',
         'How many towns and service areas you cover',
         'Photo and video galleries',
         'Integrations such as booking or quote calculators',
-        'Interactive or animated features',
         'A rebuild of an existing site vs a new site',
       ],
     },
@@ -417,20 +374,20 @@ export const WD_PRICING = {
       text: 'We keep these separate so you always know what you are paying for.',
       kind: 'x',
       items: [
-        'Domain and hosting fees. They stay in your name and are billed by the provider',
-        'SEO, social media and ads. These are quoted separately on the call',
-        'Ongoing support after the first two weeks (optional)',
+        'Hosting. It is part of the Care plans',
+        'SEO, social media and ads. They are separate monthly services with their own plans',
+        'Work outside what we agreed, which is always quoted first',
       ],
     },
     {
       title: 'How payment works',
-      text: 'No surprises. You see the price in writing before any work begins.',
+      text: 'No surprises. The prices on this page are the prices.',
       kind: 'check',
       items: [
-        'A written quote after one call, locked at that price',
-        'No hourly meters and no surprise invoices',
-        `Custom builds: a deposit (${PRICE_MASK}) secures your start date`,
-        'Changes after launch are priced clearly before work starts',
+        'The Site and The System are a one-time price',
+        `Rebuild / Custom starts from a ${PRICES.depositPercent}% deposit and takes ${LAUNCH.custom}`,
+        `Work outside the package is quoted first, at ${HOURLY_LINE}`,
+        'No mystery subscriptions. Every monthly fee is shown here',
       ],
     },
   ],
@@ -454,10 +411,10 @@ export const WD_TIMELINE = {
     { key: 'review', short: 'Review', days: 'Days 11 to 13', bar: 'DAY 11-13', weight: 3, mark: '11', title: 'Review and refinements', text: 'You go through the site as a customer would. We make the changes you ask for.', time: 'Your time: about 15 minutes' },
     { key: 'live', short: 'Go live', days: 'Days 14 to 15', bar: 'DAY 14-15', weight: 2, mark: '14', title: 'Go live', text: 'We connect your domain, take the site live, and submit it to Google.', time: 'Your time: none' },
   ],
-  after: { days: 'After launch', title: 'Support', text: 'Close support for fixes during the first two weeks. Ongoing support is optional.', time: 'Call when you need us' },
+  after: { days: 'After launch', title: 'Support', text: 'Close support for fixes during the first two weeks. The Care plans, which include hosting, are optional.', time: 'Call when you need us' },
   callout: {
     lead: 'About 90 minutes of your time in total.',
-    text: 'Custom builds get their own timeline, in writing, before work starts. Delays usually come from late photos, logins or feedback, so sending those early is the best way to hold the schedule.',
+    text: 'Rebuild and Custom builds take about five weeks, with the timeline in writing before work starts. Delays usually come from late photos, logins or feedback, so sending those early is the best way to hold the schedule.',
   },
 } as const;
 
@@ -475,7 +432,7 @@ export const WD_SUCCESS = {
     { title: 'Secure', text: 'Look for the padlock and https in the address bar.' },
     { title: 'Shows on Google', text: 'Search your business name and your town.' },
     { title: 'Your Google listing is correct', text: 'Look yourself up on Google Maps.' },
-    { title: "It's in your name", text: 'Ask us to show you the domain and hosting accounts.' },
+    { title: "It's in your name", text: 'Ask us to show you the domain registration.' },
   ],
   path: [
     { when: 'At launch', title: 'A site that works', text: 'A fast, working site that makes it easy to call.' },
@@ -508,9 +465,9 @@ export const WD_COMPARE = {
     { label: 'Best for', cells: ['A tiny budget and a simple page you are happy to manage', 'A simple job with a set budget', 'Big budgets and complex needs', 'A business that updates its site every day'], us: 'A business that lives on the phone and wants it handled' },
     { label: 'Your time', cells: ['A lot. You build and write it', 'Depends on the person', 'More meetings and more people to brief', 'Hiring and managing someone'], us: 'About 90 minutes in total' },
     { label: 'Search setup', cells: ['You do it yourself', 'Depends on the person', 'Usually offered, at extra cost', 'Depends on the hire'], us: 'Built into every site' },
-    { label: 'Ownership', cells: ["You usually can't take the site with you if you leave the platform", 'Ask before you hire', 'Ask before you sign', 'Yours'], us: 'Domain, hosting, words, photos and code in your name' },
+    { label: 'Ownership', cells: ["You usually can't take the site with you if you leave the platform", 'Ask before you hire', 'Ask before you sign', 'Yours'], us: 'Domain, words, photos and code in your name' },
     { label: 'If it stalls', cells: ['Help pages or email', "It waits on a single person's availability", 'Goes through more layers', 'Your own employee'], us: 'Call the same contact' },
-    { label: 'Cost', cells: ['Lowest upfront', 'Lower than an agency', 'Highest', 'Salary, tools and management time'], us: 'A written quote after one call' },
+    { label: 'Cost', cells: ['Lowest upfront', 'Varies, and care is often extra', 'Highest', 'Salary, tools and management time'], us: `The Site ${money(PRICES.website.tiers[0].oneTime)}, The System ${money(PRICES.website.tiers[1].oneTime)}, priced openly` },
   ],
   note: "If one of the others fits you better, we'll tell you. More reading:",
   reads: [
@@ -584,16 +541,6 @@ export const WD_GUIDES = {
   eyebrow: 'GUIDES FROM OUR BLOG',
   heading: 'Read up before you decide.',
   lede: 'Short, plain-English guides on the questions people ask us most about websites. No sign-up needed.',
-  featured: {
-    slug: 'how-much-does-a-contractor-website-cost',
-    kicker: 'Start here: cost',
-    blurb: 'What moves the price of a website, what to budget for beyond the build, and how to compare quotes.',
-  },
-  groups: [
-    { title: 'Speed, security and phones', slugs: ['why-website-speed-matters', 'mobile-first-website-design', 'core-web-vitals-explained', 'business-needs-https-ssl'] },
-    { title: 'Choosing who to hire', slugs: ['real-cost-cheap-website', 'diy-website-builders-vs-done-for-you', 'hiring-a-web-agency-vs-productized-website'] },
-    { title: 'The build and getting more leads', slugs: ['what-to-expect-website-build-process', 'what-should-local-business-website-include', 'website-not-generating-leads', 'lead-capture-forms'] },
-  ],
 } as const;
 
 /* ── 12 FAQ ─────────────────────────────────────────────────────── */
@@ -602,16 +549,16 @@ export const WD_FAQ = {
   heading: 'What else you may want to know.',
   lede: "Can't find your question? Call and ask. You'll get a straight answer from the person who would build it.",
   items: [
-    { q: 'How much does a website cost?', a: `It depends on the package and the job. Starter, Standard and Custom each have their own scope, and you get a written quote after one call that stays locked, with no hourly meter. Pricing: ${PRICE_MASK}.`, read: { slug: 'how-much-does-a-contractor-website-cost', label: 'what a contractor website really costs' } },
+    { q: 'How much does a website cost?', a: `The Site is ${money(PRICES.website.tiers[0].oneTime)} and The System is ${money(PRICES.website.tiers[1].oneTime)}, both one-time. Rebuild / Custom starts from ${money(PRICES.website.tiers[2].oneTime)} with a ${PRICES.depositPercent}% deposit and takes ${LAUNCH.custom}. There is no hourly meter on the package.`, read: { slug: 'how-much-does-a-contractor-website-cost', label: 'what a contractor website really costs' } },
     { q: 'What do you need from me?', a: 'One 60-minute call, logins to anything that already exists (an old site, a domain, a Google listing), and any photos you have. Phone photos are fine. We write the pages and handle the technical setup, and you review everything before launch.' },
-    { q: 'How long does it take?', a: 'A standard build goes from first call to launch in 15 days. You see a working preview by Day 3, review the site on Days 11 to 13, and go live on Days 14 to 15. Custom builds get their own timeline in writing before work starts.' },
-    { q: 'Do I own my website and domain?', a: 'Yes, completely. The domain and hosting are registered in your name, and the content, photos and code are yours. If you ever leave, it all goes with you.' },
+    { q: 'How long does it take?', a: `A standard build goes from first call to launch in ${LAUNCH.standardDays} days. You see a working preview by Day 3, review the site on Days 11 to 13, and go live on Days 14 to 15. Rebuild and Custom builds take ${LAUNCH.custom}, with the timeline in writing before work starts.` },
+    { q: 'Do I own my website and domain?', a: 'Yes, completely. The domain is registered in your name, and the content, photos and code are yours. If you ever leave, it all goes with you.' },
     { q: 'Will my site show up on Google?', a: 'It is set up to be found, with the on-page search work built in and your Google Business Profile connected. Rankings build over time, and nobody can promise a specific position. Most businesses see real movement over several months.' },
     { q: 'Can you rebuild my existing website?', a: "Yes. We audit what you have, keep and rewrite the content that works, set up redirects so your search rankings carry over, and rebuild the rest. You keep what you've already earned." },
     { q: 'Do I have to write the content?', a: 'No. From one phone call we learn enough about your business to write the pages. You review the words before launch, and most owners change less than they expect.' },
-    { q: 'What happens after launch?', a: 'You get close support for fixes during the first two weeks, then an optional ongoing support arrangement. Changes and questions are a call to the same contact, not a ticket to a queue.' },
+    { q: 'What happens after launch?', a: 'You get close support for fixes during the first two weeks, then an optional Care plan. Changes and questions are a call to the same contact, not a ticket to a queue.' },
     { q: 'Can I make changes later?', a: 'Anytime. Small changes are quick calls. Bigger additions get a clear price before any work starts.' },
-    { q: 'Are there ongoing costs?', a: 'Your domain and hosting are billed separately by the provider, in your name. Support after the first two weeks is optional. Anything recurring is listed in writing before launch.' },
+    { q: 'Are there ongoing costs?', a: `A Care plan is ${perMonth(PRICES.care.tiers[0].monthly)}, ${perMonth(PRICES.care.tiers[1].monthly)} or ${perMonth(PRICES.care.tiers[2].monthly)} a month, and hosting is part of it. It is optional. Anything else recurring is listed in writing before launch.` },
     { q: 'Do you only work with MetroWest businesses?', a: "MetroWest Massachusetts is home, and where most clients are. If you're outside the area and the fit is right, call and we'll talk." },
   ],
 } as const;

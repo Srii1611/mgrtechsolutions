@@ -1,8 +1,11 @@
+import Link from 'next/link';
 import { Check } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import { PRICING } from '@/data/home';
+import { SITE } from '@/data/site';
+import { estimatorHref, priceParts, tierOf } from '@/data/prices';
 
-/** SECTION 11 — Pricing preview (dark). Build tiers mirror /pricing/website-cost. */
+/** SECTION 11: Pricing preview (dark). Prices are read from src/data/prices.ts. */
 export default function PricingPreview() {
   return (
     <section
@@ -32,71 +35,56 @@ export default function PricingPreview() {
         </Reveal>
 
         <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {PRICING.plans.map((plan, i) => (
-            <Reveal key={plan.name} delay={i * 0.08}>
-              <article
-                className={
-                  plan.featured
-                    ? 'flex h-full flex-col rounded-2xl border-2 border-accent bg-forest-900 p-8 md:-translate-y-4'
-                    : 'flex h-full flex-col rounded-2xl border border-forest-700 bg-forest-900 p-8'
-                }
-              >
-                <div className="flex flex-wrap items-center gap-3">
-                  <p className="eyebrow text-mist">{plan.name}</p>
-                  {plan.badge && (
-                    <span className="eyebrow rounded-full bg-accent px-3 py-1 text-[0.625rem] text-forest-950">
-                      {plan.badge}
-                    </span>
-                  )}
-                </div>
-                <p className="h2-section mt-4 font-medium text-cream-50">{plan.price}</p>
-                <p className="eyebrow mt-2 text-sand">{plan.priceNote}</p>
-                <p className="mt-4 text-[1.0625rem] leading-[1.7] text-mist">{plan.tagline}</p>
-                {plan.inheritsFrom && (
-                  <p className="mt-6 text-sm font-medium text-cream-50">{plan.inheritsFrom}</p>
-                )}
-                <ul className={`${plan.inheritsFrom ? 'mt-3' : 'mt-6'} flex-1 space-y-3`}>
-                  {plan.includes.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-mist">
-                      <Check
-                        className="mt-0.5 h-4 w-4 shrink-0 text-accent"
-                        strokeWidth={2}
-                        aria-hidden="true"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </Reveal>
-          ))}
+          {PRICING.plans.map((plan, i) => {
+            const tier = tierOf('website', plan.id);
+            const { lead, main, sub } = priceParts(tier);
+            return (
+              <Reveal key={plan.id} delay={i * 0.08}>
+                <article
+                  className={
+                    tier.featured
+                      ? 'flex h-full flex-col rounded-2xl border-2 border-accent bg-forest-900 p-8 md:-translate-y-4'
+                      : 'flex h-full flex-col rounded-2xl border border-forest-700 bg-forest-900 p-8'
+                  }
+                >
+                  <p className="eyebrow text-mist">{tier.name.toUpperCase()}</p>
+                  <p className="h2-section mt-4 font-medium text-cream-50">
+                    {lead ? <span className="eyebrow mr-2 align-middle text-mist">{lead}</span> : null}
+                    {main}
+                  </p>
+                  <p className="eyebrow mt-1 text-mist">{sub}</p>
+                  <p className="mt-3 text-[1.0625rem] leading-[1.7] text-mist">{plan.tagline}</p>
+                  <ul className="mt-6 flex-1 space-y-3">
+                    {tier.includes.map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm text-mist">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" strokeWidth={2} aria-hidden="true" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={estimatorHref('website', tier.id)}
+                    className="mt-6 text-sm text-accent underline underline-offset-4 hover:brightness-110"
+                  >
+                    Plan this in the estimator <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
 
-        <Reveal delay={0.2}>
-          <ul
-            aria-label="Included in every build"
-            className="mt-14 flex flex-wrap gap-x-3 gap-y-2 border-t border-forest-700 pt-8"
-          >
-            {PRICING.standards.map((item, i) => (
-              <li key={item} className="eyebrow flex items-center gap-3 text-cream-50">
-                {i > 0 && (
-                  <span aria-hidden="true" className="text-accent">
-                    ·
-                  </span>
-                )}
-                {item}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-
-        <Reveal delay={0.25}>
-          <div className="mt-6 max-w-3xl space-y-2">
-            {PRICING.notes.map((note) => (
-              <p key={note} className="text-[0.9375rem] leading-[1.7] text-mist">
-                {note}
-              </p>
-            ))}
+        <Reveal delay={0.3}>
+          <div className="mt-12 flex flex-wrap items-center gap-4">
+            <Link
+              href="/pricing#estimator"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-medium text-forest-950 transition-transform hover:scale-[1.03]"
+            >
+              {PRICING.cta}
+            </Link>
+            <a href={SITE.phoneHref} className="text-mist underline underline-offset-4 hover:text-accent">
+              Or call {SITE.phone}
+            </a>
           </div>
         </Reveal>
       </div>

@@ -67,13 +67,17 @@ function SectionsSheet({
 }
 
 /**
- * SEO page: ONE slim bar instead of a navbar plus a section bar. Past the top of
- * the page it shows the logo, the current section (tap to open the list of all
- * sections), a Call button and a Menu button holding the usual site links.
+ * Section navigation for every service page.
+ *  - 1100px and up: an always-open list of every section on the left (collapsible
+ *    to a strip of numbers); the site navbar behaves as everywhere else.
+ *  - Under 1100px: ONE slim bar instead of a navbar plus a section bar. Past the
+ *    top of the page it shows the logo, the current section (tap to open the list
+ *    of all sections), a Call button and a Menu button holding the site links.
+ * Both read from a single scroll-spy.
  */
-export function MergedHeader() {
+export default function PageNav() {
   const [openRaw, setOpen] = useState<'sections' | 'menu' | null>(null);
-  const { current, scrolled, jump } = useSectionNav({ navMode: 'collapse', offset: () => 72 });
+  const { current, scrolled, jump } = useSectionNav({ offset: () => 0 });
   const open = scrolled ? openRaw : null; // popups never stay open back at the top of the page
   const secBtn = useRef<HTMLButtonElement>(null);
   const menuBtn = useRef<HTMLButtonElement>(null);
@@ -83,11 +87,23 @@ export function MergedHeader() {
   usePopup(open === 'sections', close, secBox, secBtn);
   usePopup(open === 'menu', close, menuBox, menuBtn);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.snCollapsed = 'false'; // always starts open; closing it lasts until the page reloads
+    return () => { delete root.dataset.snCollapsed; };
+  }, []);
+  const toggle = () => {
+    const root = document.documentElement;
+    root.dataset.snCollapsed = root.dataset.snCollapsed === 'true' ? 'false' : 'true';
+  };
+  const currentId = SECTIONS[current].id;
+
   return (
+    <>
     <div className="sn-merged" data-show={scrolled ? 'true' : 'false'}>
       <div className="sn-bar">
         <Link href="/" className="sn-mark" aria-label={`${SITE.name} home`}>
-          <span><Image src="/brand/logo-mark.png" alt="" width={32} height={32} className="sn-mark-img" /></span>
+          <span><Image src="/brand/logo-mark.png" alt="" width={537} height={512} className="sn-mark-img" /></span>
         </Link>
         <button
           ref={secBtn}
@@ -133,41 +149,7 @@ export function MergedHeader() {
         </ul>
       </nav>
     </div>
-  );
-}
 
-/**
- * Google Ads page. 1100px and up: an always-open list of every section on the
- * left (collapsible to a strip of numbers). Under 1100px: a top bar with a
- * "Sections" button that opens the full list.
- */
-export function SideList() {
-  const [open, setOpen] = useState(false);
-  const { current, scrolled, jump } = useSectionNav({ navMode: 'direction', offset: () => (window.innerWidth >= 1100 ? 24 : 64) });
-  const btn = useRef<HTMLButtonElement>(null);
-  const box = useRef<HTMLElement>(null);
-  const close = () => setOpen(false);
-  usePopup(open, close, box, btn);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    try {
-      root.dataset.snCollapsed = window.localStorage.getItem('sn-list-collapsed') === '1' ? 'true' : 'false';
-    } catch {
-      root.dataset.snCollapsed = 'false'; // storage blocked: the list simply starts open
-    }
-    return () => { delete root.dataset.snCollapsed; };
-  }, []);
-  const toggle = () => {
-    const root = document.documentElement;
-    const next = root.dataset.snCollapsed === 'true' ? 'false' : 'true';
-    root.dataset.snCollapsed = next;
-    try { window.localStorage.setItem('sn-list-collapsed', next === 'true' ? '1' : '0'); } catch { /* ignore */ }
-  };
-
-  const currentId = SECTIONS[current].id;
-  return (
-    <>
       <nav aria-label="Page sections" className="sn-list">
         <div className="sn-prog" aria-hidden="true"><i /></div>
         <div className="sn-list-head">
@@ -182,7 +164,8 @@ export function SideList() {
               <a
                 href={`#${s.id}`}
                 onClick={jump(s.id)}
-                title={s.label}
+                aria-label={s.label}
+                data-label={s.label}
                 className={KEY_IDS.includes(s.id) ? 'sn-key' : undefined}
                 aria-current={s.id === currentId ? 'true' : undefined}
               >
@@ -194,23 +177,6 @@ export function SideList() {
         </ol>
         <a className="sn-cta" href="#contact" onClick={jump('contact')}>Get a free review</a>
       </nav>
-
-      <div className="sn-topbar" data-show={scrolled ? 'true' : 'false'}>
-        <button
-          ref={btn}
-          type="button"
-          className="sn-current"
-          aria-expanded={open}
-          aria-controls="sn-top-sections"
-          onClick={() => setOpen(!open)}
-        >
-          <span aria-hidden="true" className="sn-num">{String(current + 1).padStart(2, '0')}</span>
-          <span className="sn-name">{SECTIONS[current].label}</span>
-          <span className="sn-label">Sections</span>
-          <i aria-hidden="true" />
-        </button>
-        <SectionsSheet id="sn-top-sections" open={open} current={current} onJump={(id) => jump(id, close)} boxRef={box} />
-      </div>
     </>
   );
 }

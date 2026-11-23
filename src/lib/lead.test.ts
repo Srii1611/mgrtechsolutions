@@ -13,6 +13,16 @@ describe('leadSchema', () => {
     expect(leadSchema.safeParse(valid).success).toBe(true);
   });
 
+  it('treats the phone number as optional', () => {
+    expect(leadSchema.safeParse({ ...valid, phone: '' }).success).toBe(true);
+    expect(leadSchema.safeParse({ ...valid, phone: '774-460-1116' }).success).toBe(true);
+    expect(leadSchema.safeParse({ ...valid, phone: '+1 (774) 460 1116' }).success).toBe(true);
+  });
+
+  it('rejects a phone number with letters', () => {
+    expect(leadSchema.safeParse({ ...valid, phone: 'call me maybe' }).success).toBe(false);
+  });
+
   it('accepts a bare domain without a scheme', () => {
     expect(leadSchema.safeParse({ ...valid, url: 'example.com' }).success).toBe(true);
   });

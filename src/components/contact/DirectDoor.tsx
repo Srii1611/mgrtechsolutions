@@ -36,7 +36,9 @@ export default function DirectDoor() {
       >
         {SITE.phone}
       </a>
-      <p className="eyebrow mt-3 text-ink-soft">CALL ANYTIME: IF I MISS IT, I CALL BACK SAME DAY</p>
+      <p className="eyebrow mt-3 text-ink-soft">
+        {SITE.hours.toUpperCase()} · {SITE.callbackLine}
+      </p>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <a

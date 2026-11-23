@@ -80,6 +80,12 @@ describe('buildArticle', () => {
     expect(a.datePublished).toBe('2026-01-15');
   });
 
+  it('omits dateModified when none is supplied, and emits it when one is', () => {
+    expect(buildArticle(base)).not.toHaveProperty('dateModified');
+    const a = buildArticle({ ...base, dateModified: '2026-11-13' }) as Record<string, unknown>;
+    expect(a.dateModified).toBe('2026-11-13');
+  });
+
   it('caps headline at 110 characters', () => {
     const long = 'x'.repeat(200);
     const a = buildArticle({ ...base, title: long }) as Record<string, string>;

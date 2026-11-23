@@ -91,8 +91,8 @@ export const SERVICE_AREA = {
     { label: 'PHONE', fromSite: 'phone' },
     { label: 'EMAIL', fromSite: 'email' },
     { label: 'STUDIO', value: 'ASHLAND, MASSACHUSETTS' },
-    { label: 'HOURS', value: "CALL ANYTIME: IF I'M ON A JOB SITE OF MY OWN, I CALL BACK" },
-    { label: 'RESPONSE', value: 'SAME DAY, USUALLY FASTER' },
+    { label: 'HOURS', fromSite: 'hours' },
+    { label: 'RESPONSE', value: 'CALLS BACK SAME DAY. EMAIL BY THE NEXT BUSINESS DAY' },
   ],
 } as const;
 

@@ -1,10 +1,13 @@
 'use client';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { clamp, dotPos, reveal, seg, smooth, typed, type Pt, type SceneApi } from '@/components/services/scroll-scenes/lib';
+import { money } from '@/data/prices';
 
 export const ADS_TAG = 'THE CLICK TO CALL';
 export const ADS_TICKS = [0.18, 0.34, 0.5, 0.8];
 
+/** Made-up ad spend for the demo card. Not one of our prices. */
+const DEMO_AD_SPEND = 1500;
 const QUERY = 'emergency plumber near me';
 const TIMES = ['8:12 AM', '9:40 AM', '1:05 PM'];
 
@@ -54,7 +57,7 @@ const AdsScene = forwardRef<SceneApi>(function AdsScene(_, ref) {
           {TIMES.map((t, i) => (<div key={t} ref={(el) => { lrows.current[i] = el; }} className="sc-r sc-lr"><span>New call</span><small>{t}</small></div>))}
         </div>
         <div className="sc-a-meter">
-          <div><small>Ad spend</small><b>$1,500</b></div><div><small>Leads</small><b ref={ln}>0</b></div><div><small>Cost per lead</small><b ref={cpl}>$0</b></div>
+          <div><small>Ad spend</small><b>{money(DEMO_AD_SPEND)}</b></div><div><small>Leads</small><b ref={ln}>0</b></div><div><small>Cost per lead</small><b ref={cpl}>{money(0)}</b></div>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { SITE } from '@/data/site';
 const COLUMNS = [
   {
     label: 'WHAT HAPPENS NEXT',
-    body: 'I review your site myself and reply within two business days.',
+    body: `I review your site myself. ${SITE.replyTime}`,
   },
   {
     label: "WHAT DOESN'T",

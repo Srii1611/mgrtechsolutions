@@ -1,3 +1,5 @@
+import type { ServiceKey } from '@/data/prices';
+
 /**
  * Shape of a per-service page (/services/<slug>). Every service page has the
  * same twelve sections in the same order, so this type has no optional
@@ -42,18 +44,6 @@ export interface HowStep {
   we: readonly string[];
   you: readonly string[];
   get: readonly string[];
-}
-
-export interface Plan {
-  name: string;
-  badge?: string;
-  highlight?: boolean;
-  /** Always PRICE_MASK until Srii confirms real amounts. */
-  note: string;
-  pitch: string;
-  lead: string;
-  items: readonly string[];
-  goodFor: string;
 }
 
 export interface PriceFact {
@@ -128,8 +118,10 @@ export interface ServicePageData {
     eyebrow: string;
     heading: string;
     lede: string;
-    /** One to three columns. */
-    plans: readonly Plan[];
+    /** Which tiers in src/data/prices.ts this section shows. Prices are never written here. */
+    service: ServiceKey;
+    /** Further tier groups shown under the first (e.g. Care plans under a website). */
+    alsoShow?: readonly ServiceKey[];
     facts: readonly PriceFact[];
     readLead: string;
     reads: readonly ReadRef[];
@@ -183,8 +175,9 @@ export interface ServicePageData {
     eyebrow: string;
     heading: string;
     lede: string;
-    featured: { slug: string; kicker: string; blurb: string };
-    groups: readonly { title: string; slugs: readonly string[] }[];
+    /** Only a page without a Related guides entry (src/data/related-guides.ts) keeps these. */
+    featured?: { slug: string; kicker: string; blurb: string };
+    groups?: readonly { title: string; slugs: readonly string[] }[];
   };
   faq: {
     eyebrow: string;

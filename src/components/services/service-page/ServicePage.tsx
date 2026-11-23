@@ -9,8 +9,7 @@ import SpIncluded from '@/components/services/service-page/SpIncluded';
 import SpIndustries from '@/components/services/service-page/SpIndustries';
 import SpProblems from '@/components/services/service-page/SpProblems';
 import '@/components/services/service-page/service-page-nav.css';
-import SectionBar from '@/components/services/service-page/SectionBar';
-import { MergedHeader, SideList } from '@/components/services/service-page/SectionNav';
+import PageNav from '@/components/services/service-page/SectionNav';
 import SpSuccess from '@/components/services/service-page/SpSuccess';
 import {
   SpClose,
@@ -26,24 +25,16 @@ import {
   SpTimeline,
 } from '@/components/services/service-page/SpSections';
 
-/** Which section-navigation design each page uses (a comparison; the default is the top bar). */
-const NAV_STYLE: Record<string, 'merged' | 'list' | 'jump'> = {
-  seo: 'merged',
-  'google-ads': 'list',
-  'social-media': 'jump',
-};
-
 /**
  * One per-service page: the same twelve sections in the same order for every
  * service, with the copy supplied as data. See src/data/service-pages/types.ts.
  */
 export default function ServicePage({ data }: { data: ServicePageData }) {
-  const nav = NAV_STYLE[data.slug];
   return (
-    <div className={nav ? `wd wd-nav-${nav}` : 'wd'}>
+    <div className="wd wd-nav-list">
       <JsonLd data={buildFaqPage(data.faq.items.map((f) => ({ q: f.q, a: f.a })))} />
-      {nav === 'merged' ? <MergedHeader /> : nav === 'list' ? <SideList /> : <SectionBar />}
-      <SpHero data={data.hero} serviceName={data.meta.title} slug={data.slug} quickJump={nav === 'jump'} />
+      <PageNav />
+      <SpHero data={data.hero} serviceName={data.meta.title} slug={data.slug} />
 
       <Band id="problem" labelledBy="sp-problem-heading">
         <SectionHead id="sp-problem-heading" eyebrow={data.problem.eyebrow} heading={data.problem.heading} lede={data.problem.lede} />
@@ -78,7 +69,7 @@ export default function ServicePage({ data }: { data: ServicePageData }) {
         <SpIndustries data={data.industries} />
       </Band>
 
-      <SpGuides data={data.guides} />
+      <SpGuides data={data.guides} slug={data.slug} />
       <SpFaq data={data.faq} />
       <SpRelated data={data.related} />
       <SpClose data={data.close} />

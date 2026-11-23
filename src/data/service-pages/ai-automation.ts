@@ -1,4 +1,4 @@
-import { PRICE_MASK } from '@/data/website-design';
+import { HOURLY_LINE, PRICES, money, perMonth } from '@/data/prices';
 import { ICON } from '@/data/service-pages/icons';
 import type { ServicePageData } from '@/data/service-pages/types';
 
@@ -13,7 +13,7 @@ import type { ServicePageData } from '@/data/service-pages/types';
  *
  * OPEN for Srii before treating as final:
  *  - There are no prices in the repo for this service. The page shows one
- *    "quoted on the call" card, with PRICE_MASK.
+ *    "quoted on the call" card. Prices now come from src/data/prices.ts.
  *  - Lines marked CONFIRM go beyond the live site's list.
  *  - No recovery-rate or response-time statistics appear. Vendor claims such
  *    as "recovers 25 to 45 percent of missed calls" are unverified and left out.
@@ -313,36 +313,19 @@ export const AI_AUTOMATION_PAGE: ServicePageData = {
 
   pricing: {
     eyebrow: 'PRICING',
-    heading: 'Set up for your business, then quoted in writing.',
-    lede: 'Every business gets leads in a different way, so we scope automation to how yours work. You see the price in writing before any work begins.',
-    plans: [
-      {
-        name: 'Automation setup',
-        note: 'Quoted on the call',
-        pitch: 'The replies and follow-up your business needs, set up and tested.',
-        lead: 'Scoped from these pieces:',
-        items: [
-          'Missed-call text-back',
-          'Form submissions sent as text messages',
-          'Instant auto-replies to new inquiries',
-          'AI follow-up that asks qualifying questions and books estimates',
-          'Follow-up on quotes that went quiet',
-          'One log for all calls and inquiries',
-        ],
-        goodFor: 'Good for: businesses that miss calls while working and want every lead answered',
-      },
-    ],
+    heading: 'A setup fee, then a small monthly fee.',
+    lede: 'Every business gets leads in a different way, so each plan starts with setup and then runs monthly. It works with the website you already have. Custom workflows are quoted on a call.',
+    service: 'ai',
     facts: [
       {
-        title: 'What changes the price',
-        text: 'The scope sets the starting point. These things move the final number:',
+        title: 'What helps decide the plan',
+        text: 'The plan sets the price. These things help us tell you which one fits:',
         kind: 'check',
         items: [
           'How many pieces you want set up',
           'How many phone lines and forms we connect',
           'How much follow-up you want',
           'Whether we connect to software you already use',
-          'How many people on your team receive alerts',
         ],
       },
       {
@@ -351,19 +334,19 @@ export const AI_AUTOMATION_PAGE: ServicePageData = {
         kind: 'x',
         items: [
           'Phone, text and software fees billed by the provider', // CONFIRM
-          'A website build, quoted separately',
+          'A website build, priced separately',
           'Ads and marketing to bring in more leads',
         ],
       },
       {
         title: 'How payment works',
-        text: 'No surprises. You see the price in writing before any work begins.',
+        text: 'No surprises. The prices on this page are the prices.',
         kind: 'check',
         items: [
-          'A written quote after one call',
-          `Pricing: ${PRICE_MASK}`,
-          'No mystery subscriptions',
-          'Changes later are priced clearly before work starts',
+          'A one-time setup fee, then a monthly fee',
+          'No mystery subscriptions. Every monthly fee is shown here',
+          'Custom workflows start at a quoted price and are agreed in writing first',
+          `Changes later are quoted before work starts, at ${HOURLY_LINE}`,
         ],
       },
     ],
@@ -434,7 +417,7 @@ export const AI_AUTOMATION_PAGE: ServicePageData = {
       { label: 'Speed', cells: ['Only when you are free', 'Depends on the service', 'Depends on your setup', 'During working hours'], us: 'Replies in seconds, any hour' },
       { label: 'Follow-up', cells: ['When you remember', 'Usually not included', 'Depends on the app', 'Depends on the person'], us: 'Built in for quotes that went quiet' },
       { label: 'Set up for you', cells: ['Not applicable', 'Mostly', 'No, you do it', 'You train them'], us: 'We write, connect and test it' },
-      { label: 'Cost', cells: ['Your time and lost jobs', 'Monthly fee and per-call charges', 'Subscription plus your time', 'Wages and management time'], us: 'A written quote after one call' },
+      { label: 'Cost', cells: ['Your time and lost jobs', 'Monthly fee and per-call charges', 'Subscription plus your time', 'Wages and management time'], us: `${money(PRICES.ai.tiers[0].oneTime)} setup, then ${perMonth(PRICES.ai.tiers[0].monthly)}` },
     ],
     note: 'If one of the others fits you better, we will tell you. More reading:',
     reads: [
@@ -504,16 +487,6 @@ export const AI_AUTOMATION_PAGE: ServicePageData = {
     eyebrow: 'GUIDES FROM OUR BLOG',
     heading: 'Read up before you decide.',
     lede: 'Short, plain-English guides on the questions people ask us most about answering leads. No sign-up needed.',
-    featured: {
-      slug: 'how-to-respond-to-leads-faster',
-      kicker: 'Start here: speed',
-      blurb: 'Why the first business to answer often wins the job, and how to be that business.',
-    },
-    groups: [
-      { title: 'Answering faster', slugs: ['how-to-respond-to-leads-faster', 'live-chat-vs-contact-form', 'lead-capture-forms', 'quote-form-optimization'] },
-      { title: 'Following up', slugs: ['how-to-follow-up-with-leads', 'how-to-qualify-leads', 'email-marketing-for-contractors', 'customer-retention-for-contractors'] },
-      { title: 'Keeping track', slugs: ['what-is-crm', 'how-to-track-leads', '5-reasons-losing-leads-online', 'one-new-customer-pays-for-investment'] },
-    ],
   },
 
   faq: {
@@ -521,7 +494,7 @@ export const AI_AUTOMATION_PAGE: ServicePageData = {
     heading: 'What else you may want to know.',
     lede: "Can't find your question? Call and ask. You'll get a straight answer from the person who would set it up.",
     items: [
-      { q: 'How much does it cost?', a: `Automation is scoped to your business and quoted in writing after one call. Pricing: ${PRICE_MASK}. Phone and software fees are billed by the provider.`, read: { slug: 'digital-marketing-budget', label: 'how to set a marketing budget' } },
+      { q: 'How much does it cost?', a: `Missed-Call Rescue is ${money(PRICES.ai.tiers[0].oneTime)} setup plus ${perMonth(PRICES.ai.tiers[0].monthly)}. The Lead Follow-Up System is ${money(PRICES.ai.tiers[1].oneTime)} setup plus ${perMonth(PRICES.ai.tiers[1].monthly)}. Custom workflows start at ${money(PRICES.ai.tiers[2].oneTime)} setup and are quoted on a call. Phone and software fees are billed by the provider.`, read: { slug: 'digital-marketing-budget', label: 'how to set a marketing budget' } },
       { q: 'What happens when I miss a call?', a: 'The caller gets a friendly text within seconds, and you get an alert. You can then call or text them back.' },
       { q: 'Will customers know it is automatic?', a: 'The first reply is written to sound like you, and it is honest. A real person continues the conversation.' },
       { q: 'Is it a robot that talks to my customers?', a: 'It asks a few simple questions and passes the lead to you. It never promises prices or times you have not approved.' },

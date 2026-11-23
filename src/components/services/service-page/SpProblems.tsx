@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import type { ProblemItem } from '@/data/service-pages/types';
 import { Bullets, ReadLink } from '@/components/services/website-design/WdBits';
+import { useStableHeight } from '@/components/services/service-page/useStableHeight';
 
 /**
  * Expanding panels: hover (on a mouse) or click/tap/Enter opens one. The
@@ -11,6 +12,8 @@ import { Bullets, ReadLink } from '@/components/services/website-design/WdBits';
  */
 export default function SpProblems({ items }: { items: readonly ProblemItem[] }) {
   const [open, setOpen] = useState(0);
+  const row = useRef<HTMLDivElement>(null);
+  useStableHeight(row);
 
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const clearTimer = () => {
@@ -43,7 +46,7 @@ export default function SpProblems({ items }: { items: readonly ProblemItem[] })
   };
 
   return (
-    <div className="wd-xps">
+    <div className="wd-xps" ref={row}>
       {items.map((p, i) => {
         const on = open === i;
         return (

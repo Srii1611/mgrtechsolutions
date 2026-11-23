@@ -25,6 +25,13 @@ export const leadSchema = z.object({
     .trim()
     .min(1, 'Your name is required')
     .max(120),
+  /** Optional. Digits, spaces and the usual punctuation only. */
+  phone: z
+    .string()
+    .trim()
+    .max(40, 'That phone number is too long')
+    .regex(/^[\d\s().+-]*$/, 'Use digits, spaces, dashes or a leading +')
+    .optional(),
   notes: z.string().trim().max(5000).optional(),
   /**
    * Honeypot. Hidden from people; bots fill it. Never rendered visibly.
@@ -39,7 +46,7 @@ export const leadSchema = z.object({
 export type Lead = z.infer<typeof leadSchema>;
 
 /** Field keys the form has a visible input for and can attach an error to. */
-const RENDERABLE_KEYS = ['url', 'email', 'name', 'notes'] as const;
+const RENDERABLE_KEYS = ['url', 'email', 'name', 'phone', 'notes'] as const;
 export type RenderableKey = (typeof RENDERABLE_KEYS)[number];
 
 function isRenderableKey(key: string): key is RenderableKey {
@@ -99,11 +106,19 @@ export const LEAD_FIELDS = [
     autoComplete: 'name',
     placeholder: "So I know who I'm writing to",
   },
+  {
+    key: 'phone',
+    label: 'YOUR PHONE (OPTIONAL)',
+    type: 'tel',
+    inputMode: 'tel',
+    autoComplete: 'tel',
+    placeholder: 'If you would rather talk',
+  },
 ] as const satisfies ReadonlyArray<{
-  key: 'url' | 'email' | 'name';
+  key: 'url' | 'email' | 'name' | 'phone';
   label: string;
   type: string;
-  inputMode: 'url' | 'email' | 'text';
+  inputMode: 'url' | 'email' | 'text' | 'tel';
   autoComplete: string;
   placeholder: string;
 }>;

@@ -43,11 +43,16 @@ export default function ProcessHero() {
         </div>
 
         <Reveal delay={0.15}>
-          <div className="mt-10 flex flex-wrap items-baseline gap-3">
-            <span className="text-5xl font-medium text-accent">
-              {PROCESS_HERO.countdown.weeksCount}
-            </span>
-            <span className="eyebrow text-mist">{PROCESS_HERO.countdown.weeksLabel}</span>
+          <div className="mt-10 flex flex-wrap gap-x-12 gap-y-6">
+            {PROCESS_HERO.countdown.paths.map((path) => (
+              <div key={path.label}>
+                <p className="flex flex-wrap items-baseline gap-3">
+                  <span className="text-5xl font-medium text-accent">{path.count}</span>
+                  <span className="eyebrow text-mist">{path.unit}</span>
+                </p>
+                <p className="eyebrow mt-2 text-mist">{path.label}</p>
+              </div>
+            ))}
           </div>
         </Reveal>
       </div>

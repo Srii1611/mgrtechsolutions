@@ -1,33 +1,16 @@
 import Link from 'next/link';
 import Reveal from '@/components/motion/Reveal';
-import { PRICE_MASK, WD_PRICING } from '@/data/website-design';
+import { WD_PRICING } from '@/data/website-design';
+import PriceTiers from '@/components/services/service-page/PriceTiers';
 import { Band, Bullets, SectionHead } from '@/components/services/website-design/WdBits';
 
-/** Three plan columns (Standard raised and dark) and the three facts under them. */
+/** The price cards (from src/data/prices.ts) and the three facts under them. */
 export default function WdPricing() {
   return (
     <Band id="pricing" tone="tint" labelledBy="wd-pricing-heading">
       <SectionHead id="wd-pricing-heading" eyebrow={WD_PRICING.eyebrow} heading={WD_PRICING.heading} lede={WD_PRICING.lede} />
 
-      <Reveal>
-        <div className="wd-plans">
-          {WD_PRICING.plans.map((p) => {
-            const hl = 'highlight' in p && p.highlight;
-            return (
-              <article key={p.name} className={`wd-plan${hl ? ' wd-hl' : ''}`}>
-                {'badge' in p && <span className="wd-badge">{p.badge}</span>}
-                <span className="wd-ptag">{p.name}</span>
-                <p className="wd-price">{PRICE_MASK}</p>
-                <p className="wd-pnote">{p.note}</p>
-                <p className="wd-pitch">{p.pitch}</p>
-                <p className="wd-plead">{p.lead}</p>
-                <Bullets items={p.items} />
-                <p className="wd-goodfor">{p.goodFor}</p>
-              </article>
-            );
-          })}
-        </div>
-      </Reveal>
+      <PriceTiers service={WD_PRICING.service} alsoShow={WD_PRICING.alsoShow} />
 
       <Reveal>
         <div className="wd-facts3">

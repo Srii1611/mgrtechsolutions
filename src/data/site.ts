@@ -10,6 +10,15 @@ export const SITE = {
   /** Street address is never published — 33 Annetta Rd is residential. */
   location: 'Ashland, MA · Serving MetroWest',
   tagline: 'Websites that bring in actual phone calls.',
+  /** When calls are answered. Shown on the contact and about pages. */
+  hours: 'Mon–Fri, 9am–7pm',
+  /** What happens if a call is missed. */
+  callbackLine: 'IF I MISS YOUR CALL, I CALL BACK SAME DAY',
+  /** How fast a form or email gets an answer. */
+  replyTime: 'I reply by the next business day.',
+  /** Free 15-minute call booking (Cal.com). */
+  calLink: 'mgrtechsolutions/15min',
+  calUrl: 'https://cal.com/mgrtechsolutions/15min',
 } as const;
 
 /**

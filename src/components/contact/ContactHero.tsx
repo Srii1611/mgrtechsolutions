@@ -15,13 +15,13 @@ export default function ContactHero() {
         </nav>
 
         <h1 className="h1-page mt-10 max-w-4xl font-medium text-cream-50">
-          Four ways to start.
+          Three ways to start.
           <span className="mt-1 block text-accent">Pick whichever fits.</span>
         </h1>
 
         <p className="lede mt-8 max-w-xl text-mist">
           Already have a website? Start with the free review. Don&rsquo;t have one yet? Request a
-          quote. Either way, you can just call, or send another business our way.
+          quote or book a call. Either way, you can just call.
         </p>
 
         <p className="lede mt-4 max-w-xl text-mist">

@@ -58,5 +58,4 @@ export const CATEGORIES: BlogCategory[] = [
   },
 ];
 
-export const CATEGORY_BY_NAME = new Map(CATEGORIES.map((c) => [c.name, c]));
 export const CATEGORY_BY_SLUG = new Map(CATEGORIES.map((c) => [c.slug, c]));

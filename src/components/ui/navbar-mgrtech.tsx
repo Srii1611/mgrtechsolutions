@@ -274,8 +274,8 @@ export default function NavbarMgrtech() {
               src="/brand/logo-mark.png"
               alt=""
               aria-hidden="true"
-              width={36}
-              height={36}
+              width={537}
+              height={512}
               priority
               className="h-9 w-auto [filter:brightness(0)_invert(1)]"
             />

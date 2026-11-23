@@ -15,3 +15,17 @@
   .wd .sp-plans-1 .wd-plan:first-child,
   .wd .sp-plans-1 .wd-plan:last-child{border-radius:22px}
 }
+
+/* ---- price cards (PriceTiers) ---- */
+.wd .wd-tiergroup + .wd-tiergroup{margin-top:72px}
+.wd .wd-tiers-h{margin:0 0 20px;font:500 12px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+.wd .wd-tiers-note{margin-top:28px}
+.wd .wd-hourly{margin-top:32px}
+.wd .wd-plan .wd-plead-from{margin:16px 0 0}
+.wd .wd-plan .wd-plead-from + .wd-price{margin-top:4px}
+.wd .wd-plan .wd-price-long{font-size:2rem;letter-spacing:.04em}
+.wd .wd-plan .wd-bul{margin-top:18px}
+.wd .wd-tier-link{margin-top:auto;padding-top:22px;font:500 14px/1.4 var(--sans);color:var(--accent-ink);text-decoration:underline;text-underline-offset:4px}
+.wd .wd-hl .wd-tier-link{color:var(--accent)}
+.wd .wd-tier-link:hover{text-decoration-thickness:2px}
+.wd .wd-tier-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}

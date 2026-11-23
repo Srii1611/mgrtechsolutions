@@ -4,6 +4,7 @@
  * Positioning rule (spec §4): nothing here may claim the company is one
  * person. First person singular is fine where Srii speaks to the reader.
  */
+import { LAUNCH } from '@/data/prices';
 
 /** S1 — Hero */
 export const PROCESS_HERO = {
@@ -16,13 +17,27 @@ export const PROCESS_HERO = {
     line1: 'CALL',
     arrow: '→',
     line2: 'LAUNCH',
-    weeksLabel: 'WEEKS',
-    weeksCount: 5,
+    /** Two paths: the standard build and the longer one. */
+    paths: [
+      { count: LAUNCH.standardDays, unit: 'DAYS', label: 'The Site and The System' },
+      { count: `about ${LAUNCH.customWeeks}`, unit: 'WEEKS', label: 'Rebuild / Custom and online stores' },
+    ],
   },
 } as const;
 
-/** S2 — The five-week timeline (light), with effort chips per step. */
+/** S2 — The timelines (light), with effort chips per step. */
 export const WEEK_TIMELINE = {
+  /** The standard build, in days. */
+  quickTrack: {
+    eyebrow: `${LAUNCH.standardDays} DAYS · THE SITE AND THE SYSTEM`,
+    title: `Launch in ${LAUNCH.standard}`,
+    body: 'A working preview by Day 3, your review on Days 11 to 13, and live on Days 14 to 15. Your part is the same short list of calls and reviews.',
+  },
+  /** The longer build, week by week. */
+  longTrack: {
+    eyebrow: `${LAUNCH.custom.toUpperCase()} · REBUILD / CUSTOM AND ONLINE STORES`,
+    body: 'Bigger jobs take about five weeks. This is how those weeks go.',
+  },
   weeks: [
     {
       week: 'WEEK 1',
@@ -89,7 +104,7 @@ export const EFFORT_LEDGER = {
     ['Meetings before anything starts', '3–4 intro calls', 'One 60-minute call'],
     ['People you explain your business to', 'Sales rep → PM → designer → dev', 'One contact, once'],
     ['Your hours on the project', '10–20 hours', 'About 90 minutes'],
-    ['Timeline', '3–6 months', '15 days'],
+    ['Timeline', '3–6 months', `${LAUNCH.standard}, or ${LAUNCH.custom} for custom builds`],
     ['After launch', 'Ticket queue', 'Call the person who built it'],
   ],
   totals: {

@@ -50,6 +50,15 @@ describe('POST /api/lead', () => {
     expect(JSON.stringify(payload)).toContain('Pat Rivera');
   });
 
+  it('includes the phone number in the email when one is given, and says so when not', async () => {
+    sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
+    await POST(req({ ...valid, phone: '774-555-0100' }));
+    expect(sendMock.mock.calls[0][0].text).toContain('Phone:   774-555-0100');
+    sendMock.mockClear();
+    await POST(req(valid, '9.9.9.9'));
+    expect(sendMock.mock.calls[0][0].text).toContain('Phone:   (not given)');
+  });
+
   it('sets reply-to so replying reaches the prospect', async () => {
     sendMock.mockResolvedValue({ data: { id: 'abc' }, error: null });
     await POST(req(valid));

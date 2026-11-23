@@ -8,6 +8,7 @@ import {
   stripEmphasis,
 } from './blog';
 import { CATEGORIES } from '@/data/blog-categories';
+import { asDateString, formatPostDate } from './post-date';
 
 const posts = getAllPosts();
 
@@ -252,5 +253,24 @@ describe('metaDescription', () => {
 describe('datePublished', () => {
   it('is absent when no frontmatter date exists', () => {
     for (const p of posts) expect(p.datePublished).toBeUndefined();
+  });
+});
+
+describe('updated', () => {
+  it('is absent on every post that has no updated: frontmatter, so nothing is shown', () => {
+    for (const p of posts) expect(p.updated).toBeUndefined();
+  });
+
+  it('reads a YYYY-MM-DD string or a YAML date, and ignores anything else', () => {
+    expect(asDateString('2026-11-13')).toBe('2026-11-13');
+    expect(asDateString(new Date('2026-11-13T00:00:00Z'))).toBe('2026-11-13');
+    expect(asDateString('last tuesday')).toBeUndefined();
+    expect(asDateString('2026-13-45')).toBeUndefined();
+    expect(asDateString(undefined)).toBeUndefined();
+    expect(asDateString(42)).toBeUndefined();
+  });
+
+  it('formats the date for the page', () => {
+    expect(formatPostDate('2026-11-13')).toBe('November 13, 2026');
   });
 });

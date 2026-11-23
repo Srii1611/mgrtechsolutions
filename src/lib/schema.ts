@@ -54,6 +54,8 @@ export function buildArticle(post: {
   excerpt: string;
   category: string;
   datePublished?: string;
+  /** When the post was last updated (YYYY-MM-DD). Omitted when there is none. */
+  dateModified?: string;
 }): object {
   const headline = truncateAtWordBoundary(post.title, HEADLINE_MAX - 1);
 
@@ -83,6 +85,9 @@ export function buildArticle(post: {
 
   if (post.datePublished) {
     article.datePublished = post.datePublished;
+  }
+  if (post.dateModified) {
+    article.dateModified = post.dateModified;
   }
 
   return article;

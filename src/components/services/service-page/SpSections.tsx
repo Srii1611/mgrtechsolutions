@@ -2,7 +2,9 @@ import Link from 'next/link';
 import Reveal from '@/components/motion/Reveal';
 import { getPost } from '@/lib/blog';
 import { SITE } from '@/data/site';
-import { PRICE_MASK } from '@/data/website-design';
+import PriceTiers from '@/components/services/service-page/PriceTiers';
+import RelatedGuides from '@/components/blog/RelatedGuides';
+import type { GuidePage } from '@/data/related-guides';
 import type { ServicePageData } from '@/data/service-pages/types';
 import { Band, Bullets, SectionHead } from '@/components/services/website-design/WdBits';
 import ScrollRail from '@/components/services/website-design/ScrollRail';
@@ -10,7 +12,7 @@ import SpDayBar from '@/components/services/service-page/SpDayBar';
 import HeroBackdrop from '@/components/services/service-page/HeroBackdrop';
 
 /** Hero (dark): promise, two actions, and four quick facts. */
-export function SpHero({ data, serviceName, slug, quickJump = false }: { data: ServicePageData['hero']; serviceName: string; slug: string; quickJump?: boolean }) {
+export function SpHero({ data, serviceName, slug }: { data: ServicePageData['hero']; serviceName: string; slug: string }) {
   return (
     <section id="overview" className="wd-night wd-hero" aria-labelledby="sp-hero-heading">
       <HeroBackdrop slug={slug} />
@@ -33,15 +35,6 @@ export function SpHero({ data, serviceName, slug, quickJump = false }: { data: S
           </a>
           <a className="wd-btn wd-btn-ghost" href="#contact">{data.secondaryCta}</a>
         </div>
-        {quickJump && (
-          <nav className="wd-jump" aria-label="Jump to a section">
-            <span>Jump to</span>
-            <a href="#pricing">Pricing</a>
-            <a href="#how">How it works</a>
-            <a href="#faq">FAQ</a>
-            <a href="#contact">Free review</a>
-          </nav>
-        )}
         <small>{SITE.location}</small>
         <div className="wd-strip" aria-label={`${serviceName} at a glance`}>
           {data.facts.map((f) => (
@@ -121,29 +114,13 @@ export function SpHow({ data }: { data: ServicePageData['how'] }) {
   );
 }
 
-/** One to three plan columns (a highlighted plan is raised and dark) and the facts under them. */
+/** The price cards, read from src/data/prices.ts, and the facts under them. */
 export function SpPricing({ data }: { data: ServicePageData['pricing'] }) {
-  const cols = data.plans.length;
   return (
     <Band id="pricing" tone="tint" labelledBy="sp-pricing-heading">
       <SectionHead id="sp-pricing-heading" eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} />
 
-      <Reveal>
-        <div className={`wd-plans sp-plans-${cols}`}>
-          {data.plans.map((p) => (
-            <article key={p.name} className={`wd-plan${p.highlight ? ' wd-hl' : ''}`}>
-              {p.badge && <span className="wd-badge">{p.badge}</span>}
-              <span className="wd-ptag">{p.name}</span>
-              <p className="wd-price">{PRICE_MASK}</p>
-              <p className="wd-pnote">{p.note}</p>
-              <p className="wd-pitch">{p.pitch}</p>
-              <p className="wd-plead">{p.lead}</p>
-              <Bullets items={p.items} />
-              <p className="wd-goodfor">{p.goodFor}</p>
-            </article>
-          ))}
-        </div>
-      </Reveal>
+      <PriceTiers service={data.service} alsoShow={data.alsoShow} />
 
       <Reveal>
         <div className="wd-facts3">
@@ -240,8 +217,8 @@ export function SpCompare({ data }: { data: ServicePageData['compare'] }) {
               {data.rows.map((r) => (
                 <tr key={r.label}>
                   <th scope="row">{r.label}</th>
-                  {r.cells.map((cell) => (
-                    <td key={cell}>{cell}</td>
+                  {r.cells.map((cell, i) => (
+                    <td key={i}>{cell}</td>
                   ))}
                   <td className="wd-us-c">{r.us}</td>
                 </tr>
@@ -289,8 +266,21 @@ export function SpFit({ data }: { data: ServicePageData['fit'] }) {
   );
 }
 
-/** A featured guide plus the rest grouped by question. Titles come from the real posts. */
-export function SpGuides({ data }: { data: ServicePageData['guides'] }) {
+/**
+ * Related guides for the page (cards, from src/data/related-guides.ts). A page with no
+ * entry there yet (e-commerce) keeps its featured guide plus grouped links.
+ */
+export function SpGuides({ data, slug }: { data: ServicePageData['guides']; slug: string }) {
+  if (!data.featured || !data.groups) {
+    return (
+      <Band id="guides" labelledBy="sp-guides-heading">
+        <SectionHead id="sp-guides-heading" eyebrow={data.eyebrow} heading={data.heading} lede={data.lede} />
+        <Reveal>
+          <RelatedGuides page={slug as GuidePage} heading="Related guides" />
+        </Reveal>
+      </Band>
+    );
+  }
   const feat = getPost(data.featured.slug);
   return (
     <Band id="guides" labelledBy="sp-guides-heading">

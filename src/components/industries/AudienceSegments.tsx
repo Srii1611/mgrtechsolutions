@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Wrench, Car, Store, MapPin, Check, Plus } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import { INDUSTRIES_GROUPS } from '@/data/industries';
@@ -8,7 +8,7 @@ import { INDUSTRIES_GROUPS } from '@/data/industries';
 const ICONS = { Wrench, Car, Store, MapPin } as const;
 
 /** I2 — Who it's for: four expandable audience cards (light). */
-export default function AudienceSegments() {
+export default function AudienceSegments({ guides = {} }: { guides?: Record<string, ReactNode> }) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   // Arriving via the nav dropdown's anchor (e.g. #auto-motorsports) should
@@ -98,6 +98,7 @@ export default function AudienceSegments() {
                             </li>
                           ))}
                         </ul>
+                        {guides[group.id] ? <div className="mt-8 border-t border-cream-300 pt-6">{guides[group.id]}</div> : null}
                       </div>
                     </div>
                   </div>

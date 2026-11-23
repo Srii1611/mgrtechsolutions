@@ -323,7 +323,6 @@ Merged `fix/stat-sourcing` into `main`. Three commits:
 | **Testimonial permission** | Two quotes run as disclosed placeholders. |
 | **Calendly / booking link** | No URL exists. "Book a Slot" was deliberately left off the 2026-09-13 Contact rebuild for this reason — add it once a real link exists (spec §11). |
 | **Logo** | PNG + app icons done. An SVG would be sharper. |
-| **Pre-existing lint error** | `src/components/contact/ReviewForm.tsx:22` — `setState` inside an effect. Present on `main` before this work; not a regression. |
 
 ---
 
@@ -417,9 +416,28 @@ Overview cards: hover lift, icon redraw and idle loops, pointer glow, slide-in "
 ## Phone number on service pages (2026-11-11)
 - The number now shows only in the navbar button, the hero button and the big footer number. The FAQ side button is now "Ask a question" (jumps to the closing section); the closing button says "Call us" (tap to call, aria-label keeps the number); the "Phone: ... Email: ..." line is now just the email.
 
-## Section list pilot on Website Design (2026-11-12)
-- Pilot on /services/website-design only (SectionBar variant="rail", classes scoped under .wd-rail-on): at 1100px and up an always-open list of all 14 sections on the left (current one highlighted, Pricing and FAQ bold, progress line, a Get a free review button); content is shifted right to stay clear of it. Under 1100px a top strip of swipeable chips (current one auto-centred). The navbar still shows only when scrolling up. The other five service pages keep the top bar. Roll out by passing variant="rail" and adding wd-rail-on to a page.
+## Section navigation, one design for all six service pages (2026-11-13)
+- Replaces the SectionBar top bar, the Website Design rail/chips pilot and the three-way comparison (all deleted). Code: PageNav in SectionNav.tsx, useSectionNav.ts, service-page-nav.css; used by ServicePage.tsx and app/services/website-design/page.tsx (root class wd-nav-list).
+- 1100px and up: normal navbar (hides on scroll down, back on scroll up) plus an always-open On this page list on the left (progress line, Pricing and FAQ bold, Get a free review button, collapse to a number strip, not remembered: it always starts open); content shifts right to stay clear of it.
+- Under 1100px: after the top 80px one slim bar replaces the navbar: logo, current-section button (opens all 14), Call, Menu (site links). Scroll-up does not bring the full navbar back there.
+- Jumps use Lenis with offset 0; the section scroll-margin-top (72px / 24px wide) does the spacing, because Lenis adds scroll-margin on top of any offset.
+- Known: npx vitest run failed to load all 9 suites (Cannot read properties of undefined reading config) on 2026-11-13 even though no test file was touched; it passed 173/173 on 2026-11-12. Not yet diagnosed.
 
-## Section navigation comparison on the other five pages (2026-11-12)
-- Website Design keeps the left-list pilot. SEO = merged header (one slim bar: logo, current section dropdown, Call, Menu; replaces the navbar after the top). Google Ads = collapsible left list on wide screens, a Sections dropdown bar on phones. Social Media = Jump to Pricing / How it works / FAQ / Free review pills in the hero plus the existing top bar. E-commerce and AI Automation unchanged. Chosen per page in NAV_STYLE in ServicePage.tsx; styles in service-page-nav.css; logic in useSectionNav.ts and SectionNav.tsx.
-- Website Design phone hero: ripple period is the 5.2 in painters.ts (web, "rings from the call button"); smaller = faster.
+## Problem cards no longer shift the page (2026-11-13)
+- The row of problem cards (.wd-xps) changed height with whichever card was open, so Our approach below it moved while hovering. useStableHeight.ts measures the tallest open state (transitions off, no paint) and sets it as a hard row height (not min-height: mid-animation text wraps taller than any resting state, and cards clip with overflow hidden; .wd-xps also has contain:layout); re-measures on resize and font load; not applied under 961px. Used by SpProblems and WdProblems. Trade-off: at about 1100px the row stays up to ~150px taller than a short open card needs.
+
+## Health-check fixes (2026-11-13)
+- Fixed: duplicate React key in the comparison tables (cells keyed by index); logo image warning (width/height now match the PNG, 537x512); home work cards overflowing 20px at 375px (grid-cols-1); setState-in-effect lint errors in ReviewForm.tsx and QuoteForm.tsx (useSyncExternalStore). Sweep of 13 pages at 1440 and 375: no console errors or warnings, no horizontal overflow. npm run build --webpack passes.
+- Trap: running vitest from a shell whose cwd is lowercase drive c: fails every suite with Cannot read properties of undefined (reading config) (two module copies). Run it from C: (uppercase) and all 173 pass.
+
+## Dead-code cleanup (2026-11-13)
+- Removed after checking that nothing in app/, src/, content/, scripts/, public/ or config used them: components/layout/Header.tsx (the live navbar is ui/navbar-mgrtech.tsx), motion/NeuralLink.tsx, motion/Particles.tsx, the old .wd-bar section-bar CSS, unused .wd-reveal / .wd-cols / .wd-more rules, WEB_TAG, CATEGORY_BY_NAME.
+- Kept on purpose: src/data/pricing-page.ts, seo-packages.ts, social-packages.ts, website-cost-guide.ts (imported by nothing, but the service-page data cite them as copy sources); the two unused-variable lint warnings (the node destructure in ArticleBody.tsx and notes in lead.test.ts are deliberate omissions).
+
+## Prices, contact and blog links (2026-11-22)
+- **One price file**: `src/data/prices.ts` is the only place a price is written (header says how to change one). `src/data/prices.test.ts` fails if `$` + digits appears in app/ or src/ elsewhere, or if a retired price set, bundle or "we don't host" claim comes back. Old price sets removed; `PRICE_MASK` deleted; the four old source-copy files moved to `docs/source-copy/` (they hold the old prices).
+- Service-page pricing sections render `PriceTiers` from prices.ts (featured tier highlighted, link into the estimator). SEO and social are separate services; hosting is part of Care plans; The Site and The System launch in 15 days, Rebuild/Custom and stores about 5 weeks (Process page now shows both paths). Comparison tables no longer rank MGRTECH below freelancers.
+- **Assumptions to confirm with Srii**: Ads Jumpstart is per platform (Both platforms = 2 Jumpstarts); Care plan optional and pre-selected; SEO Setup and Jumpstart required with a tier; Commerce care covers hosting. Package "included" text is facts-only until his descriptions arrive (`TODO(Srii)` in prices.ts). Social post counts and Website Design package details still come from the old sheet.
+- **Not built yet**: the `/pricing` page and the estimator. The math is done and tested (`src/lib/estimate.ts`). Two phone-size ideas (Steps / Receipt) were made for Srii to pick from; links "Plan this in the estimator" point at `/pricing`, which does not exist yet, so do not deploy before it does.
+- **Contact**: three options, Refer & Earn removed (footer link "Know a business that needs this? Email me"), inline Cal.com booking (`CalBooking.tsx`, fixed height, brand colour read from the accent token), budget options from prices.ts, optional phone on both forms and in both emails, hours in `SITE.hours`, reply time in `SITE.replyTime`.
+- **Blog**: `src/data/related-guides.ts` + `RelatedGuides` on the pages in the brief (replaces the Guides band content on five service pages; E-commerce keeps its band); test that every slug is a live post; optional `updated:` frontmatter (shown as "Updated <date>" and sent as dateModified).

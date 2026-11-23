@@ -5,6 +5,19 @@ and AI automation studio serving MetroWest Massachusetts. Built with
 Next.js App Router, TypeScript, Tailwind v4, Framer Motion, and Lenis;
 deployed on Vercel.
 
+
+## Copyright and Usage
+
+Copyright (c) 2026 MgrTechSolutions. All rights reserved.
+
+This repository is publicly available for viewing and
+evaluation purposes only.
+
+No permission is granted to copy, modify, distribute,
+reuse, or commercially exploit any part of this
+source code without prior written permission from
+the copyright holder.
+
 ## Commands
 
 ```bash

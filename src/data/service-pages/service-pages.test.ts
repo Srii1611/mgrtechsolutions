@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { getPost } from '@/lib/blog';
 import { SERVICE_PAGES } from '@/data/service-pages';
+import { PRICES, TIERS } from '@/data/prices';
+
+/** Every dollar amount a page may mention: any number in prices.ts, and the Jumpstart for two platforms. */
+const allowedAmounts = new Set<number>();
+(function collect(v: unknown) {
+  if (typeof v === 'number') allowedAmounts.add(v);
+  else if (Array.isArray(v)) v.forEach(collect);
+  else if (v && typeof v === 'object') Object.values(v).forEach(collect);
+})(PRICES);
+allowedAmounts.add(PRICES.ads.jumpstart * 2);
 
 /** Every string in a page's data, depth first. */
 function strings(v: unknown, out: string[] = []): string[] {
@@ -44,18 +54,18 @@ describe.each(SERVICE_PAGES.map((p) => [p.slug, p] as const))('service page: %s'
     expect(page.compare.rows).toHaveLength(6);
     for (const r of page.compare.rows) expect(r.cells).toHaveLength(4);
     expect(page.industries.items).toHaveLength(4);
-    expect(page.guides.groups).toHaveLength(3);
+    if (page.guides.groups) expect(page.guides.groups).toHaveLength(3);
     expect(page.faq.items.length).toBeGreaterThanOrEqual(10);
-    expect(page.pricing.plans.length).toBeGreaterThanOrEqual(1);
-    expect(page.pricing.plans.length).toBeLessThanOrEqual(3);
+    expect(TIERS[page.pricing.service].length).toBeGreaterThanOrEqual(2);
     expect(page.pricing.facts).toHaveLength(3);
     expect(page.timeline.phases.length).toBeGreaterThanOrEqual(3);
     expect(page.timeline.phases.length).toBeLessThanOrEqual(5);
   });
 
-  it('shows no real prices, no company-size claims and no em dashes', () => {
+  it('shows only prices that exist in prices.ts, no company-size claims and no em dashes', () => {
     const text = strings(page).join('\n');
-    expect(text).not.toMatch(/\$\s?\d/);
+    const shown = [...text.matchAll(/\$\s?(\d[\d,]*)/g)].map((m) => Number(m[1].replace(/,/g, '')));
+    expect(shown.filter((n) => !allowedAmounts.has(n))).toEqual([]);
     expect(text).not.toMatch(/\bone[-\s]person\b|\bsolo\b/i);
     expect(text).not.toMatch(/—/);
   });

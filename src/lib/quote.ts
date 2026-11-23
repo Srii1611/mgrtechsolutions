@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { BUDGET_OPTIONS } from '@/data/prices';
 
 export const PROJECT_TYPES = [
   'Website',
@@ -9,7 +10,8 @@ export const PROJECT_TYPES = [
   'Not sure yet',
 ] as const;
 
-export const BUDGET_RANGES = ['Under $2,000', '$2,000–$5,000', '$5,000+', 'Not sure yet'] as const;
+/** Built from src/data/prices.ts, so the options follow the prices. */
+export const BUDGET_RANGES = BUDGET_OPTIONS;
 
 export const TIMELINES = ['ASAP', '1–3 months', 'Just exploring'] as const;
 
@@ -24,6 +26,13 @@ export const quoteSchema = z.object({
   projectType: z.enum(PROJECT_TYPES, { error: 'Pick what best describes the project' }),
   budget: z.enum(BUDGET_RANGES, { error: 'Pick a budget range' }),
   timeline: z.enum(TIMELINES, { error: 'Pick a timeline' }),
+  /** Optional. Digits, spaces and the usual punctuation only. */
+  phone: z
+    .string()
+    .trim()
+    .max(40, 'That phone number is too long')
+    .regex(/^[\d\s().+-]*$/, 'Use digits, spaces, dashes or a leading +')
+    .optional(),
   notes: z.string().trim().max(5000).optional(),
   /** Honeypot — see the matching field in `lib/lead.ts` for why it's named this way. */
   hp_ref: z.string().max(200).optional(),
@@ -31,7 +40,7 @@ export const quoteSchema = z.object({
 
 export type Quote = z.infer<typeof quoteSchema>;
 
-const RENDERABLE_KEYS = ['name', 'email', 'projectType', 'budget', 'timeline', 'notes'] as const;
+const RENDERABLE_KEYS = ['name', 'email', 'phone', 'projectType', 'budget', 'timeline', 'notes'] as const;
 export type QuoteRenderableKey = (typeof RENDERABLE_KEYS)[number];
 
 function isRenderableKey(key: string): key is QuoteRenderableKey {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from 'react';
 import {
   quoteSchema,
   mapQuoteIssues,
@@ -15,6 +15,8 @@ import { SITE } from '@/data/site';
 type Errors = Partial<Record<QuoteRenderableKey | 'form', string>>;
 type Status = 'idle' | 'sending' | 'sent';
 
+const subscribeNever = () => () => {};
+
 const inputBase =
   'w-full rounded-xl border bg-cream-50 px-4 py-3 text-[1rem] text-forest-950 transition placeholder:text-ink-soft';
 
@@ -22,6 +24,7 @@ export default function QuoteForm() {
   const [values, setValues] = useState({
     name: '',
     email: '',
+    phone: '',
     projectType: '',
     budget: '',
     timeline: '',
@@ -30,12 +33,9 @@ export default function QuoteForm() {
   });
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>('idle');
-  const [mounted, setMounted] = useState(false);
+  // false while rendering on the server and during hydration, true once on the client
+  const mounted = useSyncExternalStore(subscribeNever, () => true, () => false);
   const successHeadingRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (status === 'sent') {
@@ -103,8 +103,8 @@ export default function QuoteForm() {
           Got it. I&rsquo;ll follow up with real numbers.
         </h2>
         <p className="mt-3 max-w-md text-[1.0625rem] leading-[1.7] text-ink-soft">
-          Expect a reply within two business days, from a person, not an autoresponder. Need it
-          sooner? Call {SITE.phone}.
+          {SITE.replyTime} It comes from a person, not an autoresponder. Need it sooner? Call{' '}
+          {SITE.phone}.
         </p>
       </div>
     );
@@ -176,6 +176,30 @@ export default function QuoteForm() {
           {errors.email && (
             <p id="quote-email-error" className="mt-2 text-[0.8125rem] text-destructive">
               {errors.email}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="quote-phone" className="eyebrow text-ink-soft">
+            YOUR PHONE (OPTIONAL)
+          </label>
+          <input
+            id="quote-phone"
+            name="phone"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder="If you would rather talk"
+            value={values.phone}
+            onChange={set('phone')}
+            aria-invalid={Boolean(errors.phone)}
+            aria-describedby={errors.phone ? 'quote-phone-error' : undefined}
+            className={`${inputBase} mt-2 ${errors.phone ? 'border-destructive' : 'border-form-border'}`}
+          />
+          {errors.phone && (
+            <p id="quote-phone-error" className="mt-2 text-[0.8125rem] text-destructive">
+              {errors.phone}
             </p>
           )}
         </div>

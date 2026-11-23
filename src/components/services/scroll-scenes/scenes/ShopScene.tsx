@@ -1,6 +1,7 @@
 'use client';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { clamp, dotPos, lerp, reveal, seg, smooth, type Pt, type SceneApi } from '@/components/services/scroll-scenes/lib';
+import { money } from '@/data/prices';
 
 export const SHOP_TAG = 'THE CART';
 export const SHOP_TICKS = [0.12, 0.3, 0.5, 0.78];
@@ -64,7 +65,7 @@ const ShopScene = forwardRef<SceneApi>(function ShopScene(_, ref) {
           </div>
         ))}
       </div>
-      <div className="sc-carttotal"><span>Cart total</span><b ref={ct}>$0</b></div>
+      <div className="sc-carttotal"><span>Cart total</span><b ref={ct}>{money(0)}</b></div>
       <button ref={pay} className="sc-pay" type="button" tabIndex={-1}>Pay securely</button>
       <div ref={toast} className="sc-toast sc-r">New order #1042 · shipping label ready</div>
       {PICKS.map((_, k) => (<div key={k} ref={(el) => { chips.current[k] = el; }} className="sc-chip" />))}

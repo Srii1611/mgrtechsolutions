@@ -94,6 +94,7 @@ export async function POST(request: Request) {
     ``,
     `Name:    ${lead.name}`,
     `Email:   ${lead.email}`,
+    `Phone:   ${lead.phone?.trim() ? lead.phone : '(not given)'}`,
     `Website: ${lead.url}`,
     ``,
     `Notes:`,

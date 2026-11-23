@@ -5,12 +5,14 @@
  * 3-pillar model): Web Design & Development, SEO, E-commerce, Google Ads +
  * PPC, Social Media Management, and AI Automation. The pricing content in
  * the last four pillars is folded in from the retired /pricing route tree
- * (src/data/pricing-page.ts, seo-packages.ts, social-packages.ts). Those
- * files stay in the repo as source data, no longer route-backed.
+ * (now under docs/source-copy/, no longer part of the build).
  *
  * Positioning rule (spec §4): nothing here may claim the company is one
  * person. First person singular is fine where Srii speaks to the reader.
+ *
+ * Prices are not written here: they come from src/data/prices.ts.
  */
+import { LAUNCH, PRICES, perMonth, priceLine, tierOf } from '@/data/prices';
 
 /** S1 — Hero */
 export const SERVICES_HERO = {
@@ -82,8 +84,8 @@ export const PILLAR_WEB_DESIGN = {
     'Hand-coded with Next.js-style modern tooling, fast on any phone',
     'Local SEO structure baked in: towns, services, schema markup',
     'Google Business Profile setup and connection',
-    'Domain, hosting, SSL: set up, explained, and in your name',
-    'Launch in 15 days (five weeks for e-commerce), with a private preview along the way',
+    'Domain and SSL: set up, explained, and in your name. Hosting comes with the Care plans',
+    `Launch in ${LAUNCH.standard} (${LAUNCH.custom} for rebuilds and e-commerce), with a private preview along the way`,
   ],
   specSheetLabel: 'SPEC SHEET',
   specRows: [
@@ -91,7 +93,7 @@ export const PILLAR_WEB_DESIGN = {
     ['TEMPLATES', 'NONE, EVER'],
     ['LOAD TIME', 'UNDER 2 SECONDS, MOBILE'],
     ['OWNERSHIP', '100% YOURS'],
-    ['TIMELINE', '5 WEEKS, CALL TO LAUNCH'],
+    ['TIMELINE', `${LAUNCH.standard.toUpperCase()}, CALL TO LAUNCH`],
     ['WHO BUILDS', 'THE PERSON YOU CALL'],
   ],
   packagesLabel: 'STARTING PACKAGES',
@@ -99,7 +101,7 @@ export const PILLAR_WEB_DESIGN = {
   packages: [
     {
       name: 'The Site',
-      price: 'FROM $X,XXX',
+      price: priceLine(tierOf('website', 'site')).toUpperCase(),
       pitch: 'A hand-coded website built to be found and chosen.',
       includes: [
         'Custom design, no templates, ever',
@@ -112,7 +114,7 @@ export const PILLAR_WEB_DESIGN = {
     },
     {
       name: 'The System',
-      price: 'FROM $X,XXX',
+      price: priceLine(tierOf('website', 'system')).toUpperCase(),
       pitch: 'The site plus the content and follow-up that make it ring.',
       includes: [
         'Everything in The Site',
@@ -125,7 +127,7 @@ export const PILLAR_WEB_DESIGN = {
     },
     {
       name: 'The Rebuild',
-      price: 'FROM $X,XXX',
+      price: priceLine(tierOf('website', 'custom')).toUpperCase(),
       pitch: 'Your existing site, taken apart and rebuilt properly.',
       includes: [
         'Full audit of your current site',
@@ -141,7 +143,7 @@ export const PILLAR_WEB_DESIGN = {
     "Designed for your business, no templates",
     "Loads fast on any phone",
     "Shows up for your town and trade",
-    "Domain and hosting in your name",
+    "Domain in your name, hosting with the Care plans",
   ],
   fanCards: [
     {
@@ -297,14 +299,14 @@ export const PILLAR_GOOGLE_ADS = {
   ],
   specSheetLabel: 'HOW IT’S PRICED',
   specRows: [
-    ['MANAGEMENT FEE', '$999/MO'],
+    ['MANAGEMENT FEE', `${perMonth(PRICES.ads.tiers[0].monthly)} (ONE PLATFORM) OR ${perMonth(PRICES.ads.tiers[1].monthly)} (BOTH)`.toUpperCase()],
     ['AD SPEND', 'PAID DIRECTLY TO GOOGLE & META, NO MARKUP'],
     ['INCLUDES', 'GOOGLE ADS + META ADS MANAGEMENT'],
     ['STARTS WITH', 'A JUMPSTART PROJECT'],
     ['OWNERSHIP', 'YOUR AD ACCOUNTS, ALWAYS'],
   ],
   adSpendNote:
-    'The $999 fee is management only. You pay Google and Meta directly, and if you ever leave, the accounts and their history go with you.',
+    'The management fee is management only. You pay Google and Meta directly, and if you ever leave, the accounts and their history go with you.',
   sceneChecks: [
     "The ad matches what people searched",
     "Tracks every call and form",
@@ -348,7 +350,6 @@ export const PILLAR_SOCIAL_MEDIA = {
     'Captions written for every post',
     'Scheduling and publishing handled for you',
     'Community management: comments and messages answered',
-    'Also available bundled with SEO for $500/mo as part of the Standard marketing package',
   ],
   scopeNote:
     'Pricing below is for service-based trades businesses. E-commerce and retail are scoped individually to catalog size and volume.',
@@ -356,7 +357,7 @@ export const PILLAR_SOCIAL_MEDIA = {
   tiers: [
     {
       name: 'Basic',
-      price: '$499/mo',
+      price: perMonth(PRICES.social.tiers[0].monthly),
       pitch: 'One shoot a month, turned into three posts a week.',
       includes: ['1 on-site shoot/mo', '12 total posts/mo', 'Scheduling & publishing', 'Community management'],
       goodFor: 'GOOD FOR: PROVING THE MODEL',
@@ -364,7 +365,7 @@ export const PILLAR_SOCIAL_MEDIA = {
     },
     {
       name: 'Standard',
-      price: '$1,082/mo',
+      price: perMonth(PRICES.social.tiers[1].monthly),
       pitch: 'Two shoots a month and near-daily presence.',
       includes: ['2 on-site shoots/mo', '20 total posts/mo', 'Scheduling & publishing', 'Community management'],
       goodFor: 'GOOD FOR: BEING SEEN EVERY WEEK',
@@ -372,7 +373,7 @@ export const PILLAR_SOCIAL_MEDIA = {
     },
     {
       name: 'Growth',
-      price: '$1,500/mo',
+      price: perMonth(PRICES.social.tiers[2].monthly),
       pitch: 'The fullest cadence, built for scale.',
       includes: ['2 on-site shoots/mo', '28 total posts/mo', 'Scheduling & publishing', 'Community management'],
       goodFor: 'GOOD FOR: SCALING PRESENCE DELIBERATELY',

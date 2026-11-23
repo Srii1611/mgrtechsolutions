@@ -1,4 +1,4 @@
-import { PRICE_MASK } from '@/data/website-design';
+import { HOURLY_LINE, PRICES, perMonth } from '@/data/prices';
 import { ICON } from '@/data/service-pages/icons';
 import type { ServicePageData } from '@/data/service-pages/types';
 
@@ -11,7 +11,10 @@ import type { ServicePageData } from '@/data/service-pages/types';
  * media providers. No wording copied.
  *
  * OPEN for Srii before treating as final:
- *  - Every price is PRICE_MASK.
+ *  - Every price comes from src/data/prices.ts. Social media is priced on its own,
+ *    separate from SEO.
+ *  - TODO(Srii): post counts and shoots per tier below come from the old package
+ *    sheet; confirm they still match the new tiers.
  *  - Lines marked CONFIRM are not stated on the live site or in the repo.
  *  - The internal upsell notes in social-packages.ts are deliberately NOT on
  *    this page.
@@ -311,54 +314,31 @@ export const SOCIAL_PAGE: ServicePageData = {
 
   pricing: {
     eyebrow: 'PRICING',
-    heading: 'Three tiers. Each one builds on the last.',
+    heading: 'Three monthly tiers, with on-site shoots.',
     lede: 'Social media is a monthly service because consistency is the whole point. Pick the cadence that matches how often you want to be seen. If you are between two, we will tell you which fits on the call.',
-    plans: [
-      {
-        name: 'Basic',
-        note: 'Billed monthly',
-        pitch: 'One shoot a month, turned into three posts a week.',
-        lead: "What's in it",
-        items: ['1 on-site shoot per month', '12 total posts per month', '4 videos and 8 images', 'Captions for every post', 'Scheduling and publishing', 'Community management'],
-        goodFor: 'Good for: proving the model before committing further',
-      },
-      {
-        name: 'Standard',
-        badge: 'Most chosen',
-        highlight: true,
-        note: 'Billed monthly',
-        pitch: 'Two shoots a month and near-daily presence on the feed.',
-        lead: 'Everything in Basic, plus:',
-        items: ['2 on-site shoots per month', '20 total posts per month', '8 videos and 12 images', 'Captions for every post', 'Scheduling and publishing', 'Community management'],
-        goodFor: 'Good for: being seen every week, not every month',
-      },
-      {
-        name: 'Growth',
-        note: 'Billed monthly',
-        pitch: 'The fullest cadence: 28 posts a month, built for scale.',
-        lead: 'Everything in Standard, plus:',
-        items: ['2 on-site shoots per month', '28 total posts per month', '12 videos and 16 images', 'Captions for every post', 'Scheduling and publishing', 'Community management'],
-        goodFor: 'Good for: established businesses scaling their presence deliberately',
-      },
-    ],
+    service: 'social',
     facts: [
       {
-        title: 'What changes the price',
-        text: 'The tier sets the starting point. These things move the final number:',
+        title: 'What helps decide the tier',
+        text: 'The tier sets the price. These things help us tell you which one fits:',
         kind: 'check',
-        items: ['How many shoots and posts you want each month', 'How far we travel to your job sites', 'How many platforms you want covered', 'Whether you add extras such as paid ads', 'Shops and retail are scoped to catalog size and volume'],
+        items: ['How many shoots and posts you want each month', 'How far we travel to your job sites', 'How many platforms you want covered', 'Shops and retail also need product shots'],
       },
       {
         title: "What's not included",
         text: 'We keep these separate so you always know what you are paying for.',
         kind: 'x',
-        items: ['Paid ad management and boosted posts', 'Motion graphics and animated overlays', 'A dedicated strategist or monthly strategy calls', 'Shoots or turnaround beyond the tier’s included volume'],
+        items: ['Paid ad management and boosted posts. That is a separate service', 'SEO. It is a separate service with its own plans', 'Motion graphics and animated overlays', 'A dedicated strategist or monthly strategy calls'],
       },
       {
         title: 'How payment works',
-        text: 'No surprises. You see the price in writing before any work begins.',
+        text: 'No surprises. The prices on this page are the prices.',
         kind: 'check',
-        items: ['A written quote after one call', `Tiers from ${PRICE_MASK} a month, billed monthly`, 'Anything outside the tier is quoted separately, never folded in quietly', 'Notice terms confirmed in writing before you start'], // CONFIRM
+        items: [
+          'Billed monthly, shown openly. No mystery subscriptions',
+          `Anything outside the tier is quoted first, at ${HOURLY_LINE}, never folded in quietly`,
+          'Notice terms confirmed in writing before you start', // CONFIRM
+        ],
       },
     ],
     readLead: 'Want help comparing?',
@@ -428,7 +408,7 @@ export const SOCIAL_PAGE: ServicePageData = {
       { label: 'Job-site shoots', cells: ['You take the photos', 'Depends on the person', 'Often stock images or remote', 'Depends on the hire'], us: 'We come to your job sites' },
       { label: 'Replies', cells: ['You answer when you can', 'Depends on the person', 'Sometimes extra', 'Your own employee'], us: 'Comments and messages answered' },
       { label: 'Ownership', cells: ['Yours', 'Ask before you hire', 'Ask before you sign', 'Yours'], us: 'Your pages, your photos and videos' },
-      { label: 'Cost', cells: ['Lowest fee, most of your time', 'Lower than an agency', 'Highest', 'Salary, tools and management time'], us: 'A written quote after one call' },
+      { label: 'Cost', cells: ['Lowest fee, most of your time', 'Varies, and shoots are often extra', 'Highest', 'Salary, tools and management time'], us: `${perMonth(PRICES.social.tiers[0].monthly)} to ${perMonth(PRICES.social.tiers[2].monthly)}, with on-site shoots` },
     ],
     note: 'If one of the others fits you better, we will tell you. More reading:',
     reads: [
@@ -498,16 +478,6 @@ export const SOCIAL_PAGE: ServicePageData = {
     eyebrow: 'GUIDES FROM OUR BLOG',
     heading: 'Read up before you decide.',
     lede: 'Short, plain-English guides on the questions people ask us most about posting online. No sign-up needed.',
-    featured: {
-      slug: 'video-content-for-local-businesses',
-      kicker: 'Start here: video',
-      blurb: 'Why a phone and a job site are enough to start, and what to film first.',
-    },
-    groups: [
-      { title: 'Content ideas', slugs: ['video-content-for-local-businesses', 'how-to-repurpose-blog-content', 'content-calendar-template-contractors', 'blog-post-ideas-for-contractors'] },
-      { title: 'Trust and reviews', slugs: ['how-to-get-more-google-reviews', 'online-reviews-impact', 'how-to-handle-negative-reviews', 'blog-content-builds-trust'] },
-      { title: 'Making it pay', slugs: ['one-new-customer-pays-for-investment', 'digital-marketing-budget', 'referral-program-ideas', 'choose-digital-marketing-partner'] },
-    ],
   },
 
   faq: {
@@ -515,7 +485,7 @@ export const SOCIAL_PAGE: ServicePageData = {
     heading: 'What else you may want to know.',
     lede: "Can't find your question? Call and ask. You'll get a straight answer from the person who would run your feed.",
     items: [
-      { q: 'How much does social media management cost?', a: `Basic, Standard and Growth are billed monthly, and you get a written quote after one call. Pricing: ${PRICE_MASK}.`, read: { slug: 'digital-marketing-budget', label: 'how to set a marketing budget' } },
+      { q: 'How much does social media management cost?', a: `Basic is ${perMonth(PRICES.social.tiers[0].monthly)}, Standard ${perMonth(PRICES.social.tiers[1].monthly)} and Growth ${perMonth(PRICES.social.tiers[2].monthly)}, billed monthly and priced openly on this page. Social media is separate from SEO and ads.`, read: { slug: 'digital-marketing-budget', label: 'how to set a marketing budget' } },
       { q: 'Do I have to do anything?', a: 'Very little. We ask for one call, access to your pages, and a heads-up about when and where jobs are happening. We do the shooting, writing and posting.' },
       { q: 'Do you really come to my job sites?', a: 'Yes. On-site shoots are part of every tier, scheduled around your jobs. We ask permission before showing customers or homes.' },
       { q: 'How many posts will I get?', a: 'Basic is 12 posts a month, Standard 20 and Growth 28. Each tier shows how many are videos and how many are images.' },

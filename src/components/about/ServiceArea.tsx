@@ -52,6 +52,8 @@ export default function ServiceArea() {
                 } else if ('fromSite' in fact && fact.fromSite === 'email') {
                   value = SITE.email;
                   href = `mailto:${SITE.email}`;
+                } else if ('fromSite' in fact && fact.fromSite === 'hours') {
+                  value = `${SITE.hours.toUpperCase()} · ${SITE.callbackLine}`;
                 } else {
                   value = 'value' in fact ? fact.value : '';
                 }

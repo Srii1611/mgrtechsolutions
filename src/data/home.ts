@@ -5,6 +5,7 @@
  * Positioning rule (spec §4): nothing here may claim the company is one
  * person. First person singular is fine where Srii speaks to the reader.
  */
+import { LAUNCH } from '@/data/prices';
 
 /** S1 — Hero */
 export const HERO = {
@@ -500,7 +501,7 @@ export const PROCESS = {
       yourTime: "just call",
       track: "after",
       body:
-        "The site is yours. The first two weeks we stay close: if a form fails or a number is off, we fix it. After that you can run it yourself, or keep us on for hosting and the small changes that come up.",
+        "The site is yours. The first two weeks we stay close: if a form fails or a number is off, we fix it. After that you can run it yourself, or keep us on with a Care plan, which includes hosting and the small changes that come up.",
       bullets: [
         "New service, new town, new photos",
         "Optional, not a trap",
@@ -550,22 +551,21 @@ export const COMPARISON = {
         "Cheap until it isn't",
         'Unpredictable',
         '$$$$$',
-        'Starting-at pricing, on the website',
+        'Every price on the website',
       ],
     },
   ],
 } as const;
 
 /**
- * S11 — Pricing preview.
- * Tiers, prices and bullets are taken from COST_TIERS in
- * `website-cost-guide.ts` (the middle tier is named Growth there). Keep the
- * two in step when either changes.
+ * S11 — Pricing preview. The prices themselves come from src/data/prices.ts
+ * (PricingPreview reads the website tiers by id); only the copy lives here.
  */
 export const PRICING = {
   eyebrow: '— PRICING, ON THE TABLE',
   lede:
-    'Starting-at pricing, published. Your final quote is locked after one call — no hourly meters, no surprise invoices.',
+    `Prices, published. The Site and The System are one-time prices and launch in ${LAUNCH.standard}. Work outside what we agree is always quoted first: no hourly meters, no surprise invoices.`,
+  cta: 'Build your plan and see the total',
   /**
    * Published pricing is a differentiator, so the number that justifies it
    * sits here rather than in the STAGES website stage, where it previously appeared in a
@@ -575,69 +575,11 @@ export const PRICING = {
   proof:
     'Roughly four in five homeowners say they’re more likely to call a contractor whose pricing is on the website. That’s why ours is.',
   proofSource: 'Roofing Contractor: 2025 Homeowner Survey (roofing-specific)',
+  /** One card per website tier. `id` is a tier id in prices.ts. */
   plans: [
-    {
-      name: 'STARTER',
-      price: '$499',
-      priceNote: 'ONE-TIME',
-      tagline: 'A single page that says who you are and makes the call easy.',
-      featured: false,
-      badge: null,
-      inheritsFrom: null,
-      includes: [
-        '3–4 sections — Home, Services, About, Contact — on a single page',
-        'Primary CTA: click-to-call plus a quote request form',
-        'Mobile responsive design',
-        'Basic on-page SEO — titles, meta descriptions, alt text',
-        'Google Business Profile link and map embed',
-        '1 round of revisions',
-      ],
-    },
-    {
-      name: 'STANDARD',
-      price: '$899',
-      priceNote: 'ONE-TIME',
-      tagline:
-        'The full build most contractors actually need — proof up front, service areas covered.',
-      featured: true,
-      badge: 'BEST FIT FOR MOST CONTRACTORS',
-      inheritsFrom: 'Everything in Starter, plus:',
-      includes: [
-        'Expanded multi-section build — reviews and proof placed early, not buried',
-        'Process / how-it-works section',
-        'Enhanced photo and video galleries',
-        'Multiple service area coverage',
-        'Enhanced schema markup and deeper on-page SEO',
-        '2 rounds of revisions',
-      ],
-    },
-    {
-      name: 'CUSTOM',
-      price: 'Quoted',
-      priceNote: '20% DEPOSIT SECURES THE START DATE',
-      tagline: 'Scoped to the build you actually have in mind.',
-      featured: false,
-      badge: null,
-      inheritsFrom: 'Everything in Standard, plus:',
-      includes: [
-        'Custom interactive builds — scroll sequences, animated process timelines',
-        'Custom integrations — booking, quote calculators, multi-page architecture',
-        'Extended post-launch collaboration',
-      ],
-    },
-  ],
-  /** Same six promises as ALWAYS_INCLUDED on the pricing page. */
-  standards: [
-    'HAND-CODED',
-    'YOU OWN IT',
-    'MOBILE-FIRST',
-    'UNDER 2 SECONDS',
-    'PLAIN ENGLISH',
-    'ONE PHONE NUMBER',
-  ],
-  notes: [
-    'Build cost is separate from your domain and hosting, which stay in your name.',
-    "SEO, social and ads are quoted on the call, based on how many towns you're competing in.",
+    { id: 'site', tagline: 'A hand-coded website built to be found and chosen.' },
+    { id: 'system', tagline: 'The site plus the content and follow-up that make it ring.' },
+    { id: 'custom', tagline: 'Your existing site, taken apart and rebuilt properly, or a custom build.' },
   ],
 } as const;
 

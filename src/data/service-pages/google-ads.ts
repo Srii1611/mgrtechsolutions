@@ -1,18 +1,18 @@
-import { PRICE_MASK } from '@/data/website-design';
+import { HOURLY_LINE, PRICES, money, perMonth } from '@/data/prices';
 import { ICON } from '@/data/service-pages/icons';
 import type { ServicePageData } from '@/data/service-pages/types';
 
 /**
  * /services/google-ads. Plain English for contractors and local service owners.
  *
- * Sources: the repo's Google Ads copy (PILLAR_GOOGLE_ADS, seo-packages.ts
- * Premium tier), the live site's Google Ads & PPC section, our own blog
+ * Sources: the repo's Google Ads copy (PILLAR_GOOGLE_ADS), the live site's Google Ads & PPC section, our own blog
  * posts, and a structure-only review of US home-service ad management (what
  * the work includes, how fees are structured). No wording copied.
  *
  * OPEN for Srii before treating as final:
- *  - Every price is PRICE_MASK. The repo says management is a flat monthly
- *    fee with ad spend paid directly and no markup. Confirm the amounts.
+ *  - Every price comes from src/data/prices.ts. Management is a flat monthly
+ *    fee with ad spend paid directly and no markup. Ads are priced on their own,
+ *    separate from SEO and social media.
  *  - Lines marked CONFIRM are not stated on the live site.
  *  - No cost-per-lead or call numbers appear on this page. The figures in the
  *    scroll scene are illustration only and are labelled as such.
@@ -308,36 +308,18 @@ export const GOOGLE_ADS_PAGE: ServicePageData = {
   pricing: {
     eyebrow: 'PRICING',
     heading: 'One monthly fee for management. Ad spend is yours.',
-    lede: 'Ads have two costs: what we charge to manage them, and what you pay Google and Meta for the clicks. We keep them clearly apart, so you always know where the money goes.',
-    plans: [
-      {
-        name: 'Ads management',
-        note: 'Billed monthly, ad spend separate',
-        pitch: 'Google Ads and Meta Ads, set up, tracked and managed every month.',
-        lead: "What's in it",
-        items: [
-          'A setup project for Google Ads: audit, research, structure, ad copy',
-          'A setup project for Meta Ads: audience research and creative',
-          'Conversion tracking for calls, forms and sales',
-          'Monthly bid, budget and ad copy management',
-          'Search term review and landing page recommendations',
-          'Monthly report on leads and cost per lead',
-          'Ad accounts in your name, no markup on ad spend',
-        ],
-        goodFor: 'Good for: businesses that want calls this week and want to see where every dollar goes',
-      },
-    ],
+    lede: `Ads have two costs: what we charge to manage them, and what you pay Google and Meta for the clicks. We keep them clearly apart, so you always know where the money goes. Each platform starts with a one-time ${money(PRICES.ads.jumpstart)} Jumpstart.`,
+    service: 'ads',
     facts: [
       {
-        title: 'What changes the price',
-        text: 'The plan sets the starting point. These things move the final number:',
+        title: 'What helps decide the plan',
+        text: 'The plan sets the price. These things help us tell you which one fits:',
         kind: 'check',
         items: [
-          'How many services and towns you advertise',
           'Whether you run Google, Meta or both',
+          'How many services and towns you advertise',
           'How many campaigns the account needs',
           'How competitive your trade is where you work',
-          'Whether you add SEO and social media (Premium)',
         ],
       },
       {
@@ -346,19 +328,20 @@ export const GOOGLE_ADS_PAGE: ServicePageData = {
         kind: 'x',
         items: [
           'Ad spend. You pay Google and Meta directly',
-          'A new website or landing page build, quoted separately',
+          'SEO and social media. They are separate services with their own plans',
+          'A new website or landing page build, priced separately',
           'Phone system or call recording subscriptions, billed by the provider', // CONFIRM
         ],
       },
       {
         title: 'How payment works',
-        text: 'No surprises. You see the price in writing before any work begins.',
+        text: 'No surprises. The prices on this page are the prices.',
         kind: 'check',
         items: [
-          'A written quote after one call',
-          `A management fee of ${PRICE_MASK} a month`,
+          `A one-time ${money(PRICES.ads.jumpstart)} Jumpstart for each platform, then billed monthly`,
           'You decide the monthly ad budget and can change it',
           'Ad accounts and history stay with you if you leave',
+          `Work outside the plan is always quoted first, at ${HOURLY_LINE}`,
         ],
       },
     ],
@@ -429,7 +412,7 @@ export const GOOGLE_ADS_PAGE: ServicePageData = {
       { label: 'Tracking', cells: ['Whatever you set up', 'Depends on the person', 'Usually offered, sometimes extra', 'Depends on the hire'], us: 'Calls and forms tracked before launch' },
       { label: 'Ad account', cells: ['Yours', 'Ask before you hire', 'Ask before you sign', 'Yours'], us: 'In your name, no markup on spend' },
       { label: 'Reporting', cells: ['Whatever the platform shows', 'Depends on the person', 'Often long reports full of jargon', 'Depends on the hire'], us: 'Leads and cost per lead, in plain English' },
-      { label: 'Cost', cells: ['Lowest fee, most of your time', 'Lower than an agency', 'Highest', 'Salary, tools and management time'], us: 'A written quote after one call' },
+      { label: 'Cost', cells: ['Lowest fee, most of your time', 'Varies, and reporting is often extra', 'Highest', 'Salary, tools and management time'], us: `${perMonth(PRICES.ads.tiers[0].monthly)} for one platform, ${perMonth(PRICES.ads.tiers[1].monthly)} for both. Ad spend is extra` },
     ],
     note: 'If one of the others fits you better, we will tell you. More reading:',
     reads: [
@@ -499,16 +482,6 @@ export const GOOGLE_ADS_PAGE: ServicePageData = {
     eyebrow: 'GUIDES FROM OUR BLOG',
     heading: 'Read up before you decide.',
     lede: 'Short, plain-English guides on the questions people ask us most about paid ads. No sign-up needed.',
-    featured: {
-      slug: 'local-seo-vs-paid-ads',
-      kicker: 'Start here: ads or SEO',
-      blurb: 'What each one does, how long each takes, and how to split a small budget between them.',
-    },
-    groups: [
-      { title: 'Getting the basics right', slugs: ['local-seo-vs-paid-ads', 'landing-page-best-practices', 'best-cta-strategies', 'lead-capture-forms'] },
-      { title: 'Tracking and results', slugs: ['how-to-track-leads', 'retargeting-ads-explained', 'how-to-qualify-leads', 'digital-marketing-budget'] },
-      { title: 'After the click', slugs: ['how-to-respond-to-leads-faster', 'how-to-follow-up-with-leads', 'quote-form-optimization', 'choose-digital-marketing-partner'] },
-    ],
   },
 
   faq: {
@@ -516,7 +489,7 @@ export const GOOGLE_ADS_PAGE: ServicePageData = {
     heading: 'What else you may want to know.',
     lede: "Can't find your question? Call and ask. You'll get a straight answer from the person who would run your ads.",
     items: [
-      { q: 'How much does ad management cost?', a: `Our management fee is monthly and you get it in writing after one call. Pricing: ${PRICE_MASK}. Your ad spend is separate and goes directly to Google and Meta.`, read: { slug: 'digital-marketing-budget', label: 'how to set a marketing budget' } },
+      { q: 'How much does ad management cost?', a: `Management is ${perMonth(PRICES.ads.tiers[0].monthly)} for one platform or ${perMonth(PRICES.ads.tiers[1].monthly)} for Google and Meta together, plus a one-time ${money(PRICES.ads.jumpstart)} Jumpstart for each platform. Your ad spend is separate and goes directly to Google and Meta.`, read: { slug: 'digital-marketing-budget', label: 'how to set a marketing budget' } },
       { q: 'How much should I spend on ads?', a: 'It depends on your trade, your towns and how many jobs you want. We help you set a starting budget and you can change it whenever you like.' },
       { q: 'Do you add a markup to my ad spend?', a: 'No. You pay Google and Meta directly and we take no markup on it.' },
       { q: 'Who owns the ad accounts?', a: 'You do. Accounts are in your name, and if you ever leave, the accounts and their history go with you.' },
